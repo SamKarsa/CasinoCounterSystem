@@ -59,15 +59,5 @@ namespace CasinoCounterSystem.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap LOGO_DE_CLT_ELECTRONIC {
-            get {
-                object obj = ResourceManager.GetObject("LOGO DE CLT ELECTRONIC", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }
