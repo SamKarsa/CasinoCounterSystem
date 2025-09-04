@@ -10,21 +10,11 @@ using System.Windows.Forms;
 
 namespace CasinoCounterSystem.View
 {
-    public partial class Login1 : Form
+    public partial class FrmCounterRecord : Form
     {
-        public Login1()
+        public FrmCounterRecord()
         {
             InitializeComponent();
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void uiTextBox3_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
