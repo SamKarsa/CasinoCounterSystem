@@ -16,5 +16,25 @@ namespace CasinoCounterSystem.View
         {
             InitializeComponent();
         }
+
+        private void uiLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uiScrollingText1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uiLabel2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uiButton1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
