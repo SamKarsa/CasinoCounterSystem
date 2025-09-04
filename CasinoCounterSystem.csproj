@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
-    <PackageReference Include="Siticone.NetCore.UI" Version="2025.8.27" />
+    <PackageReference Include="SunnyUI" Version="3.8.7" />
   </ItemGroup>
 
   <ItemGroup>
