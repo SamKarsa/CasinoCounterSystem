@@ -21,29 +21,10 @@ namespace CasinoCounterSystem.View
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
-        private void logoLabel2_Click(object sender, EventArgs e)
+        private void btnRegisterCounters_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void uiButton2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void uiComboTreeView1_NodeSelected(object sender, TreeNode node)
-        {
-
+            FrmCounterRecord frmCounterRecord = new FrmCounterRecord();
+            frmCounterRecord.Show();
         }
     }
 }
