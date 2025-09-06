@@ -15,6 +15,10 @@ namespace CasinoCounterSystem.View
         public MainForm()
         {
             InitializeComponent();
+
+
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void logoLabel2_Click(object sender, EventArgs e)
@@ -33,6 +37,11 @@ namespace CasinoCounterSystem.View
         }
 
         private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uiComboTreeView1_NodeSelected(object sender, TreeNode node)
         {
 
         }

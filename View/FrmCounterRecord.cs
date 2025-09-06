@@ -15,6 +15,8 @@ namespace CasinoCounterSystem.View
         public FrmCounterRecord()
         {
             InitializeComponent();
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void uiLabel1_Click(object sender, EventArgs e)

@@ -15,6 +15,9 @@ namespace CasinoCounterSystem.View
         public FrmLogin()
         {
             InitializeComponent();
+
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void label3_Click(object sender, EventArgs e)
