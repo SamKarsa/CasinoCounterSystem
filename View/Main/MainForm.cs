@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CasinoCounterSystem.View.Home;
+using Sunny.UI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,6 +21,8 @@ namespace CasinoCounterSystem.View
 
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            LoadView(new UCHome());
         }
 
         private void btnRegisterCounters_Click(object sender, EventArgs e)
@@ -26,5 +30,13 @@ namespace CasinoCounterSystem.View
             FrmCounterRecord frmCounterRecord = new FrmCounterRecord();
             frmCounterRecord.Show();
         }
+
+        private void LoadView(UserControl uc)
+        {
+            panelRight.Controls.Clear();
+            uc.Dock = DockStyle.Fill;
+            panelRight.Controls.Add(uc);
+        }
+
     }
 }
