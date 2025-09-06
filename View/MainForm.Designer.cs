@@ -180,7 +180,7 @@
             welcomeLabel.BackColor = Color.Transparent;
             welcomeLabel.Font = new Font("Microsoft Sans Serif", 16F);
             welcomeLabel.ForeColor = Color.Gray;
-            welcomeLabel.Location = new Point(212, 267);
+            welcomeLabel.Location = new Point(215, 260);
             welcomeLabel.Name = "welcomeLabel";
             welcomeLabel.Size = new Size(500, 150);
             welcomeLabel.TabIndex = 9;
