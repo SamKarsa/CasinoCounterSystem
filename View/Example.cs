@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace CasinoCounterSystem.View
 {
-    public partial class MainForm : Form
+    public partial class Example : Form
     {
-        public MainForm()
+        public Example()
         {
             InitializeComponent();
         }
