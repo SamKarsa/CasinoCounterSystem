@@ -17,8 +17,6 @@ namespace CasinoCounterSystem.View
             InitializeComponent();
         }
 
-
-
         private void logoLabel2_Click(object sender, EventArgs e)
         {
 

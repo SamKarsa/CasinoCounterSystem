@@ -32,16 +32,16 @@
             sidebarPanel = new Panel();
             panel1 = new Panel();
             lineBtnRegisterCounter = new Sunny.UI.UILine();
-            uiButton2 = new Sunny.UI.UIButton();
+            btnHome = new Sunny.UI.UIButton();
             btnRegisterCounters = new Sunny.UI.UIButton();
             lineLogo = new Sunny.UI.UILine();
             logoLabel2 = new Sunny.UI.UILabel();
             logoLabel1 = new Sunny.UI.UILabel();
             btnAddMachine = new Panel();
+            welcomeLabel = new Sunny.UI.UILabel();
             uiButton1 = new Sunny.UI.UIButton();
             btnAddRoute = new Sunny.UI.UIButton();
             pictureBox1 = new PictureBox();
-            welcomeLabel = new Sunny.UI.UILabel();
             sidebarPanel.SuspendLayout();
             btnAddMachine.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -52,7 +52,7 @@
             sidebarPanel.BackColor = Color.Navy;
             sidebarPanel.Controls.Add(panel1);
             sidebarPanel.Controls.Add(lineBtnRegisterCounter);
-            sidebarPanel.Controls.Add(uiButton2);
+            sidebarPanel.Controls.Add(btnHome);
             sidebarPanel.Controls.Add(btnRegisterCounters);
             sidebarPanel.Controls.Add(lineLogo);
             sidebarPanel.Controls.Add(logoLabel2);
@@ -75,26 +75,32 @@
             lineBtnRegisterCounter.Font = new Font("Microsoft Sans Serif", 12F);
             lineBtnRegisterCounter.ForeColor = Color.Transparent;
             lineBtnRegisterCounter.LineColor = Color.White;
-            lineBtnRegisterCounter.Location = new Point(12, 173);
+            lineBtnRegisterCounter.Location = new Point(12, 214);
             lineBtnRegisterCounter.MinimumSize = new Size(1, 1);
             lineBtnRegisterCounter.Name = "lineBtnRegisterCounter";
             lineBtnRegisterCounter.Size = new Size(222, 16);
             lineBtnRegisterCounter.TabIndex = 6;
             // 
-            // uiButton2
+            // btnHome
             // 
-            uiButton2.FillColor = Color.Transparent;
-            uiButton2.FillColor2 = Color.Transparent;
-            uiButton2.Font = new Font("Microsoft Sans Serif", 12F);
-            uiButton2.Location = new Point(12, 660);
-            uiButton2.MinimumSize = new Size(1, 1);
-            uiButton2.Name = "uiButton2";
-            uiButton2.RectColor = Color.White;
-            uiButton2.Size = new Size(222, 35);
-            uiButton2.TabIndex = 5;
-            uiButton2.Text = "📊 Register Counters";
-            uiButton2.TipsFont = new Font("Microsoft Sans Serif", 9F);
-            uiButton2.Click += uiButton2_Click;
+            btnHome.FillColor = Color.Transparent;
+            btnHome.FillColor2 = Color.Transparent;
+            btnHome.FillDisableColor = Color.Transparent;
+            btnHome.Font = new Font("Microsoft Sans Serif", 12F);
+            btnHome.ForeDisableColor = Color.FromArgb(156, 163, 175);
+            btnHome.Location = new Point(12, 132);
+            btnHome.MinimumSize = new Size(1, 1);
+            btnHome.Name = "btnHome";
+            btnHome.RectColor = Color.White;
+            btnHome.RectDisableColor = Color.FromArgb(209, 213, 219);
+            btnHome.RectHoverColor = Color.Gainsboro;
+            btnHome.RectPressColor = Color.DarkGray;
+            btnHome.RectSelectedColor = Color.White;
+            btnHome.Size = new Size(222, 35);
+            btnHome.TabIndex = 5;
+            btnHome.Text = "🏠 Home";
+            btnHome.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            btnHome.Click += uiButton2_Click;
             // 
             // btnRegisterCounters
             // 
@@ -110,7 +116,7 @@
             btnRegisterCounters.ForeDisableColor = Color.FromArgb(107, 114, 128);
             btnRegisterCounters.ForeHoverColor = Color.Navy;
             btnRegisterCounters.ForePressColor = Color.Navy;
-            btnRegisterCounters.Location = new Point(12, 132);
+            btnRegisterCounters.Location = new Point(12, 173);
             btnRegisterCounters.MinimumSize = new Size(1, 1);
             btnRegisterCounters.Name = "btnRegisterCounters";
             btnRegisterCounters.RectColor = Color.White;
@@ -168,6 +174,19 @@
             btnAddMachine.Size = new Size(865, 726);
             btnAddMachine.TabIndex = 1;
             // 
+            // welcomeLabel
+            // 
+            welcomeLabel.Anchor = AnchorStyles.None;
+            welcomeLabel.BackColor = Color.Transparent;
+            welcomeLabel.Font = new Font("Microsoft Sans Serif", 16F);
+            welcomeLabel.ForeColor = Color.Gray;
+            welcomeLabel.Location = new Point(212, 267);
+            welcomeLabel.Name = "welcomeLabel";
+            welcomeLabel.Size = new Size(500, 150);
+            welcomeLabel.TabIndex = 9;
+            welcomeLabel.Text = "Select an option from the sidebar\nto get started with your\nCasino Counter System";
+            welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // uiButton1
             // 
             uiButton1.BackColor = Color.White;
@@ -220,26 +239,13 @@
             // 
             pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(764, 640);
+            pictureBox1.Location = new Point(773, 640);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(98, 86);
+            pictureBox1.Size = new Size(89, 86);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click_1;
-            // 
-            // welcomeLabel
-            // 
-            welcomeLabel.Anchor = AnchorStyles.None;
-            welcomeLabel.BackColor = Color.Transparent;
-            welcomeLabel.Font = new Font("Microsoft Sans Serif", 16F);
-            welcomeLabel.ForeColor = Color.Gray;
-            welcomeLabel.Location = new Point(212, 267);
-            welcomeLabel.Name = "welcomeLabel";
-            welcomeLabel.Size = new Size(500, 150);
-            welcomeLabel.TabIndex = 9;
-            welcomeLabel.Text = "Select an option from the sidebar\nto get started with your\nCasino Counter System";
-            welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -263,7 +269,7 @@
         private Sunny.UI.UILabel logoLabel1;
         private Sunny.UI.UIButton btnRegisterCounters;
         private Sunny.UI.UILine lineLogo;
-        private Sunny.UI.UIButton uiButton2;
+        private Sunny.UI.UIButton btnHome;
         private Sunny.UI.UILine lineBtnRegisterCounter;
         private Panel panel1;
         private Panel btnAddMachine;
