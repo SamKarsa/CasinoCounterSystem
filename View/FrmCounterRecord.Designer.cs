@@ -101,6 +101,7 @@
             uiComboBox2.Watermark = "Route Number";
             uiComboBox2.WatermarkActiveColor = SystemColors.GrayText;
             uiComboBox2.WatermarkColor = SystemColors.GrayText;
+            uiComboBox2.SelectedIndexChanged += uiComboBox2_SelectedIndexChanged;
             // 
             // uiComboBox3
             // 
@@ -179,7 +180,7 @@
             button_join.FillPressColor = Color.FromArgb(0, 0, 102);
             button_join.FillSelectedColor = Color.FromArgb(30, 64, 175);
             button_join.Font = new Font("Microsoft Sans Serif", 12F);
-            button_join.Location = new Point(47, 473);
+            button_join.Location = new Point(103, 473);
             button_join.MinimumSize = new Size(1, 1);
             button_join.Name = "button_join";
             button_join.RectColor = Color.FromArgb(37, 99, 235);
@@ -199,7 +200,7 @@
             uiButton1.FillPressColor = Color.FromArgb(0, 0, 102);
             uiButton1.FillSelectedColor = Color.FromArgb(30, 64, 175);
             uiButton1.Font = new Font("Microsoft Sans Serif", 12F);
-            uiButton1.Location = new Point(179, 473);
+            uiButton1.Location = new Point(238, 473);
             uiButton1.MinimumSize = new Size(1, 1);
             uiButton1.Name = "uiButton1";
             uiButton1.RectColor = Color.FromArgb(37, 99, 235);

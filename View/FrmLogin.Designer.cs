@@ -1,6 +1,6 @@
 ﻿namespace CasinoCounterSystem.View
 {
-    partial class Login
+    partial class FrmLogin
     {
         /// <summary>
         /// Required designer variable.
@@ -150,6 +150,7 @@
             textbox_password.Watermark = "🔒 Password";
             textbox_password.WatermarkActiveColor = SystemColors.GrayText;
             textbox_password.WatermarkColor = SystemColors.GrayText;
+            textbox_password.TextChanged += textbox_password_TextChanged;
             // 
             // textbox_user
             // 

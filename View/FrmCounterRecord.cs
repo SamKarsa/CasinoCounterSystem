@@ -36,5 +36,10 @@ namespace CasinoCounterSystem.View
         {
 
         }
+
+        private void uiComboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
