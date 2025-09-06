@@ -28,205 +28,205 @@
         /// </summary>
         private void InitializeComponent()
         {
-            // Sidebar Panel
-            sidebarPanel = new Sunny.UI.UIPanel();
-
-            // Header/Logo
-            logoLabel = new Sunny.UI.UILabel();
-
-            // Navigation Buttons
-            btnAddMachine = new Sunny.UI.UIButton();
-            btnAddRoute = new Sunny.UI.UIButton();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            sidebarPanel = new Panel();
+            panel1 = new Panel();
+            lineBtnRegisterCounter = new Sunny.UI.UILine();
+            uiButton2 = new Sunny.UI.UIButton();
             btnRegisterCounters = new Sunny.UI.UIButton();
-
-            // Folders/Categories Section
-            categoriesLabel = new Sunny.UI.UILabel();
-            btnMachines = new Sunny.UI.UIButton();
-            btnRoutes = new Sunny.UI.UIButton();
-            btnCounters = new Sunny.UI.UIButton();
-            btnReports = new Sunny.UI.UIButton();
-
-            // Main Content Panel
-            mainContentPanel = new Sunny.UI.UIPanel();
-
-            // Welcome Panel (default content)
-            welcomePanel = new Sunny.UI.UITitlePanel();
+            lineLogo = new Sunny.UI.UILine();
+            logoLabel2 = new Sunny.UI.UILabel();
+            logoLabel1 = new Sunny.UI.UILabel();
+            btnAddMachine = new Panel();
+            uiButton1 = new Sunny.UI.UIButton();
+            btnAddRoute = new Sunny.UI.UIButton();
+            pictureBox1 = new PictureBox();
             welcomeLabel = new Sunny.UI.UILabel();
-
             sidebarPanel.SuspendLayout();
-            mainContentPanel.SuspendLayout();
-            welcomePanel.SuspendLayout();
+            btnAddMachine.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
-
             // 
             // sidebarPanel
             // 
-            sidebarPanel.BackColor = Color.FromArgb(48, 48, 48);
-            sidebarPanel.Controls.Add(logoLabel);
-            sidebarPanel.Controls.Add(btnAddMachine);
-            sidebarPanel.Controls.Add(btnAddRoute);
+            sidebarPanel.BackColor = Color.Navy;
+            sidebarPanel.Controls.Add(panel1);
+            sidebarPanel.Controls.Add(lineBtnRegisterCounter);
+            sidebarPanel.Controls.Add(uiButton2);
             sidebarPanel.Controls.Add(btnRegisterCounters);
-            sidebarPanel.Controls.Add(categoriesLabel);
-            sidebarPanel.Controls.Add(btnMachines);
-            sidebarPanel.Controls.Add(btnRoutes);
-            sidebarPanel.Controls.Add(btnCounters);
-            sidebarPanel.Controls.Add(btnReports);
-            sidebarPanel.Dock = DockStyle.Left;
-            sidebarPanel.Font = new Font("Microsoft Sans Serif", 12F);
-            sidebarPanel.FillColor = Color.FromArgb(48, 48, 48);
+            sidebarPanel.Controls.Add(lineLogo);
+            sidebarPanel.Controls.Add(logoLabel2);
+            sidebarPanel.Controls.Add(logoLabel1);
             sidebarPanel.Location = new Point(0, 0);
-            sidebarPanel.MinimumSize = new Size(250, 1);
             sidebarPanel.Name = "sidebarPanel";
-            sidebarPanel.Size = new Size(250, 664);
+            sidebarPanel.Size = new Size(251, 707);
             sidebarPanel.TabIndex = 0;
-            sidebarPanel.Text = null;
-
             // 
-            // logoLabel
+            // panel1
             // 
-            logoLabel.BackColor = Color.Transparent;
-            logoLabel.Font = new Font("Arial", 18F, FontStyle.Bold);
-            logoLabel.ForeColor = Color.White;
-            logoLabel.Location = new Point(10, 20);
-            logoLabel.Name = "logoLabel";
-            logoLabel.Size = new Size(230, 50);
-            logoLabel.TabIndex = 0;
-            logoLabel.Text = "CLT ELECTRONIC";
-            logoLabel.TextAlign = ContentAlignment.MiddleCenter;
-
+            panel1.Location = new Point(257, 12);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(350, 254);
+            panel1.TabIndex = 1;
             // 
-            // btnAddMachine
+            // lineBtnRegisterCounter
             // 
-            btnAddMachine.Cursor = Cursors.Hand;
-            btnAddMachine.Font = new Font("Microsoft Sans Serif", 11F);
-            btnAddMachine.Location = new Point(15, 90);
-            btnAddMachine.MinimumSize = new Size(1, 1);
-            btnAddMachine.Name = "btnAddMachine";
-            btnAddMachine.Size = new Size(220, 40);
-            btnAddMachine.TabIndex = 1;
-            btnAddMachine.Text = "➕ Add Machine";
-            btnAddMachine.Click += BtnAddMachine_Click;
-
+            lineBtnRegisterCounter.BackColor = Color.Transparent;
+            lineBtnRegisterCounter.Font = new Font("Microsoft Sans Serif", 12F);
+            lineBtnRegisterCounter.ForeColor = Color.Transparent;
+            lineBtnRegisterCounter.LineColor = Color.White;
+            lineBtnRegisterCounter.Location = new Point(12, 173);
+            lineBtnRegisterCounter.MinimumSize = new Size(1, 1);
+            lineBtnRegisterCounter.Name = "lineBtnRegisterCounter";
+            lineBtnRegisterCounter.Size = new Size(222, 16);
+            lineBtnRegisterCounter.TabIndex = 6;
             // 
-            // btnAddRoute
+            // uiButton2
             // 
-            btnAddRoute.Cursor = Cursors.Hand;
-            btnAddRoute.Font = new Font("Microsoft Sans Serif", 11F);
-            btnAddRoute.Location = new Point(15, 140);
-            btnAddRoute.MinimumSize = new Size(1, 1);
-            btnAddRoute.Name = "btnAddRoute";
-            btnAddRoute.Size = new Size(220, 40);
-            btnAddRoute.TabIndex = 2;
-            btnAddRoute.Text = "🛣️ Add Route";
-            btnAddRoute.Click += BtnAddRoute_Click;
-
+            uiButton2.FillColor = Color.Transparent;
+            uiButton2.FillColor2 = Color.Transparent;
+            uiButton2.Font = new Font("Microsoft Sans Serif", 12F);
+            uiButton2.Location = new Point(12, 660);
+            uiButton2.MinimumSize = new Size(1, 1);
+            uiButton2.Name = "uiButton2";
+            uiButton2.RectColor = Color.White;
+            uiButton2.Size = new Size(222, 35);
+            uiButton2.TabIndex = 5;
+            uiButton2.Text = "📊 Register Counters";
+            uiButton2.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            uiButton2.Click += uiButton2_Click;
             // 
             // btnRegisterCounters
             // 
-            btnRegisterCounters.Cursor = Cursors.Hand;
-            btnRegisterCounters.Font = new Font("Microsoft Sans Serif", 11F);
-            btnRegisterCounters.Location = new Point(15, 190);
+            btnRegisterCounters.BackColor = Color.White;
+            btnRegisterCounters.FillColor = Color.White;
+            btnRegisterCounters.FillColor2 = Color.White;
+            btnRegisterCounters.FillDisableColor = SystemColors.ButtonFace;
+            btnRegisterCounters.FillHoverColor = Color.FromArgb(242, 244, 247);
+            btnRegisterCounters.FillPressColor = Color.FromArgb(229, 231, 235);
+            btnRegisterCounters.FillSelectedColor = Color.FromArgb(229, 231, 235);
+            btnRegisterCounters.Font = new Font("Microsoft Sans Serif", 12F);
+            btnRegisterCounters.ForeColor = Color.Navy;
+            btnRegisterCounters.ForeDisableColor = Color.FromArgb(107, 114, 128);
+            btnRegisterCounters.ForeHoverColor = Color.Navy;
+            btnRegisterCounters.ForePressColor = Color.Navy;
+            btnRegisterCounters.Location = new Point(12, 132);
             btnRegisterCounters.MinimumSize = new Size(1, 1);
             btnRegisterCounters.Name = "btnRegisterCounters";
-            btnRegisterCounters.Size = new Size(220, 40);
-            btnRegisterCounters.TabIndex = 3;
+            btnRegisterCounters.RectColor = Color.White;
+            btnRegisterCounters.RectDisableColor = Color.Navy;
+            btnRegisterCounters.RectHoverColor = Color.White;
+            btnRegisterCounters.RectPressColor = Color.White;
+            btnRegisterCounters.RectSelectedColor = Color.White;
+            btnRegisterCounters.Size = new Size(222, 35);
+            btnRegisterCounters.TabIndex = 1;
             btnRegisterCounters.Text = "📊 Register Counters";
-            btnRegisterCounters.Click += BtnRegisterCounters_Click;
-
+            btnRegisterCounters.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
-            // categoriesLabel
+            // lineLogo
             // 
-            categoriesLabel.BackColor = Color.Transparent;
-            categoriesLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-            categoriesLabel.ForeColor = Color.LightGray;
-            categoriesLabel.Location = new Point(15, 260);
-            categoriesLabel.Name = "categoriesLabel";
-            categoriesLabel.Size = new Size(220, 30);
-            categoriesLabel.TabIndex = 4;
-            categoriesLabel.Text = "CATEGORIES";
-            categoriesLabel.TextAlign = ContentAlignment.MiddleLeft;
-
+            lineLogo.BackColor = Color.Transparent;
+            lineLogo.Font = new Font("Microsoft Sans Serif", 12F);
+            lineLogo.ForeColor = Color.Transparent;
+            lineLogo.LineColor = Color.White;
+            lineLogo.Location = new Point(12, 110);
+            lineLogo.MinimumSize = new Size(1, 1);
+            lineLogo.Name = "lineLogo";
+            lineLogo.Size = new Size(222, 16);
+            lineLogo.TabIndex = 4;
             // 
-            // btnMachines
+            // logoLabel2
             // 
-            btnMachines.Cursor = Cursors.Hand;
-            btnMachines.Font = new Font("Microsoft Sans Serif", 11F);
-            btnMachines.Location = new Point(15, 300);
-            btnMachines.MinimumSize = new Size(1, 1);
-            btnMachines.Name = "btnMachines";
-            btnMachines.Size = new Size(220, 40);
-            btnMachines.TabIndex = 5;
-            btnMachines.Text = "🎰 Machines";
-            btnMachines.Click += BtnMachines_Click;
-
+            logoLabel2.Font = new Font("Broadway", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            logoLabel2.ForeColor = Color.White;
+            logoLabel2.Location = new Point(70, 82);
+            logoLabel2.Name = "logoLabel2";
+            logoLabel2.Size = new Size(192, 35);
+            logoLabel2.TabIndex = 3;
+            logoLabel2.Text = "Electronic";
+            logoLabel2.Click += logoLabel2_Click;
             // 
-            // btnRoutes
+            // logoLabel1
             // 
-            btnRoutes.Cursor = Cursors.Hand;
-            btnRoutes.Font = new Font("Microsoft Sans Serif", 11F);
-            btnRoutes.Location = new Point(15, 350);
-            btnRoutes.MinimumSize = new Size(1, 1);
-            btnRoutes.Name = "btnRoutes";
-            btnRoutes.Size = new Size(220, 40);
-            btnRoutes.TabIndex = 6;
-            btnRoutes.Text = "📁 Routes";
-            btnRoutes.Click += BtnRoutes_Click;
-
+            logoLabel1.Font = new Font("Broadway", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            logoLabel1.ForeColor = Color.White;
+            logoLabel1.Location = new Point(12, 18);
+            logoLabel1.Name = "logoLabel1";
+            logoLabel1.Size = new Size(177, 77);
+            logoLabel1.TabIndex = 2;
+            logoLabel1.Text = "CLT";
             // 
-            // btnCounters
+            // btnAddMachine
             // 
-            btnCounters.Cursor = Cursors.Hand;
-            btnCounters.Font = new Font("Microsoft Sans Serif", 11F);
-            btnCounters.Location = new Point(15, 400);
-            btnCounters.MinimumSize = new Size(1, 1);
-            btnCounters.Name = "btnCounters";
-            btnCounters.Size = new Size(220, 40);
-            btnCounters.TabIndex = 7;
-            btnCounters.Text = "🔢 Counters";
-            btnCounters.Click += BtnCounters_Click;
-
+            btnAddMachine.BackColor = Color.White;
+            btnAddMachine.Controls.Add(welcomeLabel);
+            btnAddMachine.Controls.Add(uiButton1);
+            btnAddMachine.Controls.Add(btnAddRoute);
+            btnAddMachine.Controls.Add(pictureBox1);
+            btnAddMachine.Location = new Point(231, -19);
+            btnAddMachine.Name = "btnAddMachine";
+            btnAddMachine.Size = new Size(865, 726);
+            btnAddMachine.TabIndex = 1;
             // 
-            // btnReports
+            // uiButton1
             // 
-            btnReports.Cursor = Cursors.Hand;
-            btnReports.Font = new Font("Microsoft Sans Serif", 11F);
-            btnReports.Location = new Point(15, 450);
-            btnReports.MinimumSize = new Size(1, 1);
-            btnReports.Name = "btnReports";
-            btnReports.Size = new Size(220, 40);
-            btnReports.TabIndex = 8;
-            btnReports.Text = "📈 Reports";
-            btnReports.Click += BtnReports_Click;
-
+            uiButton1.BackColor = Color.White;
+            uiButton1.FillColor = Color.Navy;
+            uiButton1.FillColor2 = Color.Navy;
+            uiButton1.FillDisableColor = Color.FromArgb(229, 231, 235);
+            uiButton1.FillHoverColor = Color.FromArgb(30, 58, 138);
+            uiButton1.FillPressColor = Color.FromArgb(0, 0, 102);
+            uiButton1.FillSelectedColor = Color.FromArgb(30, 64, 175);
+            uiButton1.Font = new Font("Microsoft Sans Serif", 12F);
+            uiButton1.ForeDisableColor = Color.FromArgb(156, 163, 175);
+            uiButton1.Location = new Point(559, 37);
+            uiButton1.MinimumSize = new Size(1, 1);
+            uiButton1.Name = "uiButton1";
+            uiButton1.RectColor = Color.Navy;
+            uiButton1.RectDisableColor = Color.FromArgb(209, 213, 219);
+            uiButton1.RectHoverColor = Color.FromArgb(30, 58, 138);
+            uiButton1.RectPressColor = Color.FromArgb(0, 0, 102);
+            uiButton1.RectSelectedColor = Color.FromArgb(30, 64, 175);
+            uiButton1.Size = new Size(143, 35);
+            uiButton1.TabIndex = 8;
+            uiButton1.Text = "➕ Add Machine";
+            uiButton1.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
-            // mainContentPanel
+            // btnAddRoute
             // 
-            mainContentPanel.BackColor = Color.White;
-            mainContentPanel.Controls.Add(welcomePanel);
-            mainContentPanel.Dock = DockStyle.Fill;
-            mainContentPanel.Font = new Font("Microsoft Sans Serif", 12F);
-            mainContentPanel.Location = new Point(250, 0);
-            mainContentPanel.MinimumSize = new Size(1, 1);
-            mainContentPanel.Name = "mainContentPanel";
-            mainContentPanel.Size = new Size(896, 664);
-            mainContentPanel.TabIndex = 1;
-            mainContentPanel.Text = null;
-
+            btnAddRoute.BackColor = Color.White;
+            btnAddRoute.FillColor = Color.Navy;
+            btnAddRoute.FillColor2 = Color.Navy;
+            btnAddRoute.FillDisableColor = Color.FromArgb(229, 231, 235);
+            btnAddRoute.FillHoverColor = Color.FromArgb(30, 58, 138);
+            btnAddRoute.FillPressColor = Color.FromArgb(0, 0, 102);
+            btnAddRoute.FillSelectedColor = Color.FromArgb(30, 64, 175);
+            btnAddRoute.Font = new Font("Microsoft Sans Serif", 12F);
+            btnAddRoute.ForeDisableColor = Color.FromArgb(156, 163, 175);
+            btnAddRoute.Location = new Point(708, 37);
+            btnAddRoute.MinimumSize = new Size(1, 1);
+            btnAddRoute.Name = "btnAddRoute";
+            btnAddRoute.RectColor = Color.Navy;
+            btnAddRoute.RectDisableColor = Color.FromArgb(209, 213, 219);
+            btnAddRoute.RectHoverColor = Color.FromArgb(30, 58, 138);
+            btnAddRoute.RectPressColor = Color.FromArgb(0, 0, 102);
+            btnAddRoute.RectSelectedColor = Color.FromArgb(30, 64, 175);
+            btnAddRoute.Size = new Size(143, 35);
+            btnAddRoute.TabIndex = 2;
+            btnAddRoute.Text = "🛣️ Add Route";
+            btnAddRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
-            // welcomePanel
+            // pictureBox1
             // 
-            welcomePanel.Controls.Add(welcomeLabel);
-            welcomePanel.Dock = DockStyle.Fill;
-            welcomePanel.Font = new Font("Microsoft Sans Serif", 12F);
-            welcomePanel.Location = new Point(0, 0);
-            welcomePanel.MinimumSize = new Size(1, 1);
-            welcomePanel.Name = "welcomePanel";
-            welcomePanel.Padding = new Padding(1, 35, 1, 1);
-            welcomePanel.Size = new Size(896, 664);
-            welcomePanel.TabIndex = 0;
-            welcomePanel.Text = "Welcome to CLT Electronic System";
-            welcomePanel.TextAlignment = ContentAlignment.MiddleCenter;
-
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(764, 640);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(98, 86);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click_1;
             // 
             // welcomeLabel
             // 
@@ -234,48 +234,42 @@
             welcomeLabel.BackColor = Color.Transparent;
             welcomeLabel.Font = new Font("Microsoft Sans Serif", 16F);
             welcomeLabel.ForeColor = Color.Gray;
-            welcomeLabel.Location = new Point(200, 250);
+            welcomeLabel.Location = new Point(212, 267);
             welcomeLabel.Name = "welcomeLabel";
             welcomeLabel.Size = new Size(500, 150);
-            welcomeLabel.TabIndex = 0;
+            welcomeLabel.TabIndex = 9;
             welcomeLabel.Text = "Select an option from the sidebar\nto get started with your\nCasino Counter System";
             welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
-
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1146, 664);
-            Controls.Add(mainContentPanel);
+            ClientSize = new Size(1094, 707);
             Controls.Add(sidebarPanel);
-            MinimumSize = new Size(800, 600);
+            Controls.Add(btnAddMachine);
             Name = "MainForm";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "CLT Electronic - Casino Counter System";
-            WindowState = FormWindowState.Maximized;
-            Load += MainForm_Load;
-
+            Text = "MainForm";
             sidebarPanel.ResumeLayout(false);
-            mainContentPanel.ResumeLayout(false);
-            welcomePanel.ResumeLayout(false);
+            btnAddMachine.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Sunny.UI.UIPanel sidebarPanel;
-        private Sunny.UI.UILabel logoLabel;
-        private Sunny.UI.UIButton btnAddMachine;
-        private Sunny.UI.UIButton btnAddRoute;
+        private Panel sidebarPanel;
+        private Sunny.UI.UILabel logoLabel2;
+        private Sunny.UI.UILabel logoLabel1;
         private Sunny.UI.UIButton btnRegisterCounters;
-        private Sunny.UI.UILabel categoriesLabel;
-        private Sunny.UI.UIButton btnMachines;
-        private Sunny.UI.UIButton btnRoutes;
-        private Sunny.UI.UIButton btnCounters;
-        private Sunny.UI.UIButton btnReports;
-        private Sunny.UI.UIPanel mainContentPanel;
-        private Sunny.UI.UITitlePanel welcomePanel;
+        private Sunny.UI.UILine lineLogo;
+        private Sunny.UI.UIButton uiButton2;
+        private Sunny.UI.UILine lineBtnRegisterCounter;
+        private Panel panel1;
+        private Panel btnAddMachine;
+        private PictureBox pictureBox1;
+        private Sunny.UI.UIButton btnAddRoute;
+        private Sunny.UI.UIButton uiButton1;
         private Sunny.UI.UILabel welcomeLabel;
     }
 }
