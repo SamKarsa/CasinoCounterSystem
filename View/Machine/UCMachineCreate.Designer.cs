@@ -305,7 +305,7 @@
         private Sunny.UI.UITextBox textBoxCoin;
         private Sunny.UI.UITextBox uiTextBox3;
         private Sunny.UI.UIComboBox uiComboBox2;
-        private Sunny.UI.UIComboBox ComboBoxRoute;
+        private Sunny.UI.UIComboBox comboBoxRoute;
         private Sunny.UI.UIComboBox comboBoxMachineType;
         private Sunny.UI.UIComboBox comboBoxCoinType;
         private Sunny.UI.UILabel uiLabel1;
