@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             sidebarPanel = new Panel();
             panel1 = new Panel();
             lineBtnRegisterCounter = new Sunny.UI.UILine();
@@ -38,13 +37,7 @@
             logoLabel2 = new Sunny.UI.UILabel();
             logoLabel1 = new Sunny.UI.UILabel();
             panelRight = new Panel();
-            welcomeLabel = new Sunny.UI.UILabel();
-            btnAddMachine = new Sunny.UI.UIButton();
-            btnAddRoute = new Sunny.UI.UIButton();
-            imgLogo = new PictureBox();
             sidebarPanel.SuspendLayout();
-            panelRight.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)imgLogo).BeginInit();
             SuspendLayout();
             // 
             // sidebarPanel
@@ -164,86 +157,10 @@
             // panelRight
             // 
             panelRight.BackColor = Color.White;
-            panelRight.Controls.Add(welcomeLabel);
-            panelRight.Controls.Add(btnAddMachine);
-            panelRight.Controls.Add(btnAddRoute);
-            panelRight.Controls.Add(imgLogo);
-            panelRight.Location = new Point(231, -19);
+            panelRight.Location = new Point(240, 0);
             panelRight.Name = "panelRight";
-            panelRight.Size = new Size(865, 726);
+            panelRight.Size = new Size(856, 707);
             panelRight.TabIndex = 1;
-            // 
-            // welcomeLabel
-            // 
-            welcomeLabel.Anchor = AnchorStyles.None;
-            welcomeLabel.BackColor = Color.Transparent;
-            welcomeLabel.Font = new Font("Microsoft Sans Serif", 16F);
-            welcomeLabel.ForeColor = Color.Gray;
-            welcomeLabel.Location = new Point(215, 260);
-            welcomeLabel.Name = "welcomeLabel";
-            welcomeLabel.Size = new Size(500, 150);
-            welcomeLabel.TabIndex = 9;
-            welcomeLabel.Text = "Select an option from the sidebar\nto get started with your\nCasino Counter System";
-            welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // btnAddMachine
-            // 
-            btnAddMachine.BackColor = Color.White;
-            btnAddMachine.FillColor = Color.Navy;
-            btnAddMachine.FillColor2 = Color.Navy;
-            btnAddMachine.FillDisableColor = Color.FromArgb(229, 231, 235);
-            btnAddMachine.FillHoverColor = Color.FromArgb(30, 58, 138);
-            btnAddMachine.FillPressColor = Color.FromArgb(0, 0, 102);
-            btnAddMachine.FillSelectedColor = Color.FromArgb(30, 64, 175);
-            btnAddMachine.Font = new Font("Microsoft Sans Serif", 12F);
-            btnAddMachine.ForeDisableColor = Color.FromArgb(156, 163, 175);
-            btnAddMachine.Location = new Point(559, 37);
-            btnAddMachine.MinimumSize = new Size(1, 1);
-            btnAddMachine.Name = "btnAddMachine";
-            btnAddMachine.RectColor = Color.Navy;
-            btnAddMachine.RectDisableColor = Color.FromArgb(209, 213, 219);
-            btnAddMachine.RectHoverColor = Color.FromArgb(30, 58, 138);
-            btnAddMachine.RectPressColor = Color.FromArgb(0, 0, 102);
-            btnAddMachine.RectSelectedColor = Color.FromArgb(30, 64, 175);
-            btnAddMachine.Size = new Size(143, 35);
-            btnAddMachine.TabIndex = 8;
-            btnAddMachine.Text = "➕ Add Machine";
-            btnAddMachine.TipsFont = new Font("Microsoft Sans Serif", 9F);
-            // 
-            // btnAddRoute
-            // 
-            btnAddRoute.BackColor = Color.White;
-            btnAddRoute.FillColor = Color.Navy;
-            btnAddRoute.FillColor2 = Color.Navy;
-            btnAddRoute.FillDisableColor = Color.FromArgb(229, 231, 235);
-            btnAddRoute.FillHoverColor = Color.FromArgb(30, 58, 138);
-            btnAddRoute.FillPressColor = Color.FromArgb(0, 0, 102);
-            btnAddRoute.FillSelectedColor = Color.FromArgb(30, 64, 175);
-            btnAddRoute.Font = new Font("Microsoft Sans Serif", 12F);
-            btnAddRoute.ForeDisableColor = Color.FromArgb(156, 163, 175);
-            btnAddRoute.Location = new Point(708, 37);
-            btnAddRoute.MinimumSize = new Size(1, 1);
-            btnAddRoute.Name = "btnAddRoute";
-            btnAddRoute.RectColor = Color.Navy;
-            btnAddRoute.RectDisableColor = Color.FromArgb(209, 213, 219);
-            btnAddRoute.RectHoverColor = Color.FromArgb(30, 58, 138);
-            btnAddRoute.RectPressColor = Color.FromArgb(0, 0, 102);
-            btnAddRoute.RectSelectedColor = Color.FromArgb(30, 64, 175);
-            btnAddRoute.Size = new Size(143, 35);
-            btnAddRoute.TabIndex = 2;
-            btnAddRoute.Text = "🛣️ Add Route";
-            btnAddRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
-            // 
-            // imgLogo
-            // 
-            imgLogo.BackColor = Color.Transparent;
-            imgLogo.Image = (Image)resources.GetObject("imgLogo.Image");
-            imgLogo.Location = new Point(773, 640);
-            imgLogo.Name = "imgLogo";
-            imgLogo.Size = new Size(89, 86);
-            imgLogo.SizeMode = PictureBoxSizeMode.StretchImage;
-            imgLogo.TabIndex = 0;
-            imgLogo.TabStop = false;
             // 
             // MainForm
             // 
@@ -255,8 +172,6 @@
             Name = "MainForm";
             Text = "MainForm";
             sidebarPanel.ResumeLayout(false);
-            panelRight.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)imgLogo).EndInit();
             ResumeLayout(false);
         }
 
@@ -271,9 +186,5 @@
         private Sunny.UI.UILine lineBtnRegisterCounter;
         private Panel panel1;
         private Panel panelRight;
-        private PictureBox imgLogo;
-        private Sunny.UI.UIButton btnAddRoute;
-        private Sunny.UI.UIButton btnAddMachine;
-        private Sunny.UI.UILabel welcomeLabel;
     }
 }
