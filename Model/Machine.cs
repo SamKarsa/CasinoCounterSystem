@@ -19,7 +19,7 @@ namespace CasinoCounterSystem.Model
         public int TypeMachineId { get; set; }
 
         [Required(ErrorMessage = "Coin type is required")]
-        public int CoinType { get; set; }
+        public int CoinTypeId { get; set; }
 
         [Required(ErrorMessage = "Route is required")]
         public int RouteId { get; set; }

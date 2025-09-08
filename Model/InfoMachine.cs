@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace CasinoCounterSystem.Model
 {
     public class InfoMachine
     {
+        [ForeignKey("Machine")]
         public int InfoMachineId { get; set; } // This is FK to Machine
 
         [StringLength(100, ErrorMessage = "The client name cannot exceed 100 characters")]
