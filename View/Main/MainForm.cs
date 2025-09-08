@@ -29,11 +29,11 @@ namespace CasinoCounterSystem.View
 
             // Crear instancia de UCHome y suscribirse a sus eventos
             ucHome = new UCHome();
-            ucHome.AddMachineClicked += UcHome_AddMachineClicked;
-            ucHome.AddRouteClicked += UcHome_AddRouteClicked;
+            ucHome.AddMachineClicked += UcHome_AddMachineClicked!;
+            ucHome.AddRouteClicked += UcHome_AddRouteClicked!;
 
             // Suscribir evento al botón Home del sidebar
-            btnHome.Click += BtnHome_Click;
+            btnHome.Click += BtnHome_Click!;
 
             // Cargar la vista Home inicial
             LoadView(ucHome);

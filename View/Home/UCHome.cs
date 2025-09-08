@@ -15,16 +15,16 @@ namespace CasinoCounterSystem.View.Home
     {
 
         // Eventos para comunicarse con el MainForm
-        public event EventHandler AddMachineClicked;
-        public event EventHandler AddRouteClicked;
+        public event EventHandler? AddMachineClicked;
+        public event EventHandler? AddRouteClicked;
 
         public UCHome()
         {
             InitializeComponent();
 
             // Suscribir eventos a los botones
-            btnAddMachine.Click += BtnAddMachine_Click;
-            btnAddRoute.Click += BtnAddRoute_Click;
+            btnAddMachine.Click += BtnAddMachine_Click!;
+            btnAddRoute.Click += BtnAddRoute_Click!;
         }
 
         private void BtnAddMachine_Click(object sender, EventArgs e)

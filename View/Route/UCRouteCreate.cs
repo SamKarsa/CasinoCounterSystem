@@ -13,16 +13,16 @@ namespace CasinoCounterSystem.View.Route
     public partial class UCRouteCreate : UserControl
     {
         // Eventos para comunicarse con el MainForm
-        public event EventHandler CancelClicked;
-        public event EventHandler RouteCreated;
+        public event EventHandler? CancelClicked;
+        public event EventHandler? RouteCreated;
 
         public UCRouteCreate()
         {
             InitializeComponent();
 
             // Suscribir eventos a los botones
-            btnCancelRoute.Click += BtnCancel_Click;
-            btnSaveRoute.Click += BtnSave_Click;
+            btnCancelRoute.Click += BtnCancel_Click!;
+            btnSaveRoute.Click += BtnSave_Click!;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)

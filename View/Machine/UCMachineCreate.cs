@@ -14,16 +14,16 @@ namespace CasinoCounterSystem.View.Machine
     {
 
         // Eventos para comunicarse con el MainForm
-        public event EventHandler CancelClicked;
-        public event EventHandler MachineCreated;
+        public event EventHandler? CancelClicked;
+        public event EventHandler? MachineCreated;
 
         public UCMachineCreate()
         {
             InitializeComponent();
 
             // Suscribir eventos a los botones
-            btnCancelRoute.Click += BtnCancel_Click;
-            btnSaveRoute.Click += BtnSave_Click;
+            btnCancelRoute.Click += BtnCancel_Click!;
+            btnSaveRoute.Click += BtnSave_Click!;
         }
         
 
