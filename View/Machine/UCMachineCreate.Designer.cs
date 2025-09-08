@@ -31,7 +31,7 @@
             imgLogo = new PictureBox();
             labelTitle = new Sunny.UI.UILabel();
             textBoxNumMachine = new Sunny.UI.UITextBox();
-            this.comboBoxRoute = new Sunny.UI.UIComboBox();
+            comboBoxRoute = new Sunny.UI.UIComboBox();
             comboBoxMachineType = new Sunny.UI.UIComboBox();
             comboBoxCoinType = new Sunny.UI.UIComboBox();
             uiLabel1 = new Sunny.UI.UILabel();
@@ -88,23 +88,23 @@
             // 
             // comboBoxRoute
             // 
-            this.comboBoxRoute.DataSource = null;
-            this.comboBoxRoute.FillColor = Color.White;
-            this.comboBoxRoute.Font = new Font("Microsoft Sans Serif", 12F);
-            this.comboBoxRoute.ItemHoverColor = Color.FromArgb(30, 58, 138);
-            this.comboBoxRoute.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            this.comboBoxRoute.Location = new Point(74, 165);
-            this.comboBoxRoute.Margin = new Padding(4, 5, 4, 5);
-            this.comboBoxRoute.MinimumSize = new Size(63, 0);
-            this.comboBoxRoute.Name = "comboBoxRoute";
-            this.comboBoxRoute.Padding = new Padding(0, 0, 30, 2);
-            this.comboBoxRoute.RectColor = Color.Navy;
-            this.comboBoxRoute.Size = new Size(346, 50);
-            this.comboBoxRoute.SymbolSize = 24;
-            this.comboBoxRoute.TabIndex = 23;
-            this.comboBoxRoute.TextAlignment = ContentAlignment.MiddleLeft;
-            this.comboBoxRoute.Watermark = "Select Route";
-            this.comboBoxRoute.WatermarkActiveColor = Color.DarkGray;
+            comboBoxRoute.DataSource = null;
+            comboBoxRoute.FillColor = Color.White;
+            comboBoxRoute.Font = new Font("Microsoft Sans Serif", 12F);
+            comboBoxRoute.ItemHoverColor = Color.FromArgb(30, 58, 138);
+            comboBoxRoute.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
+            comboBoxRoute.Location = new Point(74, 165);
+            comboBoxRoute.Margin = new Padding(4, 5, 4, 5);
+            comboBoxRoute.MinimumSize = new Size(63, 0);
+            comboBoxRoute.Name = "comboBoxRoute";
+            comboBoxRoute.Padding = new Padding(0, 0, 30, 2);
+            comboBoxRoute.RectColor = Color.Navy;
+            comboBoxRoute.Size = new Size(346, 50);
+            comboBoxRoute.SymbolSize = 24;
+            comboBoxRoute.TabIndex = 23;
+            comboBoxRoute.TextAlignment = ContentAlignment.MiddleLeft;
+            comboBoxRoute.Watermark = "Select Route";
+            comboBoxRoute.WatermarkActiveColor = Color.DarkGray;
             // 
             // comboBoxMachineType
             // 
@@ -249,6 +249,7 @@
             btnCancelRoute.TabIndex = 28;
             btnCancelRoute.Text = "🗑️ Cancel";
             btnCancelRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            btnCancelRoute.Click += BtnCancel_Click;
             // 
             // btnSaveRoute
             // 
@@ -273,6 +274,7 @@
             btnSaveRoute.TabIndex = 27;
             btnSaveRoute.Text = "➕ Save";
             btnSaveRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            btnSaveRoute.Click += BtnSave_Click;
             // 
             // UCMachineCreate
             // 
@@ -287,7 +289,7 @@
             Controls.Add(uiLabel1);
             Controls.Add(comboBoxCoinType);
             Controls.Add(comboBoxMachineType);
-            Controls.Add(this.comboBoxRoute);
+            Controls.Add(comboBoxRoute);
             Controls.Add(textBoxNumMachine);
             Controls.Add(labelTitle);
             Controls.Add(imgLogo);

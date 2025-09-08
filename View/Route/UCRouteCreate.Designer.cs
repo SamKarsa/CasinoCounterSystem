@@ -102,6 +102,7 @@
             btnSaveRoute.TabIndex = 17;
             btnSaveRoute.Text = "➕ Save";
             btnSaveRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            btnSaveRoute.Click += BtnSave_Click;
             // 
             // btnCancelRoute
             // 
@@ -130,6 +131,7 @@
             btnCancelRoute.TabIndex = 18;
             btnCancelRoute.Text = "🗑️ Cancel";
             btnCancelRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            btnCancelRoute.Click += BtnCancel_Click;
             // 
             // UCRouteCreate
             // 
