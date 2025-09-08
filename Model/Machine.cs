@@ -33,11 +33,11 @@ namespace CasinoCounterSystem.Model
         // Constructor
         public Machine() { }
 
-        public Machine(string numberMachine, int typeMachineId, int coinType, int routeId)
+        public Machine(string numberMachine, int typeMachineId, int coinTypeId, int routeId)
         {
             NumberMachine = numberMachine;
             TypeMachineId = typeMachineId;
-            CoinType = coinType;
+            CoinTypeId = coinTypeId;
             RouteId = routeId;
         }
 

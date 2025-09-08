@@ -25,7 +25,7 @@ namespace CasinoCounterSystem.View.Machine
             btnCancelRoute.Click += BtnCancel_Click!;
             btnSaveRoute.Click += BtnSave_Click!;
         }
-        
+
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
