@@ -51,7 +51,7 @@
             NavBar.Location = new Point(0, 0);
             NavBar.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
             NavBar.Name = "NavBar";
-            NavBar.Size = new Size(448, 63);
+            NavBar.Size = new Size(448, 68);
             NavBar.TabIndex = 0;
             NavBar.Text = "NavBar";
             // 
@@ -59,12 +59,12 @@
             // 
             uiLabel1.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             uiLabel1.ForeColor = Color.White;
-            uiLabel1.Location = new Point(114, 9);
+            uiLabel1.ImageAlign = ContentAlignment.BottomCenter;
+            uiLabel1.Location = new Point(89, 9);
             uiLabel1.Name = "uiLabel1";
-            uiLabel1.Size = new Size(232, 34);
+            uiLabel1.Size = new Size(278, 34);
             uiLabel1.TabIndex = 1;
-            uiLabel1.Text = "Counter Record";
-            uiLabel1.Click += uiLabel1_Click;
+            uiLabel1.Text = "💼 Counter Record";
             // 
             // uiTextBox1
             // 
@@ -73,7 +73,8 @@
             uiTextBox1.Margin = new Padding(4, 5, 4, 5);
             uiTextBox1.MinimumSize = new Size(1, 16);
             uiTextBox1.Name = "uiTextBox1";
-            uiTextBox1.Padding = new Padding(5);
+            uiTextBox1.Padding = new Padding(10, 0, 30, 2);
+            uiTextBox1.RectColor = Color.Navy;
             uiTextBox1.ShowText = false;
             uiTextBox1.Size = new Size(351, 50);
             uiTextBox1.TabIndex = 1;
@@ -93,7 +94,8 @@
             uiComboBox2.Margin = new Padding(4, 5, 4, 5);
             uiComboBox2.MinimumSize = new Size(63, 0);
             uiComboBox2.Name = "uiComboBox2";
-            uiComboBox2.Padding = new Padding(0, 0, 30, 2);
+            uiComboBox2.Padding = new Padding(5, 0, 30, 2);
+            uiComboBox2.RectColor = Color.Navy;
             uiComboBox2.Size = new Size(351, 50);
             uiComboBox2.SymbolSize = 24;
             uiComboBox2.TabIndex = 3;
@@ -101,7 +103,6 @@
             uiComboBox2.Watermark = "Route Number";
             uiComboBox2.WatermarkActiveColor = SystemColors.GrayText;
             uiComboBox2.WatermarkColor = SystemColors.GrayText;
-            uiComboBox2.SelectedIndexChanged += uiComboBox2_SelectedIndexChanged;
             // 
             // uiComboBox3
             // 
@@ -114,7 +115,8 @@
             uiComboBox3.Margin = new Padding(4, 5, 4, 5);
             uiComboBox3.MinimumSize = new Size(63, 0);
             uiComboBox3.Name = "uiComboBox3";
-            uiComboBox3.Padding = new Padding(0, 0, 30, 2);
+            uiComboBox3.Padding = new Padding(5, 0, 30, 2);
+            uiComboBox3.RectColor = Color.Navy;
             uiComboBox3.Size = new Size(351, 50);
             uiComboBox3.SymbolSize = 24;
             uiComboBox3.TabIndex = 4;
@@ -130,7 +132,8 @@
             uiTextBox2.Margin = new Padding(4, 5, 4, 5);
             uiTextBox2.MinimumSize = new Size(1, 16);
             uiTextBox2.Name = "uiTextBox2";
-            uiTextBox2.Padding = new Padding(5);
+            uiTextBox2.Padding = new Padding(5, 0, 30, 2);
+            uiTextBox2.RectColor = Color.Navy;
             uiTextBox2.ShowText = false;
             uiTextBox2.Size = new Size(351, 50);
             uiTextBox2.TabIndex = 3;
@@ -146,7 +149,8 @@
             uiTextBox3.Margin = new Padding(4, 5, 4, 5);
             uiTextBox3.MinimumSize = new Size(1, 16);
             uiTextBox3.Name = "uiTextBox3";
-            uiTextBox3.Padding = new Padding(5);
+            uiTextBox3.Padding = new Padding(5, 0, 30, 2);
+            uiTextBox3.RectColor = Color.Navy;
             uiTextBox3.ShowText = false;
             uiTextBox3.Size = new Size(351, 50);
             uiTextBox3.TabIndex = 4;
@@ -162,7 +166,8 @@
             uiTextBox4.Margin = new Padding(4, 5, 4, 5);
             uiTextBox4.MinimumSize = new Size(1, 16);
             uiTextBox4.Name = "uiTextBox4";
-            uiTextBox4.Padding = new Padding(5);
+            uiTextBox4.Padding = new Padding(5, 0, 30, 2);
+            uiTextBox4.RectColor = Color.Navy;
             uiTextBox4.ShowText = false;
             uiTextBox4.Size = new Size(351, 50);
             uiTextBox4.TabIndex = 5;
@@ -179,41 +184,44 @@
             button_join.FillHoverColor = Color.FromArgb(30, 58, 138);
             button_join.FillPressColor = Color.FromArgb(0, 0, 102);
             button_join.FillSelectedColor = Color.FromArgb(30, 64, 175);
-            button_join.Font = new Font("Microsoft Sans Serif", 12F);
-            button_join.Location = new Point(103, 473);
+            button_join.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button_join.Location = new Point(89, 465);
             button_join.MinimumSize = new Size(1, 1);
             button_join.Name = "button_join";
             button_join.RectColor = Color.FromArgb(37, 99, 235);
             button_join.RectHoverColor = Color.FromArgb(59, 130, 246);
             button_join.RectPressColor = Color.FromArgb(29, 78, 216);
-            button_join.Size = new Size(108, 36);
+            button_join.Size = new Size(114, 44);
             button_join.TabIndex = 11;
-            button_join.Text = "Add";
+            button_join.Text = "➕Add";
             button_join.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
             // uiButton1
             // 
             uiButton1.BackColor = Color.White;
-            uiButton1.FillColor = Color.Navy;
+            uiButton1.FillColor = Color.White;
             uiButton1.FillColor2 = Color.Navy;
             uiButton1.FillHoverColor = Color.FromArgb(30, 58, 138);
             uiButton1.FillPressColor = Color.FromArgb(0, 0, 102);
             uiButton1.FillSelectedColor = Color.FromArgb(30, 64, 175);
-            uiButton1.Font = new Font("Microsoft Sans Serif", 12F);
-            uiButton1.Location = new Point(238, 473);
+            uiButton1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            uiButton1.ForeColor = Color.Navy;
+            uiButton1.Location = new Point(238, 465);
             uiButton1.MinimumSize = new Size(1, 1);
             uiButton1.Name = "uiButton1";
-            uiButton1.RectColor = Color.FromArgb(37, 99, 235);
+            uiButton1.RectColor = Color.RoyalBlue;
             uiButton1.RectHoverColor = Color.FromArgb(59, 130, 246);
             uiButton1.RectPressColor = Color.FromArgb(29, 78, 216);
-            uiButton1.Size = new Size(108, 36);
+            uiButton1.RectSize = 2;
+            uiButton1.Size = new Size(114, 44);
             uiButton1.TabIndex = 12;
-            uiButton1.Text = "Cancel";
+            uiButton1.Text = "🗑️Cancel";
             uiButton1.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
             // FrmCounterRecord
             // 
             AutoScaleMode = AutoScaleMode.None;
+            BackColor = Color.White;
             ClientSize = new Size(448, 548);
             Controls.Add(uiTextBox4);
             Controls.Add(uiTextBox3);
