@@ -37,12 +37,14 @@
             logoLabel2 = new Sunny.UI.UILabel();
             logoLabel1 = new Sunny.UI.UILabel();
             panelRight = new Panel();
+            btnLogOut = new Sunny.UI.UIButton();
             sidebarPanel.SuspendLayout();
             SuspendLayout();
             // 
             // sidebarPanel
             // 
             sidebarPanel.BackColor = Color.Navy;
+            sidebarPanel.Controls.Add(btnLogOut);
             sidebarPanel.Controls.Add(panel1);
             sidebarPanel.Controls.Add(lineBtnRegisterCounter);
             sidebarPanel.Controls.Add(btnHome);
@@ -162,6 +164,33 @@
             panelRight.Size = new Size(856, 707);
             panelRight.TabIndex = 1;
             // 
+            // btnLogOut
+            // 
+            btnLogOut.BackColor = Color.White;
+            btnLogOut.FillColor = Color.White;
+            btnLogOut.FillColor2 = Color.White;
+            btnLogOut.FillDisableColor = SystemColors.ButtonFace;
+            btnLogOut.FillHoverColor = Color.FromArgb(242, 244, 247);
+            btnLogOut.FillPressColor = Color.FromArgb(229, 231, 235);
+            btnLogOut.FillSelectedColor = Color.FromArgb(229, 231, 235);
+            btnLogOut.Font = new Font("Microsoft Sans Serif", 12F);
+            btnLogOut.ForeColor = Color.Navy;
+            btnLogOut.ForeDisableColor = Color.FromArgb(107, 114, 128);
+            btnLogOut.ForeHoverColor = Color.Navy;
+            btnLogOut.ForePressColor = Color.Navy;
+            btnLogOut.Location = new Point(12, 660);
+            btnLogOut.MinimumSize = new Size(1, 1);
+            btnLogOut.Name = "btnLogOut";
+            btnLogOut.RectColor = Color.White;
+            btnLogOut.RectDisableColor = Color.Navy;
+            btnLogOut.RectHoverColor = Color.White;
+            btnLogOut.RectPressColor = Color.White;
+            btnLogOut.RectSelectedColor = Color.White;
+            btnLogOut.Size = new Size(222, 35);
+            btnLogOut.TabIndex = 7;
+            btnLogOut.Text = "🔚 LogOut";
+            btnLogOut.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -187,5 +216,6 @@
         private Sunny.UI.UILine lineBtnRegisterCounter;
         private Panel panel1;
         private Panel panelRight;
+        private Sunny.UI.UIButton btnLogOut;
     }
 }

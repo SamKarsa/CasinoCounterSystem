@@ -65,7 +65,6 @@
             link_password.TabIndex = 3;
             link_password.TabStop = true;
             link_password.Text = "Forgot the password?";
-            link_password.LinkClicked += link_password_LinkClicked;
             // 
             // button_join
             // 
@@ -86,7 +85,6 @@
             button_join.TabIndex = 10;
             button_join.Text = "Join";
             button_join.TipsFont = new Font("Microsoft Sans Serif", 9F);
-            button_join.Click += Button_join_Click;
             // 
             // uiTextBox1
             // 
