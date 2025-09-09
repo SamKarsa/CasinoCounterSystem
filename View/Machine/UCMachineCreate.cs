@@ -21,6 +21,9 @@ namespace CasinoCounterSystem.View.Machine
         {
             InitializeComponent();
 
+            // SOLO esta línea
+            this.AutoScaleMode = AutoScaleMode.None;
+
             // Suscribir eventos a los botones
             btnCancelRoute.Click += BtnCancel_Click!;
             btnSaveRoute.Click += BtnSave_Click!;

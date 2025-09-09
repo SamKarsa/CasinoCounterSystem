@@ -16,6 +16,9 @@ namespace CasinoCounterSystem.View
         {
             InitializeComponent();
 
+            // SOLO esta línea
+            this.AutoScaleMode = AutoScaleMode.None;
+
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }

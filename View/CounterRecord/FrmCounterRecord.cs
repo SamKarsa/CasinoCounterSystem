@@ -17,6 +17,9 @@ namespace CasinoCounterSystem.View
             InitializeComponent();
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            // SOLO esta línea
+            this.AutoScaleMode = AutoScaleMode.None;
         }
 
         private void uiLabel1_Click(object sender, EventArgs e)
