@@ -21,30 +21,5 @@ namespace CasinoCounterSystem.View
             // SOLO esta línea
             this.AutoScaleMode = AutoScaleMode.None;
         }
-
-        private void uiLabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void uiScrollingText1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void uiLabel2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void uiButton1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void uiComboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
