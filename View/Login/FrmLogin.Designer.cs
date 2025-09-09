@@ -170,14 +170,15 @@
             textbox_user.WatermarkColor = SystemColors.GrayText;
             textbox_user.TextChanged += uiTextBox3_TextChanged;
             // 
-            // Login
+            // FrmLogin
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.Navy;
             ClientSize = new Size(443, 365);
             Controls.Add(panel_login);
-            Name = "Login";
+            MaximumSize = new Size(459, 404);
+            MinimumSize = new Size(459, 404);
+            Name = "FrmLogin";
             Text = "Login1";
             panel_login.ResumeLayout(false);
             panel_login.PerformLayout();

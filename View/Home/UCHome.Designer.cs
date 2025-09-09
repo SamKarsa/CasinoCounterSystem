@@ -109,13 +109,14 @@
             // 
             // UCHome
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
             Controls.Add(imgLogo);
             Controls.Add(btnAddRoute);
             Controls.Add(btnAddMachine);
             Controls.Add(welcomeLabel);
+            MaximumSize = new Size(863, 712);
+            MinimumSize = new Size(863, 712);
             Name = "UCHome";
             Size = new Size(863, 712);
             ((System.ComponentModel.ISupportInitialize)imgLogo).EndInit();

@@ -278,8 +278,7 @@
             // 
             // UCMachineCreate
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
             Controls.Add(btnCancelRoute);
             Controls.Add(btnSaveRoute);
@@ -293,6 +292,8 @@
             Controls.Add(textBoxNumMachine);
             Controls.Add(labelTitle);
             Controls.Add(imgLogo);
+            MaximumSize = new Size(863, 712);
+            MinimumSize = new Size(863, 712);
             Name = "UCMachineCreate";
             Size = new Size(863, 712);
             ((System.ComponentModel.ISupportInitialize)imgLogo).EndInit();

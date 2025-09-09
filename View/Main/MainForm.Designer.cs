@@ -164,11 +164,12 @@
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1094, 707);
             Controls.Add(sidebarPanel);
             Controls.Add(panelRight);
+            MaximumSize = new Size(1110, 746);
+            MinimumSize = new Size(1110, 746);
             Name = "MainForm";
             Text = "MainForm";
             sidebarPanel.ResumeLayout(false);
