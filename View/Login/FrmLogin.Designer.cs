@@ -51,7 +51,6 @@
             label_login.Size = new Size(103, 40);
             label_login.TabIndex = 8;
             label_login.Text = "Log In";
-            label_login.Click += label3_Click;
             // 
             // link_password
             // 
@@ -66,6 +65,7 @@
             link_password.TabIndex = 3;
             link_password.TabStop = true;
             link_password.Text = "Forgot the password?";
+            link_password.LinkClicked += link_password_LinkClicked;
             // 
             // button_join
             // 
@@ -86,6 +86,7 @@
             button_join.TabIndex = 10;
             button_join.Text = "Join";
             button_join.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            button_join.Click += Button_join_Click;
             // 
             // uiTextBox1
             // 
@@ -150,7 +151,6 @@
             textbox_password.Watermark = "🔒 Password";
             textbox_password.WatermarkActiveColor = SystemColors.GrayText;
             textbox_password.WatermarkColor = SystemColors.GrayText;
-            textbox_password.TextChanged += textbox_password_TextChanged;
             // 
             // textbox_user
             // 
@@ -168,16 +168,15 @@
             textbox_user.Watermark = "👤 Username";
             textbox_user.WatermarkActiveColor = SystemColors.GrayText;
             textbox_user.WatermarkColor = SystemColors.GrayText;
-            textbox_user.TextChanged += uiTextBox3_TextChanged;
             // 
-            // Login
+            // FrmLogin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Navy;
             ClientSize = new Size(443, 365);
             Controls.Add(panel_login);
-            Name = "Login";
+            Name = "FrmLogin";
             Text = "Login1";
             panel_login.ResumeLayout(false);
             panel_login.PerformLayout();
