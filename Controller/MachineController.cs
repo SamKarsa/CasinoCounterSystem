@@ -226,5 +226,53 @@ namespace CasinoCounterSystem.Controller
             }
         }
         #endregion
+
+        public List<Machine> GetMachinesByRoute(int routeId)
+        {
+            List<Machine> machines = new List<Machine>();
+
+            using (SqlConnection connection = dbConnection.OpenConnection())
+            {
+                if (connection == null) return machines;
+
+                string query = @"
+            SELECT m.machineId, m.numberMachine, m.typeMachineId, m.coinTypeId, m.routeId,
+                   i.nameClient, i.phone, i.address
+            FROM Machine m
+            LEFT JOIN InfoMachine i ON m.machineId = i.infoMachineId
+            WHERE m.routeId = @routeId
+            ORDER BY m.numberMachine";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@routeId", routeId);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            machines.Add(new Machine
+                            {
+                                MachineId = (int)reader["machineId"],
+                                NumberMachine = (string)reader["numberMachine"],
+                                TypeMachineId = (int)reader["typeMachineId"],
+                                CoinTypeId = (int)reader["coinTypeId"],
+                                RouteId = (int)reader["routeId"],
+                                InfoMachine = reader["nameClient"] == DBNull.Value ? null : new InfoMachine
+                                {
+                                    InfoMachineId = (int)reader["machineId"],
+                                    NameClient = reader["nameClient"] as string,
+                                    Phone = reader["phone"] as string,
+                                    Address = reader["address"] as string
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+            return machines;
+        }
+
     }
 }
