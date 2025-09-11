@@ -40,6 +40,8 @@
             textBoxAddress = new Sunny.UI.UITextBox();
             btnCancelRoute = new Sunny.UI.UIButton();
             btnSaveRoute = new Sunny.UI.UIButton();
+            TextBoxIn = new Sunny.UI.UITextBox();
+            TextBoxOut = new Sunny.UI.UITextBox();
             ((System.ComponentModel.ISupportInitialize)imgLogo).BeginInit();
             SuspendLayout();
             // 
@@ -58,7 +60,7 @@
             // 
             labelTitle.Font = new Font("Britannic Bold", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelTitle.ForeColor = Color.Navy;
-            labelTitle.Location = new Point(272, 90);
+            labelTitle.Location = new Point(277, 61);
             labelTitle.Name = "labelTitle";
             labelTitle.Size = new Size(354, 50);
             labelTitle.TabIndex = 16;
@@ -71,7 +73,7 @@
             textBoxNumMachine.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
             textBoxNumMachine.ButtonStyleInherited = false;
             textBoxNumMachine.Font = new Font("Microsoft Sans Serif", 12F);
-            textBoxNumMachine.Location = new Point(428, 225);
+            textBoxNumMachine.Location = new Point(433, 196);
             textBoxNumMachine.Margin = new Padding(4, 5, 4, 5);
             textBoxNumMachine.MinimumSize = new Size(1, 16);
             textBoxNumMachine.Name = "textBoxNumMachine";
@@ -85,6 +87,7 @@
             textBoxNumMachine.TextAlignment = ContentAlignment.MiddleLeft;
             textBoxNumMachine.Watermark = "Enter Number Machine";
             textBoxNumMachine.WatermarkActiveColor = Color.DarkGray;
+            textBoxNumMachine.WatermarkColor = SystemColors.GrayText;
             // 
             // comboBoxRoute
             // 
@@ -93,7 +96,7 @@
             comboBoxRoute.Font = new Font("Microsoft Sans Serif", 12F);
             comboBoxRoute.ItemHoverColor = Color.FromArgb(30, 58, 138);
             comboBoxRoute.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            comboBoxRoute.Location = new Point(74, 165);
+            comboBoxRoute.Location = new Point(79, 136);
             comboBoxRoute.Margin = new Padding(4, 5, 4, 5);
             comboBoxRoute.MinimumSize = new Size(63, 0);
             comboBoxRoute.Name = "comboBoxRoute";
@@ -113,7 +116,7 @@
             comboBoxMachineType.Font = new Font("Microsoft Sans Serif", 12F);
             comboBoxMachineType.ItemHoverColor = Color.FromArgb(30, 58, 138);
             comboBoxMachineType.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            comboBoxMachineType.Location = new Point(74, 225);
+            comboBoxMachineType.Location = new Point(79, 196);
             comboBoxMachineType.Margin = new Padding(4, 5, 4, 5);
             comboBoxMachineType.MinimumSize = new Size(63, 0);
             comboBoxMachineType.Name = "comboBoxMachineType";
@@ -133,7 +136,7 @@
             comboBoxCoinType.Font = new Font("Microsoft Sans Serif", 12F);
             comboBoxCoinType.ItemHoverColor = Color.FromArgb(30, 58, 138);
             comboBoxCoinType.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            comboBoxCoinType.Location = new Point(428, 165);
+            comboBoxCoinType.Location = new Point(433, 136);
             comboBoxCoinType.Margin = new Padding(4, 5, 4, 5);
             comboBoxCoinType.MinimumSize = new Size(63, 0);
             comboBoxCoinType.Name = "comboBoxCoinType";
@@ -150,7 +153,7 @@
             // 
             uiLabel1.Font = new Font("Britannic Bold", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
             uiLabel1.ForeColor = Color.Navy;
-            uiLabel1.Location = new Point(301, 318);
+            uiLabel1.Location = new Point(302, 364);
             uiLabel1.Name = "uiLabel1";
             uiLabel1.Size = new Size(297, 50);
             uiLabel1.TabIndex = 26;
@@ -163,7 +166,7 @@
             textBoxNameClient.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
             textBoxNameClient.ButtonStyleInherited = false;
             textBoxNameClient.Font = new Font("Microsoft Sans Serif", 12F);
-            textBoxNameClient.Location = new Point(71, 396);
+            textBoxNameClient.Location = new Point(72, 442);
             textBoxNameClient.Margin = new Padding(4, 5, 4, 5);
             textBoxNameClient.MinimumSize = new Size(1, 16);
             textBoxNameClient.Name = "textBoxNameClient";
@@ -185,7 +188,7 @@
             textBoxPhone.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
             textBoxPhone.ButtonStyleInherited = false;
             textBoxPhone.Font = new Font("Microsoft Sans Serif", 12F);
-            textBoxPhone.Location = new Point(425, 396);
+            textBoxPhone.Location = new Point(426, 442);
             textBoxPhone.Margin = new Padding(4, 5, 4, 5);
             textBoxPhone.MinimumSize = new Size(1, 16);
             textBoxPhone.Name = "textBoxPhone";
@@ -207,7 +210,7 @@
             textBoxAddress.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
             textBoxAddress.ButtonStyleInherited = false;
             textBoxAddress.Font = new Font("Microsoft Sans Serif", 12F);
-            textBoxAddress.Location = new Point(277, 456);
+            textBoxAddress.Location = new Point(278, 502);
             textBoxAddress.Margin = new Padding(4, 5, 4, 5);
             textBoxAddress.MinimumSize = new Size(1, 16);
             textBoxAddress.Name = "textBoxAddress";
@@ -237,7 +240,7 @@
             btnCancelRoute.ForeHoverColor = Color.Navy;
             btnCancelRoute.ForePressColor = Color.Navy;
             btnCancelRoute.ForeSelectedColor = Color.Navy;
-            btnCancelRoute.Location = new Point(475, 559);
+            btnCancelRoute.Location = new Point(476, 605);
             btnCancelRoute.MinimumSize = new Size(1, 1);
             btnCancelRoute.Name = "btnCancelRoute";
             btnCancelRoute.RectColor = Color.FromArgb(209, 213, 219);
@@ -262,7 +265,7 @@
             btnSaveRoute.FillSelectedColor = Color.FromArgb(30, 64, 175);
             btnSaveRoute.Font = new Font("Microsoft Sans Serif", 12F);
             btnSaveRoute.ForeDisableColor = Color.FromArgb(156, 163, 175);
-            btnSaveRoute.Location = new Point(262, 559);
+            btnSaveRoute.Location = new Point(263, 605);
             btnSaveRoute.MinimumSize = new Size(1, 1);
             btnSaveRoute.Name = "btnSaveRoute";
             btnSaveRoute.RectColor = Color.Navy;
@@ -276,10 +279,57 @@
             btnSaveRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
             btnSaveRoute.Click += BtnSave_Click;
             // 
+            // TextBoxIn
+            // 
+            TextBoxIn.ButtonRectColor = Color.Navy;
+            TextBoxIn.ButtonRectHoverColor = Color.FromArgb(30, 58, 138);
+            TextBoxIn.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
+            TextBoxIn.ButtonStyleInherited = false;
+            TextBoxIn.Font = new Font("Microsoft Sans Serif", 12F);
+            TextBoxIn.Location = new Point(79, 256);
+            TextBoxIn.Margin = new Padding(4, 5, 4, 5);
+            TextBoxIn.MinimumSize = new Size(1, 16);
+            TextBoxIn.Name = "TextBoxIn";
+            TextBoxIn.Padding = new Padding(12, 5, 12, 5);
+            TextBoxIn.Radius = 6;
+            TextBoxIn.RectColor = Color.Navy;
+            TextBoxIn.RectSize = 2;
+            TextBoxIn.ShowText = false;
+            TextBoxIn.Size = new Size(346, 50);
+            TextBoxIn.TabIndex = 19;
+            TextBoxIn.TextAlignment = ContentAlignment.MiddleLeft;
+            TextBoxIn.Watermark = "Installation IN";
+            TextBoxIn.WatermarkActiveColor = Color.DarkGray;
+            // 
+            // TextBoxOut
+            // 
+            TextBoxOut.ButtonRectColor = Color.Navy;
+            TextBoxOut.ButtonRectHoverColor = Color.FromArgb(30, 58, 138);
+            TextBoxOut.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
+            TextBoxOut.ButtonStyleInherited = false;
+            TextBoxOut.Font = new Font("Microsoft Sans Serif", 12F);
+            TextBoxOut.Location = new Point(433, 256);
+            TextBoxOut.Margin = new Padding(4, 5, 4, 5);
+            TextBoxOut.MinimumSize = new Size(1, 16);
+            TextBoxOut.Name = "TextBoxOut";
+            TextBoxOut.Padding = new Padding(12, 5, 12, 5);
+            TextBoxOut.Radius = 6;
+            TextBoxOut.RectColor = Color.Navy;
+            TextBoxOut.RectSize = 2;
+            TextBoxOut.ShowText = false;
+            TextBoxOut.Size = new Size(346, 50);
+            TextBoxOut.TabIndex = 20;
+            TextBoxOut.TextAlignment = ContentAlignment.MiddleLeft;
+            TextBoxOut.Watermark = "Installation OUT";
+            TextBoxOut.WatermarkActiveColor = Color.DarkGray;
+            TextBoxOut.WatermarkColor = SystemColors.GrayText;
+            // 
             // UCMachineCreate
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
+            Controls.Add(TextBoxOut);
+            Controls.Add(TextBoxIn);
             Controls.Add(btnCancelRoute);
             Controls.Add(btnSaveRoute);
             Controls.Add(textBoxAddress);
@@ -314,5 +364,7 @@
         private Sunny.UI.UITextBox textBoxAddress;
         private Sunny.UI.UIButton btnCancelRoute;
         private Sunny.UI.UIButton btnSaveRoute;
+        private Sunny.UI.UITextBox TextBoxIn;
+        private Sunny.UI.UITextBox TextBoxOut;
     }
 }

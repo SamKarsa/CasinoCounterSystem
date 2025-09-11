@@ -1,4 +1,6 @@
-﻿namespace CasinoCounterSystem.View.Route
+﻿using Sunny.UI;
+
+namespace CasinoCounterSystem.View.Route
 {
     partial class UCRouteCreate
     {
@@ -62,7 +64,6 @@
             textBoxRoute.ButtonRectColor = Color.Navy;
             textBoxRoute.ButtonRectHoverColor = Color.FromArgb(30, 58, 138);
             textBoxRoute.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
-            textBoxRoute.ButtonStyleInherited = false;
             textBoxRoute.Font = new Font("Microsoft Sans Serif", 12F);
             textBoxRoute.Location = new Point(237, 261);
             textBoxRoute.Margin = new Padding(4, 5, 4, 5);
@@ -77,7 +78,9 @@
             textBoxRoute.TabIndex = 16;
             textBoxRoute.TextAlignment = ContentAlignment.MiddleLeft;
             textBoxRoute.Watermark = "Enter route name (e.g., Route A)";
-            textBoxRoute.WatermarkActiveColor = Color.DarkGray;
+            textBoxRoute.WatermarkActiveColor = SystemColors.GrayText;
+            textBoxRoute.WatermarkColor = SystemColors.GrayText;
+            textBoxRoute.TabStop = false;
             // 
             // btnSaveRoute
             // 

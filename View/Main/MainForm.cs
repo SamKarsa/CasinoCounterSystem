@@ -19,6 +19,10 @@ namespace CasinoCounterSystem.View
 
         private UCHome ucHome;
 
+        // Para controlar la expansión de rutas
+        private Dictionary<int, bool> routeExpandedStates = new Dictionary<int, bool>();
+        private Dictionary<int, List<UIButton>> routeMachineButtons = new Dictionary<int, List<UIButton>>();
+
         public MainForm()
         {
             InitializeComponent();
