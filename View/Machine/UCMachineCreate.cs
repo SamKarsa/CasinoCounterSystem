@@ -1,4 +1,8 @@
-﻿using System;
+﻿using CasinoCounterSystem.Controller;
+using CasinoCounterSystem.Model;
+using MachineModel = CasinoCounterSystem.Model.Machine;
+using InfoMachineModel = CasinoCounterSystem.Model.InfoMachine;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +21,8 @@ namespace CasinoCounterSystem.View.Machine
         public event EventHandler? CancelClicked;
         public event EventHandler? MachineCreated;
 
+        private readonly MachineController machineController = new MachineController();
+
         public UCMachineCreate()
         {
             InitializeComponent();
@@ -27,17 +33,86 @@ namespace CasinoCounterSystem.View.Machine
             // Suscribir eventos a los botones
             btnCancelRoute.Click += BtnCancel_Click!;
             btnSaveRoute.Click += BtnSave_Click!;
-        }
 
+            LoadCombos();
+        }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            // Aquí puedes agregar la lógica para guardar la máquina
-            // Por ejemplo, validar campos, guardar en base de datos, etc.
+            try
+            {
+                // 1. Validar campos mínimos
+                if (comboBoxRoute.SelectedItem == null ||
+                    comboBoxCoinType.SelectedItem == null ||
+                    comboBoxMachineType.SelectedItem == null ||
+                    string.IsNullOrWhiteSpace(textBoxNumMachine.Text) ||
+                    string.IsNullOrWhiteSpace(TextBoxIn.Text) ||
+                    string.IsNullOrWhiteSpace(TextBoxOut.Text))
+                {
+                    MessageBox.Show("Please fill all required fields.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-            // Una vez guardado exitosamente, disparar el evento
-            MachineCreated?.Invoke(this, EventArgs.Empty);
+                // 2. Convertir contadores
+                if (!int.TryParse(TextBoxIn.Text.Trim(), out int counterIn) ||
+                    !int.TryParse(TextBoxOut.Text.Trim(), out int counterOut))
+                {
+                    MessageBox.Show("Installation IN and OUT must be numbers.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 3. Crear objeto Machine
+                var machine = new MachineModel
+                {
+                    NumberMachine = textBoxNumMachine.Text.Trim(),
+                    RouteId = (int)comboBoxRoute.SelectedValue,       // asegúrate de que el DataSource devuelva int
+                    CoinTypeId = (int)comboBoxCoinType.SelectedValue, // idem
+                    TypeMachineId = (int)comboBoxMachineType.SelectedValue,
+                    InfoMachine = new InfoMachine
+                    {
+                        NameClient = textBoxNameClient.Text.Trim(),
+                        Phone = textBoxPhone.Text.Trim(),
+                        Address = textBoxAddress.Text.Trim()
+                    }
+                };
+
+                // 4. Insertar en DB
+                int newId = machineController.InsertMachine(machine, counterIn, counterOut);
+
+                if (newId > 0)
+                {
+                    MessageBox.Show("Machine created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MachineCreated?.Invoke(this, EventArgs.Empty); // Notificar al MainForm
+                }
+                else
+                {
+                    MessageBox.Show("Error saving machine. Try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
+        private void LoadCombos()
+        {
+            var routeController = new RouteController();
+            comboBoxRoute.DataSource = routeController.GetAllRoutes();
+            comboBoxRoute.DisplayMember = "RouteName";
+            comboBoxRoute.ValueMember = "RouteId";
+
+            var typeController = new TypeMachineController();  
+            comboBoxMachineType.DataSource = typeController.GetAllTypeMachine();
+            comboBoxMachineType.DisplayMember = "nameTypeMachine";
+            comboBoxMachineType.ValueMember = "typeMachineId";
+
+            var coinController = new CoinTypeController();     
+            comboBoxCoinType.DataSource = coinController.GetAllCoins();
+            comboBoxCoinType.DisplayMember = "numCoin";
+            comboBoxCoinType.ValueMember = "coinTypeId";
+        }
+
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {

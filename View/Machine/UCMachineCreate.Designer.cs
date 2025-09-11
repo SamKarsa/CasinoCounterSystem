@@ -277,7 +277,6 @@
             btnSaveRoute.TabIndex = 27;
             btnSaveRoute.Text = "➕ Save";
             btnSaveRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
-            btnSaveRoute.Click += BtnSave_Click;
             // 
             // TextBoxIn
             // 

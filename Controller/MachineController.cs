@@ -106,7 +106,7 @@ namespace CasinoCounterSystem.Controller
             return machine;
         }
 
-        public int InsertMachine(Machine machine)
+        public int InsertMachine(Machine machine, int counterIn, int counterOut)
         {
             int newMachineId = 0;
 
@@ -114,41 +114,69 @@ namespace CasinoCounterSystem.Controller
             {
                 if (connection == null) return 0;
 
-                string insertMachine = @"
-                    INSERT INTO Machine (numberMachine, typeMachineId, coinTypeId, routeId)
-                    VALUES (@numberMachine, @typeMachineId, @coinTypeId, @routeId);
-                    SELECT SCOPE_IDENTITY();";
-
-                using (SqlCommand command = new SqlCommand(insertMachine, connection))
+                using (SqlTransaction transaction = connection.BeginTransaction())
                 {
-                    command.Parameters.AddWithValue("@numberMachine", machine.NumberMachine);
-                    command.Parameters.AddWithValue("@typeMachineId", machine.TypeMachineId);
-                    command.Parameters.AddWithValue("@coinTypeId", machine.CoinTypeId);
-                    command.Parameters.AddWithValue("@routeId", machine.RouteId);
+                    try
+                    {
+                        // 1. Insertar en Machine
+                        string insertMachine = @"
+                        INSERT INTO Machine (numberMachine, typeMachineId, coinTypeId, routeId)
+                        VALUES (@numberMachine, @typeMachineId, @coinTypeId, @routeId);
+                        SELECT SCOPE_IDENTITY();";
 
-                    newMachineId = Convert.ToInt32(command.ExecuteScalar());
-                }
+                        using (SqlCommand command = new SqlCommand(insertMachine, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@numberMachine", machine.NumberMachine);
+                            command.Parameters.AddWithValue("@typeMachineId", machine.TypeMachineId);
+                            command.Parameters.AddWithValue("@coinTypeId", machine.CoinTypeId);
+                            command.Parameters.AddWithValue("@routeId", machine.RouteId);
 
-                if (machine.InfoMachine != null)
-                {
-                    string insertInfo = @"
+                            newMachineId = Convert.ToInt32(command.ExecuteScalar());
+                        }
+
+                        // 2. Insertar en InfoMachine (obligatorio)
+                        string insertInfo = @"
                         INSERT INTO InfoMachine (infoMachineId, nameClient, phone, address)
                         VALUES (@infoMachineId, @nameClient, @phone, @address)";
 
-                    using (SqlCommand command = new SqlCommand(insertInfo, connection))
-                    {
-                        command.Parameters.AddWithValue("@infoMachineId", newMachineId);
-                        command.Parameters.AddWithValue("@nameClient", (object)machine.InfoMachine.NameClient ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@phone", (object)machine.InfoMachine.Phone ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@address", (object)machine.InfoMachine.Address ?? DBNull.Value);
+                        using (SqlCommand command = new SqlCommand(insertInfo, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@infoMachineId", newMachineId);
+                            command.Parameters.AddWithValue("@nameClient", (object)machine.InfoMachine?.NameClient ?? DBNull.Value);
+                            command.Parameters.AddWithValue("@phone", (object)machine.InfoMachine?.Phone ?? DBNull.Value);
+                            command.Parameters.AddWithValue("@address", (object)machine.InfoMachine?.Address ?? DBNull.Value);
 
-                        command.ExecuteNonQuery();
+                            command.ExecuteNonQuery();
+                        }
+
+                        // 3. Insertar primer registro en CounterRecord
+                        string insertCounter = @"
+                        INSERT INTO CounterRecord (recordDate, counterIn, counterOut, totalDelivered, machineId)
+                        VALUES (GETDATE(), @counterIn, @counterOut, 0, @machineId)";
+
+                        using (SqlCommand command = new SqlCommand(insertCounter, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@machineId", newMachineId);
+                            command.Parameters.AddWithValue("@counterIn", counterIn);
+                            command.Parameters.AddWithValue("@counterOut", counterOut);
+
+                            command.ExecuteNonQuery();
+                        }
+
+                        // ✅ Confirmar todo
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
                     }
                 }
             }
 
             return newMachineId;
         }
+
 
         public bool UpdateMachine(Machine machine)
         {

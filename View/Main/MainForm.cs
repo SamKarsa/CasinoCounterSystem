@@ -59,6 +59,8 @@ namespace CasinoCounterSystem.View
             ucMachineCreate.CancelClicked += (s, args) => LoadView(ucHome);
             ucMachineCreate.MachineCreated += (s, args) =>
             {
+                LoadRoutesTree();
+
                 LoadView(ucHome);
             };
 
