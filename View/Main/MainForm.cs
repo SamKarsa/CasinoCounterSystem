@@ -59,8 +59,6 @@ namespace CasinoCounterSystem.View
             ucMachineCreate.CancelClicked += (s, args) => LoadView(ucHome);
             ucMachineCreate.MachineCreated += (s, args) =>
             {
-                // Aquí puedes mostrar un mensaje de éxito y volver al Home
-                MessageBox.Show("Machine created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadView(ucHome);
             };
 
@@ -74,8 +72,8 @@ namespace CasinoCounterSystem.View
             ucRouteCreate.CancelClicked += (s, args) => LoadView(ucHome);
             ucRouteCreate.RouteCreated += (s, args) =>
             {
-                // Aquí puedes mostrar un mensaje de éxito y volver al Home
-                MessageBox.Show("Route created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadRoutesTree();
+
                 LoadView(ucHome);
             };
 
