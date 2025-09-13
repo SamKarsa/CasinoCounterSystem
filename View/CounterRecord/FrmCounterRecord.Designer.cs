@@ -30,14 +30,14 @@
         {
             NavBar = new Sunny.UI.UINavBar();
             uiLabel1 = new Sunny.UI.UILabel();
-            uiTextBox1 = new Sunny.UI.UITextBox();
-            uiComboBox2 = new Sunny.UI.UIComboBox();
-            uiComboBox3 = new Sunny.UI.UIComboBox();
-            uiTextBox2 = new Sunny.UI.UITextBox();
-            uiTextBox3 = new Sunny.UI.UITextBox();
-            uiTextBox4 = new Sunny.UI.UITextBox();
+            ComboBoxRoute = new Sunny.UI.UIComboBox();
+            ComboBoxMachine = new Sunny.UI.UIComboBox();
+            TextBoxIN = new Sunny.UI.UITextBox();
+            TextBoxOUT = new Sunny.UI.UITextBox();
+            TextBoxTotal = new Sunny.UI.UITextBox();
             button_join = new Sunny.UI.UIButton();
-            uiButton1 = new Sunny.UI.UIButton();
+            ButtonCancel = new Sunny.UI.UIButton();
+            DatetimePicker = new Sunny.UI.UIDatetimePicker();
             NavBar.SuspendLayout();
             SuspendLayout();
             // 
@@ -66,115 +66,98 @@
             uiLabel1.TabIndex = 1;
             uiLabel1.Text = "💼 Counter Record";
             // 
-            // uiTextBox1
+            // ComboBoxRoute
             // 
-            uiTextBox1.Font = new Font("Microsoft Sans Serif", 12F);
-            uiTextBox1.Location = new Point(47, 210);
-            uiTextBox1.Margin = new Padding(4, 5, 4, 5);
-            uiTextBox1.MinimumSize = new Size(1, 16);
-            uiTextBox1.Name = "uiTextBox1";
-            uiTextBox1.Padding = new Padding(10, 0, 30, 2);
-            uiTextBox1.RectColor = Color.Navy;
-            uiTextBox1.ShowText = false;
-            uiTextBox1.Size = new Size(351, 50);
-            uiTextBox1.TabIndex = 1;
-            uiTextBox1.TextAlignment = ContentAlignment.MiddleLeft;
-            uiTextBox1.Watermark = "Counter Date";
-            uiTextBox1.WatermarkActiveColor = SystemColors.GrayText;
-            uiTextBox1.WatermarkColor = SystemColors.GrayText;
+            ComboBoxRoute.DataSource = null;
+            ComboBoxRoute.FillColor = Color.White;
+            ComboBoxRoute.Font = new Font("Microsoft Sans Serif", 12F);
+            ComboBoxRoute.ItemHoverColor = Color.FromArgb(155, 200, 255);
+            ComboBoxRoute.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
+            ComboBoxRoute.Location = new Point(47, 90);
+            ComboBoxRoute.Margin = new Padding(4, 5, 4, 5);
+            ComboBoxRoute.MinimumSize = new Size(63, 0);
+            ComboBoxRoute.Name = "ComboBoxRoute";
+            ComboBoxRoute.Padding = new Padding(5, 0, 30, 2);
+            ComboBoxRoute.RectColor = Color.Navy;
+            ComboBoxRoute.Size = new Size(351, 50);
+            ComboBoxRoute.SymbolSize = 24;
+            ComboBoxRoute.TabIndex = 3;
+            ComboBoxRoute.TextAlignment = ContentAlignment.MiddleLeft;
+            ComboBoxRoute.Watermark = "Route Number";
+            ComboBoxRoute.WatermarkActiveColor = SystemColors.GrayText;
+            ComboBoxRoute.WatermarkColor = SystemColors.GrayText;
             // 
-            // uiComboBox2
+            // ComboBoxMachine
             // 
-            uiComboBox2.DataSource = null;
-            uiComboBox2.FillColor = Color.White;
-            uiComboBox2.Font = new Font("Microsoft Sans Serif", 12F);
-            uiComboBox2.ItemHoverColor = Color.FromArgb(155, 200, 255);
-            uiComboBox2.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            uiComboBox2.Location = new Point(47, 90);
-            uiComboBox2.Margin = new Padding(4, 5, 4, 5);
-            uiComboBox2.MinimumSize = new Size(63, 0);
-            uiComboBox2.Name = "uiComboBox2";
-            uiComboBox2.Padding = new Padding(5, 0, 30, 2);
-            uiComboBox2.RectColor = Color.Navy;
-            uiComboBox2.Size = new Size(351, 50);
-            uiComboBox2.SymbolSize = 24;
-            uiComboBox2.TabIndex = 3;
-            uiComboBox2.TextAlignment = ContentAlignment.MiddleLeft;
-            uiComboBox2.Watermark = "Route Number";
-            uiComboBox2.WatermarkActiveColor = SystemColors.GrayText;
-            uiComboBox2.WatermarkColor = SystemColors.GrayText;
+            ComboBoxMachine.DataSource = null;
+            ComboBoxMachine.FillColor = Color.White;
+            ComboBoxMachine.Font = new Font("Microsoft Sans Serif", 12F);
+            ComboBoxMachine.ItemHoverColor = Color.FromArgb(155, 200, 255);
+            ComboBoxMachine.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
+            ComboBoxMachine.Location = new Point(47, 150);
+            ComboBoxMachine.Margin = new Padding(4, 5, 4, 5);
+            ComboBoxMachine.MinimumSize = new Size(63, 0);
+            ComboBoxMachine.Name = "ComboBoxMachine";
+            ComboBoxMachine.Padding = new Padding(5, 0, 30, 2);
+            ComboBoxMachine.RectColor = Color.Navy;
+            ComboBoxMachine.Size = new Size(351, 50);
+            ComboBoxMachine.SymbolSize = 24;
+            ComboBoxMachine.TabIndex = 4;
+            ComboBoxMachine.TextAlignment = ContentAlignment.MiddleLeft;
+            ComboBoxMachine.Watermark = "Machine Number";
+            ComboBoxMachine.WatermarkActiveColor = SystemColors.GrayText;
+            ComboBoxMachine.WatermarkColor = SystemColors.GrayText;
             // 
-            // uiComboBox3
+            // TextBoxIN
             // 
-            uiComboBox3.DataSource = null;
-            uiComboBox3.FillColor = Color.White;
-            uiComboBox3.Font = new Font("Microsoft Sans Serif", 12F);
-            uiComboBox3.ItemHoverColor = Color.FromArgb(155, 200, 255);
-            uiComboBox3.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            uiComboBox3.Location = new Point(47, 150);
-            uiComboBox3.Margin = new Padding(4, 5, 4, 5);
-            uiComboBox3.MinimumSize = new Size(63, 0);
-            uiComboBox3.Name = "uiComboBox3";
-            uiComboBox3.Padding = new Padding(5, 0, 30, 2);
-            uiComboBox3.RectColor = Color.Navy;
-            uiComboBox3.Size = new Size(351, 50);
-            uiComboBox3.SymbolSize = 24;
-            uiComboBox3.TabIndex = 4;
-            uiComboBox3.TextAlignment = ContentAlignment.MiddleLeft;
-            uiComboBox3.Watermark = "Machine Number";
-            uiComboBox3.WatermarkActiveColor = SystemColors.GrayText;
-            uiComboBox3.WatermarkColor = SystemColors.GrayText;
+            TextBoxIN.Font = new Font("Microsoft Sans Serif", 12F);
+            TextBoxIN.Location = new Point(47, 270);
+            TextBoxIN.Margin = new Padding(4, 5, 4, 5);
+            TextBoxIN.MinimumSize = new Size(1, 16);
+            TextBoxIN.Name = "TextBoxIN";
+            TextBoxIN.Padding = new Padding(5, 0, 30, 2);
+            TextBoxIN.RectColor = Color.Navy;
+            TextBoxIN.ShowText = false;
+            TextBoxIN.Size = new Size(351, 50);
+            TextBoxIN.TabIndex = 3;
+            TextBoxIN.TextAlignment = ContentAlignment.MiddleLeft;
+            TextBoxIN.Watermark = "IN";
+            TextBoxIN.WatermarkActiveColor = SystemColors.GrayText;
+            TextBoxIN.WatermarkColor = SystemColors.GrayText;
             // 
-            // uiTextBox2
+            // TextBoxOUT
             // 
-            uiTextBox2.Font = new Font("Microsoft Sans Serif", 12F);
-            uiTextBox2.Location = new Point(47, 270);
-            uiTextBox2.Margin = new Padding(4, 5, 4, 5);
-            uiTextBox2.MinimumSize = new Size(1, 16);
-            uiTextBox2.Name = "uiTextBox2";
-            uiTextBox2.Padding = new Padding(5, 0, 30, 2);
-            uiTextBox2.RectColor = Color.Navy;
-            uiTextBox2.ShowText = false;
-            uiTextBox2.Size = new Size(351, 50);
-            uiTextBox2.TabIndex = 3;
-            uiTextBox2.TextAlignment = ContentAlignment.MiddleLeft;
-            uiTextBox2.Watermark = "IN";
-            uiTextBox2.WatermarkActiveColor = SystemColors.GrayText;
-            uiTextBox2.WatermarkColor = SystemColors.GrayText;
+            TextBoxOUT.Font = new Font("Microsoft Sans Serif", 12F);
+            TextBoxOUT.Location = new Point(47, 330);
+            TextBoxOUT.Margin = new Padding(4, 5, 4, 5);
+            TextBoxOUT.MinimumSize = new Size(1, 16);
+            TextBoxOUT.Name = "TextBoxOUT";
+            TextBoxOUT.Padding = new Padding(5, 0, 30, 2);
+            TextBoxOUT.RectColor = Color.Navy;
+            TextBoxOUT.ShowText = false;
+            TextBoxOUT.Size = new Size(351, 50);
+            TextBoxOUT.TabIndex = 4;
+            TextBoxOUT.TextAlignment = ContentAlignment.MiddleLeft;
+            TextBoxOUT.Watermark = "OUT";
+            TextBoxOUT.WatermarkActiveColor = SystemColors.GrayText;
+            TextBoxOUT.WatermarkColor = SystemColors.GrayText;
             // 
-            // uiTextBox3
+            // TextBoxTotal
             // 
-            uiTextBox3.Font = new Font("Microsoft Sans Serif", 12F);
-            uiTextBox3.Location = new Point(47, 330);
-            uiTextBox3.Margin = new Padding(4, 5, 4, 5);
-            uiTextBox3.MinimumSize = new Size(1, 16);
-            uiTextBox3.Name = "uiTextBox3";
-            uiTextBox3.Padding = new Padding(5, 0, 30, 2);
-            uiTextBox3.RectColor = Color.Navy;
-            uiTextBox3.ShowText = false;
-            uiTextBox3.Size = new Size(351, 50);
-            uiTextBox3.TabIndex = 4;
-            uiTextBox3.TextAlignment = ContentAlignment.MiddleLeft;
-            uiTextBox3.Watermark = "OUT";
-            uiTextBox3.WatermarkActiveColor = SystemColors.GrayText;
-            uiTextBox3.WatermarkColor = SystemColors.GrayText;
-            // 
-            // uiTextBox4
-            // 
-            uiTextBox4.Font = new Font("Microsoft Sans Serif", 12F);
-            uiTextBox4.Location = new Point(47, 390);
-            uiTextBox4.Margin = new Padding(4, 5, 4, 5);
-            uiTextBox4.MinimumSize = new Size(1, 16);
-            uiTextBox4.Name = "uiTextBox4";
-            uiTextBox4.Padding = new Padding(5, 0, 30, 2);
-            uiTextBox4.RectColor = Color.Navy;
-            uiTextBox4.ShowText = false;
-            uiTextBox4.Size = new Size(351, 50);
-            uiTextBox4.TabIndex = 5;
-            uiTextBox4.TextAlignment = ContentAlignment.MiddleLeft;
-            uiTextBox4.Watermark = "TOTAL";
-            uiTextBox4.WatermarkActiveColor = SystemColors.GrayText;
-            uiTextBox4.WatermarkColor = SystemColors.GrayText;
+            TextBoxTotal.Font = new Font("Microsoft Sans Serif", 12F);
+            TextBoxTotal.Location = new Point(47, 390);
+            TextBoxTotal.Margin = new Padding(4, 5, 4, 5);
+            TextBoxTotal.MinimumSize = new Size(1, 16);
+            TextBoxTotal.Name = "TextBoxTotal";
+            TextBoxTotal.Padding = new Padding(5, 0, 30, 2);
+            TextBoxTotal.RectColor = Color.Navy;
+            TextBoxTotal.ShowText = false;
+            TextBoxTotal.Size = new Size(351, 50);
+            TextBoxTotal.TabIndex = 5;
+            TextBoxTotal.TextAlignment = ContentAlignment.MiddleLeft;
+            TextBoxTotal.Watermark = "Total";
+            TextBoxTotal.WatermarkActiveColor = SystemColors.GrayText;
+            TextBoxTotal.WatermarkColor = SystemColors.GrayText;
             // 
             // button_join
             // 
@@ -196,42 +179,66 @@
             button_join.Text = "➕Add";
             button_join.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
-            // uiButton1
+            // ButtonCancel
             // 
-            uiButton1.BackColor = Color.White;
-            uiButton1.FillColor = Color.White;
-            uiButton1.FillColor2 = Color.Navy;
-            uiButton1.FillHoverColor = Color.FromArgb(30, 58, 138);
-            uiButton1.FillPressColor = Color.FromArgb(0, 0, 102);
-            uiButton1.FillSelectedColor = Color.FromArgb(30, 64, 175);
-            uiButton1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            uiButton1.ForeColor = Color.Navy;
-            uiButton1.Location = new Point(238, 465);
-            uiButton1.MinimumSize = new Size(1, 1);
-            uiButton1.Name = "uiButton1";
-            uiButton1.RectColor = Color.RoyalBlue;
-            uiButton1.RectHoverColor = Color.FromArgb(59, 130, 246);
-            uiButton1.RectPressColor = Color.FromArgb(29, 78, 216);
-            uiButton1.RectSize = 2;
-            uiButton1.Size = new Size(114, 44);
-            uiButton1.TabIndex = 12;
-            uiButton1.Text = "🗑️Cancel";
-            uiButton1.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            ButtonCancel.BackColor = Color.White;
+            ButtonCancel.FillColor = Color.White;
+            ButtonCancel.FillColor2 = Color.Navy;
+            ButtonCancel.FillHoverColor = Color.FromArgb(30, 58, 138);
+            ButtonCancel.FillPressColor = Color.FromArgb(0, 0, 102);
+            ButtonCancel.FillSelectedColor = Color.FromArgb(30, 64, 175);
+            ButtonCancel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            ButtonCancel.ForeColor = Color.Navy;
+            ButtonCancel.Location = new Point(238, 465);
+            ButtonCancel.MinimumSize = new Size(1, 1);
+            ButtonCancel.Name = "ButtonCancel";
+            ButtonCancel.RectColor = Color.RoyalBlue;
+            ButtonCancel.RectHoverColor = Color.FromArgb(59, 130, 246);
+            ButtonCancel.RectPressColor = Color.FromArgb(29, 78, 216);
+            ButtonCancel.RectSize = 2;
+            ButtonCancel.Size = new Size(114, 44);
+            ButtonCancel.TabIndex = 12;
+            ButtonCancel.Text = "🗑️Cancel";
+            ButtonCancel.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            // 
+            // DatetimePicker
+            // 
+            DatetimePicker.DateFormat = "dd-MM-yyyy";
+            DatetimePicker.FillColor = Color.White;
+            DatetimePicker.Font = new Font("Microsoft Sans Serif", 12F);
+            DatetimePicker.Location = new Point(47, 210);
+            DatetimePicker.Margin = new Padding(4, 5, 4, 5);
+            DatetimePicker.MaxLength = 10;
+            DatetimePicker.MinimumSize = new Size(63, 0);
+            DatetimePicker.Name = "DatetimePicker";
+            DatetimePicker.Padding = new Padding(0, 0, 30, 2);
+            DatetimePicker.RectColor = Color.Navy;
+            DatetimePicker.Size = new Size(351, 50);
+            DatetimePicker.SymbolDropDown = 61555;
+            DatetimePicker.SymbolNormal = 61555;
+            DatetimePicker.SymbolSize = 24;
+            DatetimePicker.TabIndex = 13;
+            DatetimePicker.Text = "12-09-2025";
+            DatetimePicker.TextAlignment = ContentAlignment.MiddleLeft;
+            DatetimePicker.Value = new DateTime(2025, 9, 12, 22, 48, 24, 986);
+            DatetimePicker.Watermark = "Counter Date";
+            DatetimePicker.WatermarkActiveColor = SystemColors.GrayText;
+            DatetimePicker.WatermarkColor = SystemColors.GrayText;
             // 
             // FrmCounterRecord
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
             ClientSize = new Size(448, 548);
-            Controls.Add(uiTextBox4);
-            Controls.Add(uiTextBox3);
-            Controls.Add(uiTextBox2);
-            Controls.Add(uiComboBox3);
-            Controls.Add(uiComboBox2);
-            Controls.Add(uiTextBox1);
+            Controls.Add(TextBoxTotal);
+            Controls.Add(TextBoxOUT);
+            Controls.Add(TextBoxIN);
+            Controls.Add(ComboBoxMachine);
+            Controls.Add(ComboBoxRoute);
             Controls.Add(NavBar);
             Controls.Add(button_join);
-            Controls.Add(uiButton1);
+            Controls.Add(ButtonCancel);
+            Controls.Add(DatetimePicker);
             MaximumSize = new Size(464, 587);
             MinimumSize = new Size(464, 587);
             Name = "FrmCounterRecord";
@@ -244,13 +251,13 @@
 
         private Sunny.UI.UINavBar NavBar;
         private Sunny.UI.UILabel uiLabel1;
-        private Sunny.UI.UITextBox uiTextBox1;
-        private Sunny.UI.UIComboBox uiComboBox2;
-        private Sunny.UI.UIComboBox uiComboBox3;
-        private Sunny.UI.UITextBox uiTextBox2;
-        private Sunny.UI.UITextBox uiTextBox3;
-        private Sunny.UI.UITextBox uiTextBox4;
+        private Sunny.UI.UIComboBox ComboBoxRoute;
+        private Sunny.UI.UIComboBox ComboBoxMachine;
+        private Sunny.UI.UITextBox TextBoxIN;
+        private Sunny.UI.UITextBox TextBoxOUT;
+        private Sunny.UI.UITextBox TextBoxTotal;
         private Sunny.UI.UIButton button_join;
-        private Sunny.UI.UIButton uiButton1;
+        private Sunny.UI.UIButton ButtonCancel;
+        private Sunny.UI.UIDatetimePicker DatetimePicker;
     }
 }
