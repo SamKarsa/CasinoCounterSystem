@@ -69,11 +69,15 @@ namespace CasinoCounterSystem.Controller
                 if (connection == null) return null;
 
                 string query = @"
-                    SELECT m.machineId, m.numberMachine, m.typeMachineId, m.coinTypeId, m.routeId,
-                           i.nameClient, i.phone, i.address
-                    FROM Machine m
-                    LEFT JOIN InfoMachine i ON m.machineId = i.infoMachineId
-                    WHERE m.machineId = @machineId";
+                SELECT m.machineId, m.numberMachine, m.typeMachineId, m.coinTypeId, m.routeId,
+                       tm.nameTypeMachine,
+                       c.numCoin,
+                       i.nameClient, i.phone, i.address
+                FROM Machine m
+                LEFT JOIN InfoMachine i ON m.machineId = i.infoMachineId
+                LEFT JOIN TypeMachine tm ON m.typeMachineId = tm.typeMachineId
+                LEFT JOIN CoinType c ON m.coinTypeId = c.coinTypeId
+                WHERE m.machineId = @machineId";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -90,6 +94,21 @@ namespace CasinoCounterSystem.Controller
                                 TypeMachineId = (int)reader["typeMachineId"],
                                 CoinTypeId = (int)reader["coinTypeId"],
                                 RouteId = (int)reader["routeId"],
+
+                                // 🔹 Mapeamos el nombre del tipo de máquina
+                                TypeMachine = new TypeMachine
+                                {
+                                    TypeMachineId = (int)reader["typeMachineId"],
+                                    NameTypeMachine = reader["nameTypeMachine"].ToString()!
+                                },
+
+                                // 🔹 Mapeamos el valor de la moneda
+                                CoinType = new CoinType
+                                {
+                                    CoinTypeId = (int)reader["coinTypeId"],
+                                    NumCoin = (int)reader["numCoin"]
+                                },
+
                                 InfoMachine = reader["nameClient"] == DBNull.Value ? null : new InfoMachine
                                 {
                                     InfoMachineId = (int)reader["machineId"],

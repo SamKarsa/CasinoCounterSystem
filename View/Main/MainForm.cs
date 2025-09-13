@@ -188,6 +188,10 @@ namespace CasinoCounterSystem.View
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information
                         );
+
+                        var ucDetail = new UCMachineDetail(tag.Id);
+                        LoadView(ucDetail); // 👉 Se reemplaza el panelRight con la vista detalle
+                        break;
                     }
                     break;
             }

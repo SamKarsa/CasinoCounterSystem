@@ -26,7 +26,7 @@ namespace CasinoCounterSystem.Model
 
         // Navigation properties (optional, useful for displaying related data)
         public TypeMachine? TypeMachine { get; set; }
-        public CoinType? CoinTypeObj { get; set; }
+        public CoinType? CoinType { get; set; }
         public Route? Route { get; set; }
         public InfoMachine? InfoMachine { get; set; }
 

@@ -162,5 +162,45 @@ namespace CasinoCounterSystem.Controller
         }
 
         #endregion
+
+        public List<CounterRecord> GetCounterRecordsByMachine(int machineId)
+        {
+            List<CounterRecord> records = new List<CounterRecord>();
+
+            using (SqlConnection connection = dbConnection.OpenConnection())
+            {
+                if (connection == null) return records;
+
+                string query = @"
+                SELECT counterRecordId, recordDate, counterIn, counterOut, totalDelivered, machineId
+                FROM CounterRecord
+                WHERE machineId = @machineId
+                ORDER BY recordDate DESC";
+
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@machineId", machineId);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            records.Add(new CounterRecord
+                            {
+                                CounterRecordId = (int)reader["counterRecordId"],
+                                RecordDate = (DateTime)reader["recordDate"],
+                                CounterIn = (long)reader["counterIn"],
+                                CounterOut = (long)reader["counterOut"],
+                                TotalDelivered = (decimal)reader["totalDelivered"],
+                                MachineId = (int)reader["machineId"]
+                            });
+                        }
+                    }
+                }
+            }
+
+            return records;
+        }
+
     }
 }
