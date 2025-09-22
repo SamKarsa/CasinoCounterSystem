@@ -41,7 +41,7 @@
             welcomeLabel.BackColor = Color.Transparent;
             welcomeLabel.Font = new Font("Microsoft Sans Serif", 16F);
             welcomeLabel.ForeColor = Color.Gray;
-            welcomeLabel.Location = new Point(172, 254);
+            welcomeLabel.Location = new Point(214, 251);
             welcomeLabel.Name = "welcomeLabel";
             welcomeLabel.Size = new Size(500, 150);
             welcomeLabel.TabIndex = 10;
@@ -59,7 +59,7 @@
             btnAddMachine.FillSelectedColor = Color.FromArgb(30, 64, 175);
             btnAddMachine.Font = new Font("Microsoft Sans Serif", 12F);
             btnAddMachine.ForeDisableColor = Color.FromArgb(156, 163, 175);
-            btnAddMachine.Location = new Point(543, 12);
+            btnAddMachine.Location = new Point(636, 12);
             btnAddMachine.MinimumSize = new Size(1, 1);
             btnAddMachine.Name = "btnAddMachine";
             btnAddMachine.RectColor = Color.Navy;
@@ -83,7 +83,7 @@
             btnAddRoute.FillSelectedColor = Color.FromArgb(30, 64, 175);
             btnAddRoute.Font = new Font("Microsoft Sans Serif", 12F);
             btnAddRoute.ForeDisableColor = Color.FromArgb(156, 163, 175);
-            btnAddRoute.Location = new Point(692, 12);
+            btnAddRoute.Location = new Point(785, 12);
             btnAddRoute.MinimumSize = new Size(1, 1);
             btnAddRoute.Name = "btnAddRoute";
             btnAddRoute.RectColor = Color.Navy;
@@ -100,7 +100,7 @@
             // 
             imgLogo.BackColor = Color.Transparent;
             imgLogo.Image = Properties.Resources.logoCltElectronic;
-            imgLogo.Location = new Point(764, 620);
+            imgLogo.Location = new Point(855, 620);
             imgLogo.Name = "imgLogo";
             imgLogo.Size = new Size(89, 86);
             imgLogo.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -115,10 +115,10 @@
             Controls.Add(btnAddRoute);
             Controls.Add(btnAddMachine);
             Controls.Add(welcomeLabel);
-            MaximumSize = new Size(863, 712);
-            MinimumSize = new Size(863, 712);
+            MaximumSize = new Size(946, 707);
+            MinimumSize = new Size(946, 707);
             Name = "UCHome";
-            Size = new Size(863, 712);
+            Size = new Size(946, 707);
             ((System.ComponentModel.ISupportInitialize)imgLogo).EndInit();
             ResumeLayout(false);
         }

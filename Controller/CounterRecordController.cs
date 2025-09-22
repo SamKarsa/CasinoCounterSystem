@@ -175,7 +175,7 @@ namespace CasinoCounterSystem.Controller
                 SELECT counterRecordId, recordDate, counterIn, counterOut, totalDelivered, machineId
                 FROM CounterRecord
                 WHERE machineId = @machineId
-                ORDER BY recordDate DESC";
+                ORDER BY recordDate";
 
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {

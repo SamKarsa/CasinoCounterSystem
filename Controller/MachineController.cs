@@ -171,13 +171,14 @@ namespace CasinoCounterSystem.Controller
                         // 3. Insertar primer registro en CounterRecord
                         string insertCounter = @"
                         INSERT INTO CounterRecord (recordDate, counterIn, counterOut, totalDelivered, machineId)
-                        VALUES (GETDATE(), @counterIn, @counterOut, 0, @machineId)";
+                        VALUES (@initDate, @counterIn, @counterOut, 0, @machineId)";
 
                         using (SqlCommand command = new SqlCommand(insertCounter, connection, transaction))
                         {
                             command.Parameters.AddWithValue("@machineId", newMachineId);
                             command.Parameters.AddWithValue("@counterIn", counterIn);
                             command.Parameters.AddWithValue("@counterOut", counterOut);
+                            command.Parameters.AddWithValue("@initDate", new DateTime(2006, 3, 14));
 
                             command.ExecuteNonQuery();
                         }
@@ -195,7 +196,6 @@ namespace CasinoCounterSystem.Controller
 
             return newMachineId;
         }
-
 
         public bool UpdateMachine(Machine machine)
         {

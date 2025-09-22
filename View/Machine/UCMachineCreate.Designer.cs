@@ -49,7 +49,7 @@
             // 
             imgLogo.BackColor = Color.Transparent;
             imgLogo.Image = Properties.Resources.logoCltElectronic;
-            imgLogo.Location = new Point(764, 620);
+            imgLogo.Location = new Point(855, 620);
             imgLogo.Name = "imgLogo";
             imgLogo.Size = new Size(89, 86);
             imgLogo.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -60,7 +60,7 @@
             // 
             labelTitle.Font = new Font("Britannic Bold", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelTitle.ForeColor = Color.Navy;
-            labelTitle.Location = new Point(277, 61);
+            labelTitle.Location = new Point(317, 63);
             labelTitle.Name = "labelTitle";
             labelTitle.Size = new Size(354, 50);
             labelTitle.TabIndex = 16;
@@ -73,7 +73,7 @@
             textBoxNumMachine.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
             textBoxNumMachine.ButtonStyleInherited = false;
             textBoxNumMachine.Font = new Font("Microsoft Sans Serif", 12F);
-            textBoxNumMachine.Location = new Point(433, 196);
+            textBoxNumMachine.Location = new Point(473, 198);
             textBoxNumMachine.Margin = new Padding(4, 5, 4, 5);
             textBoxNumMachine.MinimumSize = new Size(1, 16);
             textBoxNumMachine.Name = "textBoxNumMachine";
@@ -96,7 +96,7 @@
             comboBoxRoute.Font = new Font("Microsoft Sans Serif", 12F);
             comboBoxRoute.ItemHoverColor = Color.FromArgb(30, 58, 138);
             comboBoxRoute.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            comboBoxRoute.Location = new Point(79, 136);
+            comboBoxRoute.Location = new Point(119, 138);
             comboBoxRoute.Margin = new Padding(4, 5, 4, 5);
             comboBoxRoute.MinimumSize = new Size(63, 0);
             comboBoxRoute.Name = "comboBoxRoute";
@@ -116,7 +116,7 @@
             comboBoxMachineType.Font = new Font("Microsoft Sans Serif", 12F);
             comboBoxMachineType.ItemHoverColor = Color.FromArgb(30, 58, 138);
             comboBoxMachineType.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            comboBoxMachineType.Location = new Point(79, 196);
+            comboBoxMachineType.Location = new Point(119, 198);
             comboBoxMachineType.Margin = new Padding(4, 5, 4, 5);
             comboBoxMachineType.MinimumSize = new Size(63, 0);
             comboBoxMachineType.Name = "comboBoxMachineType";
@@ -136,7 +136,7 @@
             comboBoxCoinType.Font = new Font("Microsoft Sans Serif", 12F);
             comboBoxCoinType.ItemHoverColor = Color.FromArgb(30, 58, 138);
             comboBoxCoinType.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            comboBoxCoinType.Location = new Point(433, 136);
+            comboBoxCoinType.Location = new Point(473, 138);
             comboBoxCoinType.Margin = new Padding(4, 5, 4, 5);
             comboBoxCoinType.MinimumSize = new Size(63, 0);
             comboBoxCoinType.Name = "comboBoxCoinType";
@@ -153,7 +153,7 @@
             // 
             uiLabel1.Font = new Font("Britannic Bold", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
             uiLabel1.ForeColor = Color.Navy;
-            uiLabel1.Location = new Point(302, 364);
+            uiLabel1.Location = new Point(342, 366);
             uiLabel1.Name = "uiLabel1";
             uiLabel1.Size = new Size(297, 50);
             uiLabel1.TabIndex = 26;
@@ -166,7 +166,7 @@
             textBoxNameClient.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
             textBoxNameClient.ButtonStyleInherited = false;
             textBoxNameClient.Font = new Font("Microsoft Sans Serif", 12F);
-            textBoxNameClient.Location = new Point(72, 442);
+            textBoxNameClient.Location = new Point(112, 444);
             textBoxNameClient.Margin = new Padding(4, 5, 4, 5);
             textBoxNameClient.MinimumSize = new Size(1, 16);
             textBoxNameClient.Name = "textBoxNameClient";
@@ -188,7 +188,7 @@
             textBoxPhone.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
             textBoxPhone.ButtonStyleInherited = false;
             textBoxPhone.Font = new Font("Microsoft Sans Serif", 12F);
-            textBoxPhone.Location = new Point(426, 442);
+            textBoxPhone.Location = new Point(466, 444);
             textBoxPhone.Margin = new Padding(4, 5, 4, 5);
             textBoxPhone.MinimumSize = new Size(1, 16);
             textBoxPhone.Name = "textBoxPhone";
@@ -210,7 +210,7 @@
             textBoxAddress.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
             textBoxAddress.ButtonStyleInherited = false;
             textBoxAddress.Font = new Font("Microsoft Sans Serif", 12F);
-            textBoxAddress.Location = new Point(278, 502);
+            textBoxAddress.Location = new Point(318, 504);
             textBoxAddress.Margin = new Padding(4, 5, 4, 5);
             textBoxAddress.MinimumSize = new Size(1, 16);
             textBoxAddress.Name = "textBoxAddress";
@@ -240,7 +240,7 @@
             btnCancelRoute.ForeHoverColor = Color.Navy;
             btnCancelRoute.ForePressColor = Color.Navy;
             btnCancelRoute.ForeSelectedColor = Color.Navy;
-            btnCancelRoute.Location = new Point(476, 605);
+            btnCancelRoute.Location = new Point(516, 607);
             btnCancelRoute.MinimumSize = new Size(1, 1);
             btnCancelRoute.Name = "btnCancelRoute";
             btnCancelRoute.RectColor = Color.FromArgb(209, 213, 219);
@@ -265,7 +265,7 @@
             btnSaveRoute.FillSelectedColor = Color.FromArgb(30, 64, 175);
             btnSaveRoute.Font = new Font("Microsoft Sans Serif", 12F);
             btnSaveRoute.ForeDisableColor = Color.FromArgb(156, 163, 175);
-            btnSaveRoute.Location = new Point(263, 605);
+            btnSaveRoute.Location = new Point(303, 607);
             btnSaveRoute.MinimumSize = new Size(1, 1);
             btnSaveRoute.Name = "btnSaveRoute";
             btnSaveRoute.RectColor = Color.Navy;
@@ -285,7 +285,7 @@
             TextBoxIn.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
             TextBoxIn.ButtonStyleInherited = false;
             TextBoxIn.Font = new Font("Microsoft Sans Serif", 12F);
-            TextBoxIn.Location = new Point(79, 256);
+            TextBoxIn.Location = new Point(119, 258);
             TextBoxIn.Margin = new Padding(4, 5, 4, 5);
             TextBoxIn.MinimumSize = new Size(1, 16);
             TextBoxIn.Name = "TextBoxIn";
@@ -307,7 +307,7 @@
             TextBoxOut.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
             TextBoxOut.ButtonStyleInherited = false;
             TextBoxOut.Font = new Font("Microsoft Sans Serif", 12F);
-            TextBoxOut.Location = new Point(433, 256);
+            TextBoxOut.Location = new Point(473, 258);
             TextBoxOut.Margin = new Padding(4, 5, 4, 5);
             TextBoxOut.MinimumSize = new Size(1, 16);
             TextBoxOut.Name = "TextBoxOut";
@@ -341,10 +341,10 @@
             Controls.Add(textBoxNumMachine);
             Controls.Add(labelTitle);
             Controls.Add(imgLogo);
-            MaximumSize = new Size(863, 712);
-            MinimumSize = new Size(863, 712);
+            MaximumSize = new Size(946, 707);
+            MinimumSize = new Size(946, 707);
             Name = "UCMachineCreate";
-            Size = new Size(863, 712);
+            Size = new Size(946, 707);
             ((System.ComponentModel.ISupportInitialize)imgLogo).EndInit();
             ResumeLayout(false);
         }

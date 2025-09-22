@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             sidebarPanel = new Panel();
+            btnLogOut = new Sunny.UI.UIButton();
             panel1 = new Panel();
             lineBtnRegisterCounter = new Sunny.UI.UILine();
             btnHome = new Sunny.UI.UIButton();
@@ -37,7 +38,6 @@
             logoLabel2 = new Sunny.UI.UILabel();
             logoLabel1 = new Sunny.UI.UILabel();
             panelRight = new Panel();
-            btnLogOut = new Sunny.UI.UIButton();
             sidebarPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -56,6 +56,33 @@
             sidebarPanel.Name = "sidebarPanel";
             sidebarPanel.Size = new Size(251, 707);
             sidebarPanel.TabIndex = 0;
+            // 
+            // btnLogOut
+            // 
+            btnLogOut.BackColor = Color.White;
+            btnLogOut.FillColor = Color.White;
+            btnLogOut.FillColor2 = Color.White;
+            btnLogOut.FillDisableColor = SystemColors.ButtonFace;
+            btnLogOut.FillHoverColor = Color.FromArgb(242, 244, 247);
+            btnLogOut.FillPressColor = Color.FromArgb(229, 231, 235);
+            btnLogOut.FillSelectedColor = Color.FromArgb(229, 231, 235);
+            btnLogOut.Font = new Font("Microsoft Sans Serif", 12F);
+            btnLogOut.ForeColor = Color.Navy;
+            btnLogOut.ForeDisableColor = Color.FromArgb(107, 114, 128);
+            btnLogOut.ForeHoverColor = Color.Navy;
+            btnLogOut.ForePressColor = Color.Navy;
+            btnLogOut.Location = new Point(12, 660);
+            btnLogOut.MinimumSize = new Size(1, 1);
+            btnLogOut.Name = "btnLogOut";
+            btnLogOut.RectColor = Color.White;
+            btnLogOut.RectDisableColor = Color.Navy;
+            btnLogOut.RectHoverColor = Color.White;
+            btnLogOut.RectPressColor = Color.White;
+            btnLogOut.RectSelectedColor = Color.White;
+            btnLogOut.Size = new Size(222, 35);
+            btnLogOut.TabIndex = 7;
+            btnLogOut.Text = "🔚 LogOut";
+            btnLogOut.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
             // panel1
             // 
@@ -161,44 +188,17 @@
             panelRight.BackColor = Color.White;
             panelRight.Location = new Point(240, 0);
             panelRight.Name = "panelRight";
-            panelRight.Size = new Size(856, 707);
+            panelRight.Size = new Size(946, 707);
             panelRight.TabIndex = 1;
-            // 
-            // btnLogOut
-            // 
-            btnLogOut.BackColor = Color.White;
-            btnLogOut.FillColor = Color.White;
-            btnLogOut.FillColor2 = Color.White;
-            btnLogOut.FillDisableColor = SystemColors.ButtonFace;
-            btnLogOut.FillHoverColor = Color.FromArgb(242, 244, 247);
-            btnLogOut.FillPressColor = Color.FromArgb(229, 231, 235);
-            btnLogOut.FillSelectedColor = Color.FromArgb(229, 231, 235);
-            btnLogOut.Font = new Font("Microsoft Sans Serif", 12F);
-            btnLogOut.ForeColor = Color.Navy;
-            btnLogOut.ForeDisableColor = Color.FromArgb(107, 114, 128);
-            btnLogOut.ForeHoverColor = Color.Navy;
-            btnLogOut.ForePressColor = Color.Navy;
-            btnLogOut.Location = new Point(12, 660);
-            btnLogOut.MinimumSize = new Size(1, 1);
-            btnLogOut.Name = "btnLogOut";
-            btnLogOut.RectColor = Color.White;
-            btnLogOut.RectDisableColor = Color.Navy;
-            btnLogOut.RectHoverColor = Color.White;
-            btnLogOut.RectPressColor = Color.White;
-            btnLogOut.RectSelectedColor = Color.White;
-            btnLogOut.Size = new Size(222, 35);
-            btnLogOut.TabIndex = 7;
-            btnLogOut.Text = "🔚 LogOut";
-            btnLogOut.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(1094, 707);
+            ClientSize = new Size(1184, 707);
             Controls.Add(sidebarPanel);
             Controls.Add(panelRight);
-            MaximumSize = new Size(1110, 746);
-            MinimumSize = new Size(1110, 746);
+            MaximumSize = new Size(1200, 746);
+            MinimumSize = new Size(1200, 746);
             Name = "MainForm";
             Text = "MainForm";
             sidebarPanel.ResumeLayout(false);

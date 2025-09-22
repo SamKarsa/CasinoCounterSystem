@@ -31,10 +31,10 @@ namespace CasinoCounterSystem.View.Route
         private void InitializeComponent()
         {
             imgLogo = new PictureBox();
-            labelTitle = new Sunny.UI.UILabel();
-            textBoxRoute = new Sunny.UI.UITextBox();
-            btnSaveRoute = new Sunny.UI.UIButton();
-            btnCancelRoute = new Sunny.UI.UIButton();
+            labelTitle = new UILabel();
+            textBoxRoute = new UITextBox();
+            btnSaveRoute = new UIButton();
+            btnCancelRoute = new UIButton();
             ((System.ComponentModel.ISupportInitialize)imgLogo).BeginInit();
             SuspendLayout();
             // 
@@ -42,7 +42,7 @@ namespace CasinoCounterSystem.View.Route
             // 
             imgLogo.BackColor = Color.Transparent;
             imgLogo.Image = Properties.Resources.logoCltElectronic;
-            imgLogo.Location = new Point(764, 620);
+            imgLogo.Location = new Point(855, 620);
             imgLogo.Name = "imgLogo";
             imgLogo.Size = new Size(89, 86);
             imgLogo.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -53,7 +53,7 @@ namespace CasinoCounterSystem.View.Route
             // 
             labelTitle.Font = new Font("Britannic Bold", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelTitle.ForeColor = Color.Navy;
-            labelTitle.Location = new Point(273, 197);
+            labelTitle.Location = new Point(322, 225);
             labelTitle.Name = "labelTitle";
             labelTitle.Size = new Size(302, 50);
             labelTitle.TabIndex = 15;
@@ -64,8 +64,9 @@ namespace CasinoCounterSystem.View.Route
             textBoxRoute.ButtonRectColor = Color.Navy;
             textBoxRoute.ButtonRectHoverColor = Color.FromArgb(30, 58, 138);
             textBoxRoute.ButtonRectPressColor = Color.FromArgb(37, 99, 235);
+            textBoxRoute.ButtonStyleInherited = false;
             textBoxRoute.Font = new Font("Microsoft Sans Serif", 12F);
-            textBoxRoute.Location = new Point(237, 261);
+            textBoxRoute.Location = new Point(286, 289);
             textBoxRoute.Margin = new Padding(4, 5, 4, 5);
             textBoxRoute.MinimumSize = new Size(1, 16);
             textBoxRoute.Name = "textBoxRoute";
@@ -76,11 +77,11 @@ namespace CasinoCounterSystem.View.Route
             textBoxRoute.ShowText = false;
             textBoxRoute.Size = new Size(368, 71);
             textBoxRoute.TabIndex = 16;
+            textBoxRoute.TabStop = false;
             textBoxRoute.TextAlignment = ContentAlignment.MiddleLeft;
             textBoxRoute.Watermark = "Enter route name (e.g., Route A)";
             textBoxRoute.WatermarkActiveColor = SystemColors.GrayText;
             textBoxRoute.WatermarkColor = SystemColors.GrayText;
-            textBoxRoute.TabStop = false;
             // 
             // btnSaveRoute
             // 
@@ -93,7 +94,7 @@ namespace CasinoCounterSystem.View.Route
             btnSaveRoute.FillSelectedColor = Color.FromArgb(30, 64, 175);
             btnSaveRoute.Font = new Font("Microsoft Sans Serif", 12F);
             btnSaveRoute.ForeDisableColor = Color.FromArgb(156, 163, 175);
-            btnSaveRoute.Location = new Point(237, 358);
+            btnSaveRoute.Location = new Point(286, 386);
             btnSaveRoute.MinimumSize = new Size(1, 1);
             btnSaveRoute.Name = "btnSaveRoute";
             btnSaveRoute.RectColor = Color.Navy;
@@ -121,7 +122,7 @@ namespace CasinoCounterSystem.View.Route
             btnCancelRoute.ForeHoverColor = Color.Navy;
             btnCancelRoute.ForePressColor = Color.Navy;
             btnCancelRoute.ForeSelectedColor = Color.Navy;
-            btnCancelRoute.Location = new Point(450, 358);
+            btnCancelRoute.Location = new Point(499, 386);
             btnCancelRoute.MinimumSize = new Size(1, 1);
             btnCancelRoute.Name = "btnCancelRoute";
             btnCancelRoute.RectColor = Color.FromArgb(209, 213, 219);
@@ -143,10 +144,10 @@ namespace CasinoCounterSystem.View.Route
             Controls.Add(textBoxRoute);
             Controls.Add(labelTitle);
             Controls.Add(imgLogo);
-            MaximumSize = new Size(863, 712);
-            MinimumSize = new Size(863, 712);
+            MaximumSize = new Size(946, 707);
+            MinimumSize = new Size(946, 707);
             Name = "UCRouteCreate";
-            Size = new Size(863, 712);
+            Size = new Size(946, 707);
             ((System.ComponentModel.ISupportInitialize)imgLogo).EndInit();
             ResumeLayout(false);
         }

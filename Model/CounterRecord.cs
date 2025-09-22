@@ -32,9 +32,6 @@ namespace CasinoCounterSystem.Model
         // Navigation property
         public Machine? Machine { get; set; }
 
-        // Read-only calculated property
-        public long NetCount => CounterOut - CounterIn;
-
         // Constructor
         public CounterRecord() { }
 
