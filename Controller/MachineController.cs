@@ -283,12 +283,12 @@ namespace CasinoCounterSystem.Controller
                 if (connection == null) return machines;
 
                 string query = @"
-            SELECT m.machineId, m.numberMachine, m.typeMachineId, m.coinTypeId, m.routeId,
-                   i.nameClient, i.phone, i.address
-            FROM Machine m
-            LEFT JOIN InfoMachine i ON m.machineId = i.infoMachineId
-            WHERE m.routeId = @routeId
-            ORDER BY m.numberMachine";
+                SELECT m.machineId, m.numberMachine, m.typeMachineId, m.coinTypeId, m.routeId,
+                       i.nameClient, i.phone, i.address
+                FROM Machine m
+                LEFT JOIN InfoMachine i ON m.machineId = i.infoMachineId
+                WHERE m.routeId = @routeId
+                ORDER BY m.numberMachine";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {

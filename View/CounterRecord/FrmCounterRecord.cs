@@ -18,6 +18,11 @@ namespace CasinoCounterSystem.View
 {
     public partial class FrmCounterRecord : Form
     {
+        private bool isEditMode = false;
+        private int? editRecordId = null;
+
+        private readonly MachineController machineController = new MachineController();
+        private readonly RouteController routeController = new RouteController();
         private readonly CounterRecordController counterRecordController = new CounterRecordController();
         public event EventHandler<CounterRecordSavedEventArgs>? RecordSaved;
 
@@ -35,12 +40,16 @@ namespace CasinoCounterSystem.View
             LoadCombos();
         }
 
+        public FrmCounterRecord(int recordId) : this()
+        {
+            InitEditMode(recordId);
+        }
+
         private void ButtonJoin_Click(object? sender, EventArgs e)
         {
             try
             {
-                // 1. Validaciones básicas
-                if (ComboBoxMachine.SelectedItem == null ||
+                if (ComboBoxMachine.SelectedValue == null ||
                     string.IsNullOrWhiteSpace(TextBoxIN.Text) ||
                     string.IsNullOrWhiteSpace(TextBoxOUT.Text) ||
                     string.IsNullOrWhiteSpace(TextBoxTotal.Text))
@@ -49,7 +58,6 @@ namespace CasinoCounterSystem.View
                     return;
                 }
 
-                // 2. Convertir valores
                 if (!long.TryParse(TextBoxIN.Text.Trim(), out long counterIn) ||
                     !long.TryParse(TextBoxOUT.Text.Trim(), out long counterOut) ||
                     !decimal.TryParse(TextBoxTotal.Text.Trim(), out decimal totalDelivered))
@@ -58,42 +66,59 @@ namespace CasinoCounterSystem.View
                     return;
                 }
 
-                // ⚠️ Obtener MachineId del ComboBoxMachine
-                int machineId = (int)ComboBoxMachine.SelectedValue;
-
-                // ⚠️ Tomar la fecha seleccionada en el UIDatetimePicker
+                int machineId = Convert.ToInt32(ComboBoxMachine.SelectedValue);
                 DateTime recordDate = DatetimePicker.Value.Date;
 
-                // 3. Crear el objeto
-                var record = new CounterRecordModel
+                if (!isEditMode)
                 {
-                    RecordDate = recordDate,
-                    CounterIn = counterIn,
-                    CounterOut = counterOut,
-                    TotalDelivered = totalDelivered,
-                    MachineId = machineId
-                };
+                    // INSERT
+                    var record = new CounterRecordModel
+                    {
+                        RecordDate = recordDate,
+                        CounterIn = counterIn,
+                        CounterOut = counterOut,
+                        TotalDelivered = totalDelivered,
+                        MachineId = machineId
+                    };
 
-                // 4. Insertar en DB
-                int newId = counterRecordController.InsertCounterRecord(record);
-
-                if (newId > 0)
-                {
-                    MessageBox.Show("Counter record added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    RecordSaved?.Invoke(this, new CounterRecordSavedEventArgs(machineId, newId));
-
-                    // 🔄 Limpiar solo los contadores
-                    TextBoxIN.Text = string.Empty;
-                    TextBoxOUT.Text = string.Empty;
-                    TextBoxTotal.Text = string.Empty;
-
-                    // (Opcional) dejar el foco en el primer campo para seguir rápido
-                    TextBoxIN.Focus();
+                    int newId = counterRecordController.InsertCounterRecord(record);
+                    if (newId > 0)
+                    {
+                        MessageBox.Show("Counter record added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RecordSaved?.Invoke(this, new CounterRecordSavedEventArgs(machineId, newId));
+                        TextBoxIN.Clear(); TextBoxOUT.Clear(); TextBoxTotal.Clear();
+                        TextBoxIN.Focus();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error saving record. Try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Error saving record. Try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // UPDATE
+                    var record = new CounterRecordModel
+                    {
+                        CounterRecordId = editRecordId!.Value,
+                        RecordDate = recordDate,
+                        CounterIn = counterIn,
+                        CounterOut = counterOut,
+                        TotalDelivered = totalDelivered,
+                        MachineId = machineId   // no cambia, combos están bloqueados
+                    };
+
+                    bool ok = counterRecordController.UpdateCounterRecord(record);
+                    if (ok)
+                    {
+                        MessageBox.Show("Record updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RecordSaved?.Invoke(this, new CounterRecordSavedEventArgs(machineId, record.CounterRecordId));
+                        this.Close();
+                        return;
+                    }
+                    else
+                    {
+                        MessageBox.Show("No changes were saved.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
             catch (Exception ex)
@@ -160,5 +185,49 @@ namespace CasinoCounterSystem.View
             if (ComboBoxMachine.Items.Count > 0)
                 ComboBoxMachine.SelectedIndex = 0;
         }
+
+        private void InitEditMode(int recordId)
+        {
+            isEditMode = true;
+            editRecordId = recordId;
+
+            // UI
+            uiLabel1.Text = "✏️ Edit Counter Record";
+            button_join.Text = "💾 Save";
+
+            // Cargar registro existente
+            var existing = counterRecordController.GetCounterRecordById(recordId);
+            if (existing == null)
+            {
+                MessageBox.Show("Record not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Cargar combos con la ruta y máquina del registro
+            // (aprovechamos los métodos que ya tenés)
+            var machine = machineController.GetMachineById(existing.MachineId);
+            var routeId = machine?.RouteId ?? 0;
+
+            // Asegura DataSource de rutas
+            ComboBoxRoute.DisplayMember = "RouteName";
+            ComboBoxRoute.ValueMember = "RouteId";
+            ComboBoxRoute.DataSource = routeController.GetAllRoutes();
+
+            ComboBoxRoute.SelectedValue = routeId;
+            PopulateMachinesForSelectedRoute();    
+            ComboBoxMachine.SelectedValue = existing.MachineId;
+
+            // Bloquear cambios de ruta/máquina en edición
+            ComboBoxRoute.Enabled = false;
+            ComboBoxMachine.Enabled = false;
+
+            // Prefill de campos editables
+            DatetimePicker.Value = existing.RecordDate;
+            TextBoxIN.Text = existing.CounterIn.ToString();
+            TextBoxOUT.Text = existing.CounterOut.ToString();
+            TextBoxTotal.Text = existing.TotalDelivered.ToString("0");
+
+        }
+
     }
 }

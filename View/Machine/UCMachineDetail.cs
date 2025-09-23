@@ -378,9 +378,18 @@ namespace CasinoCounterSystem.View.Machine
             if (colName == "colEdit")
             {
                 int id = row.CounterRecordId;
-                // TODO: new FrmEditCounterRecord(id).ShowDialog();
+
+                var frm = new FrmCounterRecord(id); // 👈 abre en modo edición
+                frm.RecordSaved += (s, ev) =>
+                {
+                    // refrescar lista y resaltar el actualizado
+                    this.selectRecordId = ev.NewRecordId;  // para el scroll
+                    LoadMachineData();
+                };
+                frm.Show(this.FindForm()); // modeless, mantén el detalle visible
                 return;
             }
+
 
             if (colName == "colDelete")
             {
