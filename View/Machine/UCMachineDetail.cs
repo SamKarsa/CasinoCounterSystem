@@ -2,84 +2,120 @@
 using CasinoCounterSystem.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CasinoCounterSystem.View.Machine
 {
     public partial class UCMachineDetail : UserControl
     {
+        #region === Constantes & Campos ===
         private readonly MachineController machineController = new MachineController();
         private readonly CounterRecordController counterRecordController = new CounterRecordController();
+        private int? selectRecordId;
+
         private int machineId;
         private decimal commissionRate = 0.50m;
 
-        public UCMachineDetail(int machineId)
-        {
-            InitializeComponent();
-            this.AutoScaleMode = AutoScaleMode.None;
-            this.machineId = machineId;
+        // Registro inicial 
+        private static readonly DateTime InitialRecordDate = new DateTime(2006, 3, 14);
+        #endregion
 
-            LoadMachineData();
-        }
-
+        #region === DTO de la grilla ===
         private class CounterRecordRow
         {
             public int CounterRecordId { get; set; }
             public DateTime Date { get; set; }
-
-            // Originales
             public long InA { get; set; }
             public long OutB { get; set; }
             public decimal Total { get; set; }
-
-            // Calculados (null en el primer registro)
-            public decimal? InOut { get; set; }       // ((ΔIN - ΔOUT) * coinValue)
-            public decimal? Saldo { get; set; }       // InOut * commissionRate
-            public decimal? FaltaSobra { get; set; }  // Total - InOut
+            public decimal? InOut { get; set; }
+            public decimal? Saldo { get; set; }
+            public decimal? FaltaSobra { get; set; }
+            public bool CanDelete { get; set; }
         }
+        #endregion
 
+        #region === Ctor ===
+        public UCMachineDetail(int machineId, int? selectRecordId = null)
+        {
+            InitializeComponent();
+            this.AutoScaleMode = AutoScaleMode.None;
+            this.machineId = machineId;
+            this.selectRecordId = selectRecordId;
+            LoadMachineData();
+        }
+        #endregion
 
+        #region === Carga principal (Orquestador) ===
         private void LoadMachineData()
         {
+            var machine = FetchMachineAndPaintHeader();
+            var rows = BuildRows(machine);
+            ConfigureGridTheme();
+            BuildGridColumns();
+            BindRows(rows);
+            WireGridEvents();
+            SelectAndScrollToRecord();
+        }
+
+        private void SelectAndScrollToRecord()
+        {
+            if (!selectRecordId.HasValue) return;
+
+            var list = dataGridView1.DataSource as System.Collections.Generic.IList<CounterRecordRow>;
+            if (list == null) return;
+
+            int idx = -1;
+            for (int i = 0; i < list.Count; i++)
+                if (list[i].CounterRecordId == selectRecordId.Value) { idx = i; break; }
+
+            if (idx < 0 || idx >= dataGridView1.Rows.Count) return;
+
+            dataGridView1.ClearSelection();
+            dataGridView1.CurrentCell = dataGridView1.Rows[idx].Cells[0];
+            dataGridView1.Rows[idx].Selected = true;
+            try { dataGridView1.FirstDisplayedScrollingRowIndex = idx; } catch {}
+
+        }
+        #endregion
+
+        #region === Traer máquina y pintar header ===
+        private Model.Machine? FetchMachineAndPaintHeader()
+        {
             var machine = machineController.GetMachineById(machineId);
-            if (machine != null)
-            {
-                lblMachineNumber.Text = machine.NumberMachine;
+            if (machine == null) return null;
 
-                lblTypeMachine.Text = machine.TypeMachine?.NameTypeMachine
-                                      ?? machine.TypeMachineId.ToString();
+            lblMachineNumber.Text = machine.NumberMachine;
+            lblTypeMachine.Text = machine.TypeMachine?.NameTypeMachine ?? machine.TypeMachineId.ToString();
+            lblCoinType.Text = machine.CoinType?.NumCoin != null
+                                ? $"${machine.CoinType.NumCoin}"
+                                : machine.CoinTypeId.ToString();
+            return machine;
+        }
+        #endregion
 
-                // Solo para mostrar en pantalla
-                lblCoinType.Text = machine.CoinType?.NumCoin != null
-                                   ? $"${machine.CoinType.NumCoin}"
-                                   : machine.CoinTypeId.ToString();
-            }
+        #region === Construir filas con cálculos ===
+        private List<CounterRecordRow> BuildRows(Model.Machine? machine)
+        {
+            // Valor de moneda (fallback = 1)
+            decimal coinValue = 1m;
+            if (machine?.CoinType?.NumCoin != null)
+                coinValue = Convert.ToDecimal(machine.CoinType.NumCoin);
 
-            // 1) Traer registros y ordenar por fecha ASC para comparar contra el anterior
+            // Registros ASC por fecha para comparar con el anterior
             var records = counterRecordController
                             .GetCounterRecordsByMachine(machineId)
                             .OrderBy(r => r.RecordDate)
                             .ToList();
 
-            // 2) Valor de moneda (SIEMPRE estará, pero dejamos fallback por seguridad)
-            decimal coinValue = 1m;
-            if (machine?.CoinType?.NumCoin != null)
-            {
-                // Si NumCoin es int/long → conviértelo a decimal
-                coinValue = Convert.ToDecimal(machine.CoinType.NumCoin);
-            }
-
-            // 3) Construir filas con cálculos contra el registro anterior
             var rows = new List<CounterRecordRow>();
+
             for (int i = 0; i < records.Count; i++)
             {
                 var cur = records[i];
+
                 var row = new CounterRecordRow
                 {
                     CounterRecordId = cur.CounterRecordId,
@@ -92,7 +128,6 @@ namespace CasinoCounterSystem.View.Machine
                 if (i > 0)
                 {
                     var prev = records[i - 1];
-
                     long deltaIn = cur.CounterIn - prev.CounterIn;
                     long deltaOut = cur.CounterOut - prev.CounterOut;
                     long units = deltaIn - deltaOut;
@@ -105,94 +140,84 @@ namespace CasinoCounterSystem.View.Machine
                 }
                 else
                 {
-                    // Primer registro (inicial 14/03/2006): sin comparación
+                    // Registro inicial: sin comparación
                     row.InOut = null;
                     row.Saldo = null;
                     row.FaltaSobra = null;
                 }
 
+                // Regla de borrado: NO se borra si es 14/03/2006
+                row.CanDelete = row.Date.Date != InitialRecordDate.Date;
+
                 rows.Add(row);
             }
 
-            // (Opcional) para ver el más reciente primero:
-            // rows.Reverse();
+            // Si querés ver el más reciente primero: rows.Reverse();
+            return rows;
+        }
+        #endregion
 
-            // 4) Configurar DataGridView
-
-            // 4) Configurar DataGridView con estilo Navy moderno
-            // Colócalo justo después del comentario "4) Configurar DataGridView" y antes de la configuración de columnas
-
-            // Configuración básica
+        #region === Tema/estilo del grid ===
+        private void ConfigureGridTheme()
+        {
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.BorderStyle = BorderStyle.None;
 
-            // Header con estilo Navy (sin bordes)
             dataGridView1.EnableHeadersVisualStyles = false;
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
             dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.TopCenter;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Britannic Bold", 12F, FontStyle.Regular);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             dataGridView1.ColumnHeadersDefaultCellStyle.Padding = new Padding(0, 8, 0, 8);
             dataGridView1.ColumnHeadersHeight = 40;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
-            // Configuración de celdas (con bordes horizontales sutiles)
             dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dataGridView1.GridColor = Color.FromArgb(220, 225, 235); // Gris azulado claro
+            dataGridView1.GridColor = Color.FromArgb(220, 225, 235);
 
-            // Filas normales
             dataGridView1.RowsDefaultCellStyle.BackColor = Color.White;
-            dataGridView1.RowsDefaultCellStyle.ForeColor = Color.FromArgb(45, 55, 75); // Gris azulado oscuro
+            dataGridView1.RowsDefaultCellStyle.ForeColor = Color.FromArgb(45, 55, 75);
             dataGridView1.RowsDefaultCellStyle.Font = new Font("Segoe UI", 10F);
             dataGridView1.RowsDefaultCellStyle.Padding = new Padding(8, 6, 8, 6);
 
-            // Filas alternas con azul muy suave
             dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 249, 252);
             dataGridView1.AlternatingRowsDefaultCellStyle.ForeColor = Color.FromArgb(45, 55, 75);
             dataGridView1.AlternatingRowsDefaultCellStyle.Font = new Font("Segoe UI", 10F);
             dataGridView1.AlternatingRowsDefaultCellStyle.Padding = new Padding(8, 6, 8, 6);
 
-            // Selección muy suave que permite ver los colores de falta/sobra
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(240, 245, 250); // Azul muy muy claro
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.FromArgb(45, 55, 75); // Mantiene el texto oscuro
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(240, 245, 250);
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.FromArgb(45, 55, 75);
 
-            // Evitar que el header cambie de color al seleccionar
-            dataGridView1.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Navy; // Mantiene Navy siempre
-            dataGridView1.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.White; // Mantiene blanco siempre
+            dataGridView1.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Navy;
+            dataGridView1.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.White;
 
-            // Configuraciones adicionales para mejor apariencia
             dataGridView1.RowTemplate.Height = 35;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
             dataGridView1.AllowUserToResizeRows = false;
-
-            // Ocultar header de filas (números) si no lo necesitas
             dataGridView1.RowHeadersVisible = false;
 
-            // Configurar el borde del componente Sunny.UI
+            // Propiedad de Sunny.UI
             dataGridView1.RectColor = Color.Navy;
 
-
-
-
-
-
-
-            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.ShowCellToolTips = false;
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.Columns.Clear();
-            dataGridView1.ReadOnly = true; // luego habilitas edición desde el botón
+            dataGridView1.ReadOnly = true;
             dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.AllowUserToResizeColumns = false; // bloquea redimensionar columnas
-            dataGridView1.AllowUserToResizeRows = false;    // bloquea redimensionar filas
+            dataGridView1.AllowUserToResizeColumns = false;
+            dataGridView1.AllowUserToResizeRows = false;
+        }
+        #endregion
 
-
+        #region === Construcción de columnas ===
+        private void BuildGridColumns()
+        {
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(CounterRecordRow.Date),
-                HeaderText = "Date",
+                HeaderText = "DATE",
                 Width = 122,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy" }
             });
@@ -240,7 +265,7 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(CounterRecordRow.Saldo),
-                HeaderText = "Saldo",
+                HeaderText = "SALDO",
                 Width = 120,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
@@ -253,7 +278,7 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(CounterRecordRow.FaltaSobra),
-                HeaderText = "Falta/Sobra",
+                HeaderText = "FALTA/SOBRA",
                 Width = 120,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
@@ -263,59 +288,81 @@ namespace CasinoCounterSystem.View.Machine
                 }
             });
 
-            // Columna EDITAR (emoji)
             var colEdit = new DataGridViewButtonColumn
             {
                 Name = "colEdit",
                 HeaderText = "",
                 Width = 54,
-                FlatStyle = FlatStyle.Popup,
+                FlatStyle = FlatStyle.Flat,
                 UseColumnTextForButtonValue = true,
-                Text = "📝", // o "✏️"
+                Text = "✎",
                 SortMode = DataGridViewColumnSortMode.NotSortable
             };
             colEdit.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colEdit.DefaultCellStyle.Font = new Font("Segoe UI Emoji", 10F);
-            colEdit.ToolTipText = "Editar";
+            colEdit.DefaultCellStyle.Font = new Font("Segoe UI Symbol", 12F);
+            colEdit.DefaultCellStyle.ForeColor = Color.Navy;
+            colEdit.DefaultCellStyle.BackColor = Color.FromArgb(240, 245, 250);
+            colEdit.DefaultCellStyle.SelectionBackColor = Color.FromArgb(240, 245, 250);
+            colEdit.DefaultCellStyle.SelectionForeColor = Color.Navy;
             dataGridView1.Columns.Add(colEdit);
 
-            // Columna ELIMINAR (emoji)
             var colDelete = new DataGridViewButtonColumn
             {
                 Name = "colDelete",
                 HeaderText = "",
                 Width = 54,
-                FlatStyle = FlatStyle.Popup,
+                FlatStyle = FlatStyle.Flat,
                 UseColumnTextForButtonValue = true,
                 Text = "🗑️",
                 SortMode = DataGridViewColumnSortMode.NotSortable
             };
             colDelete.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            colDelete.DefaultCellStyle.Font = new Font("Segoe UI Emoji", 10F);
-            colDelete.ToolTipText = "Eliminar";
+            colDelete.DefaultCellStyle.Font = new Font("Segoe UI Symbol", 12F);
+            colDelete.DefaultCellStyle.ForeColor = Color.FromArgb(180, 50, 50);
+            colDelete.DefaultCellStyle.BackColor = Color.FromArgb(250, 240, 240);
+            colDelete.DefaultCellStyle.SelectionBackColor = Color.FromArgb(250, 240, 240);
+            colDelete.DefaultCellStyle.SelectionForeColor = Color.FromArgb(180, 50, 50);
             dataGridView1.Columns.Add(colDelete);
+        }
+        #endregion
 
-
-            // 5) Asignar datos
+        #region === Enlazar datos & eventos ===
+        private void BindRows(List<CounterRecordRow> rows)
+        {
             dataGridView1.DataSource = rows;
+        }
 
-            // 6) Colorear Falta/Sobra: <0 rojo, >0 verde
+        private void WireGridEvents()
+        {
             dataGridView1.CellFormatting -= DataGridView1_CellFormatting;
             dataGridView1.CellFormatting += DataGridView1_CellFormatting;
 
-            // 7) Click en botón Editar (queda el hook)
             dataGridView1.CellClick -= DataGridView1_CellClick;
             dataGridView1.CellClick += DataGridView1_CellClick;
         }
+        #endregion
 
+        #region === Handlers ===
         private void DataGridView1_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dataGridView1.Columns[e.ColumnIndex].DataPropertyName == nameof(CounterRecordRow.FaltaSobra))
+            var col = dataGridView1.Columns[e.ColumnIndex];
+
+            if (col.DataPropertyName == nameof(CounterRecordRow.FaltaSobra) && e.Value is decimal val)
             {
-                if (e.Value is decimal val)
+                var cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                cell.Style.ForeColor = val < 0 ? Color.Red : (val > 0 ? Color.Green : Color.Black);
+            }
+
+            if (col.Name == "colDelete")
+            {
+                var row = dataGridView1.Rows[e.RowIndex].DataBoundItem as CounterRecordRow;
+                if (row != null && !row.CanDelete)
                 {
+                    e.Value = ""; // sin ícono
                     var cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                    cell.Style.ForeColor = val < 0 ? Color.Red : (val > 0 ? Color.Green : Color.Black);
+                    cell.Style.ForeColor = Color.Silver;
+                    cell.Style.BackColor = Color.FromArgb(245, 245, 245);
+                    e.FormattingApplied = true;
                 }
             }
         }
@@ -323,15 +370,42 @@ namespace CasinoCounterSystem.View.Machine
         private void DataGridView1_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            if (dataGridView1.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
-            {
-                var row = dataGridView1.Rows[e.RowIndex].DataBoundItem as CounterRecordRow;
-                if (row == null) return;
 
-                int counterRecordId = row.CounterRecordId;
-                // TODO: abre tu formulario de edición
-                // new FrmEditCounterRecord(counterRecordId).ShowDialog();
+            var colName = dataGridView1.Columns[e.ColumnIndex].Name;
+            var row = dataGridView1.Rows[e.RowIndex].DataBoundItem as CounterRecordRow;
+            if (row == null) return;
+
+            if (colName == "colEdit")
+            {
+                int id = row.CounterRecordId;
+                // TODO: new FrmEditCounterRecord(id).ShowDialog();
+                return;
+            }
+
+            if (colName == "colDelete")
+            {
+                if (!row.CanDelete) return;
+
+                var confirm = MessageBox.Show(
+                    $"¿Eliminar el registro del {row.Date:dd/MM/yyyy}?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+                if (confirm != DialogResult.Yes) return;
+
+                try
+                {
+                    bool ok = counterRecordController.DeleteCounterRecord(row.CounterRecordId);
+                    if (ok) LoadMachineData();
+                    else MessageBox.Show("No se pudo eliminar el registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al eliminar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
+        #endregion
     }
 }

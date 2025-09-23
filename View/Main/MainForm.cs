@@ -25,7 +25,7 @@ namespace CasinoCounterSystem.View
         private readonly MachineController machineController = new MachineController();
 
         public MainForm()
-        {
+        {   
             InitializeComponent();
 
             // SOLO esta línea
@@ -90,8 +90,21 @@ namespace CasinoCounterSystem.View
 
         private void btnRegisterCounters_Click(object sender, EventArgs e)
         {
-            FrmCounterRecord frmCounterRecord = new FrmCounterRecord();
-            frmCounterRecord.Show();
+            var frmCounterRecord = new FrmCounterRecord();
+
+            
+            frmCounterRecord.RecordSaved += (s, args) =>
+            {
+                
+                LoadRoutesTree();
+
+                
+                var ucDetail = new UCMachineDetail(args.MachineId, selectRecordId: args.NewRecordId);
+                LoadView(ucDetail);
+            };
+
+            // Mostrar modeless para que quede abierto
+            frmCounterRecord.Show(this);
         }
 
         private void LoadView(UserControl uc)

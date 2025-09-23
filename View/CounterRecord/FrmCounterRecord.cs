@@ -1,5 +1,6 @@
 ﻿using CasinoCounterSystem.Controller;
 using CasinoCounterSystem.Model;
+using CasinoCounterSystem.View.CounterRecord;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CounterRecordModel = CasinoCounterSystem.Model.CounterRecord;
+using RouteModel = CasinoCounterSystem.Model.Route;
 
 namespace CasinoCounterSystem.View
 {
     public partial class FrmCounterRecord : Form
     {
         private readonly CounterRecordController counterRecordController = new CounterRecordController();
+        public event EventHandler<CounterRecordSavedEventArgs>? RecordSaved;
 
         public FrmCounterRecord()
         {
@@ -61,7 +65,7 @@ namespace CasinoCounterSystem.View
                 DateTime recordDate = DatetimePicker.Value.Date;
 
                 // 3. Crear el objeto
-                var record = new CounterRecord
+                var record = new CounterRecordModel
                 {
                     RecordDate = recordDate,
                     CounterIn = counterIn,
@@ -76,6 +80,8 @@ namespace CasinoCounterSystem.View
                 if (newId > 0)
                 {
                     MessageBox.Show("Counter record added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    RecordSaved?.Invoke(this, new CounterRecordSavedEventArgs(machineId, newId));
 
                     // 🔄 Limpiar solo los contadores
                     TextBoxIN.Text = string.Empty;
@@ -104,26 +110,55 @@ namespace CasinoCounterSystem.View
         private void LoadCombos()
         {
             var routeController = new RouteController();
-            ComboBoxRoute.DataSource = routeController.GetAllRoutes();
+
+            // 1) Configurar Display/Value antes del DataSource (evita eventos raros)
             ComboBoxRoute.DisplayMember = "RouteName";
             ComboBoxRoute.ValueMember = "RouteId";
 
-            ComboBoxMachine.DataSource = null;
+            // 2) Asignar DataSource
+            ComboBoxRoute.DataSource = routeController.GetAllRoutes();
 
+            // 3) Suscribir evento (después del DataSource para evitar doble disparo)
+            ComboBoxRoute.SelectedIndexChanged -= ComboBoxRoute_SelectedIndexChanged;
             ComboBoxRoute.SelectedIndexChanged += ComboBoxRoute_SelectedIndexChanged;
+
+            // 4) Poblar máquinas inmediatamente para la ruta inicialmente seleccionada
+            PopulateMachinesForSelectedRoute();
         }
 
         private void ComboBoxRoute_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ComboBoxRoute.SelectedValue is int routeId)
-            {
-                var machineController = new MachineController();
-                var machines = machineController.GetMachinesByRoute(routeId);
+            PopulateMachinesForSelectedRoute();
+        }
 
-                ComboBoxMachine.DataSource = machines;
-                ComboBoxMachine.DisplayMember = "NumberMachine"; 
-                ComboBoxMachine.ValueMember = "MachineId";       
+        private void PopulateMachinesForSelectedRoute()
+        {
+            // A veces SelectedValue aún es un DataRowView en el primer bind,
+            // así que usamos un fallback con SelectedItem.
+            int? routeId = null;
+
+            if (ComboBoxRoute.SelectedValue is int v)
+                routeId = v;
+            else if (ComboBoxRoute.SelectedItem is RouteModel r) // tu clase de modelo
+                routeId = r.RouteId;
+
+            if (routeId == null)
+            {
+                ComboBoxMachine.DataSource = null;
+                return;
             }
+
+            var machineController = new MachineController();
+            var machines = machineController.GetMachinesByRoute(routeId.Value);
+
+            // IMPORTANTE: asegura Display/Value antes de DataSource
+            ComboBoxMachine.DisplayMember = "NumberMachine";
+            ComboBoxMachine.ValueMember = "MachineId";
+            ComboBoxMachine.DataSource = machines;
+
+            // Selecciona la primera máquina si hay
+            if (ComboBoxMachine.Items.Count > 0)
+                ComboBoxMachine.SelectedIndex = 0;
         }
     }
 }
