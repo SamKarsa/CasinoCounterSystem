@@ -10,19 +10,16 @@ namespace CasinoCounterSystem.View.Machine
 {
     public partial class UCMachineDetail : UserControl
     {
-        #region === Constantes & Campos ===
+        
         private readonly MachineController machineController = new MachineController();
         private readonly CounterRecordController counterRecordController = new CounterRecordController();
         private int? selectRecordId;
-
         private int machineId;
         private decimal commissionRate = 0.50m;
-
-        // Registro inicial 
         private static readonly DateTime InitialRecordDate = new DateTime(2006, 3, 14);
-        #endregion
+       
 
-        #region === DTO de la grilla ===
+        
         private class CounterRecordRow
         {
             public int CounterRecordId { get; set; }
@@ -35,9 +32,7 @@ namespace CasinoCounterSystem.View.Machine
             public decimal? FaltaSobra { get; set; }
             public bool CanDelete { get; set; }
         }
-        #endregion
 
-        #region === Ctor ===
         public UCMachineDetail(int machineId, int? selectRecordId = null)
         {
             InitializeComponent();
@@ -46,9 +41,7 @@ namespace CasinoCounterSystem.View.Machine
             this.selectRecordId = selectRecordId;
             LoadMachineData();
         }
-        #endregion
 
-        #region === Carga principal (Orquestador) ===
         private void LoadMachineData()
         {
             var machine = FetchMachineAndPaintHeader();
@@ -79,9 +72,7 @@ namespace CasinoCounterSystem.View.Machine
             try { dataGridView1.FirstDisplayedScrollingRowIndex = idx; } catch {}
 
         }
-        #endregion
-
-        #region === Traer máquina y pintar header ===
+        
         private Model.Machine? FetchMachineAndPaintHeader()
         {
             var machine = machineController.GetMachineById(machineId);
@@ -94,17 +85,12 @@ namespace CasinoCounterSystem.View.Machine
                                 : machine.CoinTypeId.ToString();
             return machine;
         }
-        #endregion
 
-        #region === Construir filas con cálculos ===
         private List<CounterRecordRow> BuildRows(Model.Machine? machine)
         {
-            // Valor de moneda (fallback = 1)
             decimal coinValue = 1m;
             if (machine?.CoinType?.NumCoin != null)
                 coinValue = Convert.ToDecimal(machine.CoinType.NumCoin);
-
-            // Registros ASC por fecha para comparar con el anterior
             var records = counterRecordController
                             .GetCounterRecordsByMachine(machineId)
                             .OrderBy(r => r.RecordDate)
@@ -140,29 +126,25 @@ namespace CasinoCounterSystem.View.Machine
                 }
                 else
                 {
-                    // Registro inicial: sin comparación
+
                     row.InOut = null;
                     row.Saldo = null;
                     row.FaltaSobra = null;
                 }
 
-                // Regla de borrado: NO se borra si es 14/03/2006
                 row.CanDelete = row.Date.Date != InitialRecordDate.Date;
 
                 rows.Add(row);
             }
 
-            // Si querés ver el más reciente primero: rows.Reverse();
             return rows;
         }
-        #endregion
+      
 
-        #region === Tema/estilo del grid ===
         private void ConfigureGridTheme()
         {
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.BorderStyle = BorderStyle.None;
-
             dataGridView1.EnableHeadersVisualStyles = false;
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
@@ -172,35 +154,26 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.ColumnHeadersDefaultCellStyle.Padding = new Padding(0, 8, 0, 8);
             dataGridView1.ColumnHeadersHeight = 40;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-
             dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dataGridView1.GridColor = Color.FromArgb(220, 225, 235);
-
             dataGridView1.RowsDefaultCellStyle.BackColor = Color.White;
             dataGridView1.RowsDefaultCellStyle.ForeColor = Color.FromArgb(45, 55, 75);
             dataGridView1.RowsDefaultCellStyle.Font = new Font("Segoe UI", 10F);
             dataGridView1.RowsDefaultCellStyle.Padding = new Padding(8, 6, 8, 6);
-
             dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 249, 252);
             dataGridView1.AlternatingRowsDefaultCellStyle.ForeColor = Color.FromArgb(45, 55, 75);
             dataGridView1.AlternatingRowsDefaultCellStyle.Font = new Font("Segoe UI", 10F);
             dataGridView1.AlternatingRowsDefaultCellStyle.Padding = new Padding(8, 6, 8, 6);
-
             dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(240, 245, 250);
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.FromArgb(45, 55, 75);
-
             dataGridView1.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Navy;
             dataGridView1.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.White;
-
             dataGridView1.RowTemplate.Height = 35;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
             dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.RowHeadersVisible = false;
-
-            // Propiedad de Sunny.UI
             dataGridView1.RectColor = Color.Navy;
-
             dataGridView1.ShowCellToolTips = false;
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.Columns.Clear();
@@ -209,9 +182,9 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.AllowUserToResizeColumns = false;
             dataGridView1.AllowUserToResizeRows = false;
         }
-        #endregion
+        
 
-        #region === Construcción de columnas ===
+        
         private void BuildGridColumns()
         {
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
@@ -324,9 +297,9 @@ namespace CasinoCounterSystem.View.Machine
             colDelete.DefaultCellStyle.SelectionForeColor = Color.FromArgb(180, 50, 50);
             dataGridView1.Columns.Add(colDelete);
         }
-        #endregion
+       
 
-        #region === Enlazar datos & eventos ===
+        
         private void BindRows(List<CounterRecordRow> rows)
         {
             dataGridView1.DataSource = rows;
@@ -340,9 +313,9 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.CellClick -= DataGridView1_CellClick;
             dataGridView1.CellClick += DataGridView1_CellClick;
         }
-        #endregion
+       
 
-        #region === Handlers ===
+      
         private void DataGridView1_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
             var col = dataGridView1.Columns[e.ColumnIndex];
@@ -379,14 +352,14 @@ namespace CasinoCounterSystem.View.Machine
             {
                 int id = row.CounterRecordId;
 
-                var frm = new FrmCounterRecord(id); // 👈 abre en modo edición
+                var frm = new FrmCounterRecord(id); 
                 frm.RecordSaved += (s, ev) =>
                 {
-                    // refrescar lista y resaltar el actualizado
-                    this.selectRecordId = ev.NewRecordId;  // para el scroll
+   
+                    this.selectRecordId = ev.NewRecordId;  
                     LoadMachineData();
                 };
-                frm.Show(this.FindForm()); // modeless, mantén el detalle visible
+                frm.Show(this.FindForm()); 
                 return;
             }
 
@@ -415,6 +388,6 @@ namespace CasinoCounterSystem.View.Machine
                 }
             }
         }
-        #endregion
+        
     }
 }

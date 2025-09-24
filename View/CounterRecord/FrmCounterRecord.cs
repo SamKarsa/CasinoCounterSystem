@@ -71,7 +71,6 @@ namespace CasinoCounterSystem.View
 
                 if (!isEditMode)
                 {
-                    // INSERT
                     var record = new CounterRecordModel
                     {
                         RecordDate = recordDate,
@@ -96,7 +95,6 @@ namespace CasinoCounterSystem.View
                 }
                 else
                 {
-                    // UPDATE
                     var record = new CounterRecordModel
                     {
                         CounterRecordId = editRecordId!.Value,
@@ -104,7 +102,7 @@ namespace CasinoCounterSystem.View
                         CounterIn = counterIn,
                         CounterOut = counterOut,
                         TotalDelivered = totalDelivered,
-                        MachineId = machineId   // no cambia, combos están bloqueados
+                        MachineId = machineId  
                     };
 
                     bool ok = counterRecordController.UpdateCounterRecord(record);
@@ -136,18 +134,14 @@ namespace CasinoCounterSystem.View
         {
             var routeController = new RouteController();
 
-            // 1) Configurar Display/Value antes del DataSource (evita eventos raros)
             ComboBoxRoute.DisplayMember = "RouteName";
             ComboBoxRoute.ValueMember = "RouteId";
 
-            // 2) Asignar DataSource
             ComboBoxRoute.DataSource = routeController.GetAllRoutes();
 
-            // 3) Suscribir evento (después del DataSource para evitar doble disparo)
             ComboBoxRoute.SelectedIndexChanged -= ComboBoxRoute_SelectedIndexChanged;
             ComboBoxRoute.SelectedIndexChanged += ComboBoxRoute_SelectedIndexChanged;
 
-            // 4) Poblar máquinas inmediatamente para la ruta inicialmente seleccionada
             PopulateMachinesForSelectedRoute();
         }
 
@@ -158,13 +152,11 @@ namespace CasinoCounterSystem.View
 
         private void PopulateMachinesForSelectedRoute()
         {
-            // A veces SelectedValue aún es un DataRowView en el primer bind,
-            // así que usamos un fallback con SelectedItem.
             int? routeId = null;
 
             if (ComboBoxRoute.SelectedValue is int v)
                 routeId = v;
-            else if (ComboBoxRoute.SelectedItem is RouteModel r) // tu clase de modelo
+            else if (ComboBoxRoute.SelectedItem is RouteModel r) 
                 routeId = r.RouteId;
 
             if (routeId == null)
@@ -176,12 +168,10 @@ namespace CasinoCounterSystem.View
             var machineController = new MachineController();
             var machines = machineController.GetMachinesByRoute(routeId.Value);
 
-            // IMPORTANTE: asegura Display/Value antes de DataSource
             ComboBoxMachine.DisplayMember = "NumberMachine";
             ComboBoxMachine.ValueMember = "MachineId";
             ComboBoxMachine.DataSource = machines;
 
-            // Selecciona la primera máquina si hay
             if (ComboBoxMachine.Items.Count > 0)
                 ComboBoxMachine.SelectedIndex = 0;
         }
@@ -191,11 +181,9 @@ namespace CasinoCounterSystem.View
             isEditMode = true;
             editRecordId = recordId;
 
-            // UI
             uiLabel1.Text = "✏️ Edit Counter Record";
             button_join.Text = "💾 Save";
 
-            // Cargar registro existente
             var existing = counterRecordController.GetCounterRecordById(recordId);
             if (existing == null)
             {
@@ -203,12 +191,9 @@ namespace CasinoCounterSystem.View
                 return;
             }
 
-            // Cargar combos con la ruta y máquina del registro
-            // (aprovechamos los métodos que ya tenés)
             var machine = machineController.GetMachineById(existing.MachineId);
             var routeId = machine?.RouteId ?? 0;
 
-            // Asegura DataSource de rutas
             ComboBoxRoute.DisplayMember = "RouteName";
             ComboBoxRoute.ValueMember = "RouteId";
             ComboBoxRoute.DataSource = routeController.GetAllRoutes();
@@ -217,11 +202,9 @@ namespace CasinoCounterSystem.View
             PopulateMachinesForSelectedRoute();    
             ComboBoxMachine.SelectedValue = existing.MachineId;
 
-            // Bloquear cambios de ruta/máquina en edición
             ComboBoxRoute.Enabled = false;
             ComboBoxMachine.Enabled = false;
 
-            // Prefill de campos editables
             DatetimePicker.Value = existing.RecordDate;
             TextBoxIN.Text = existing.CounterIn.ToString();
             TextBoxOUT.Text = existing.CounterOut.ToString();

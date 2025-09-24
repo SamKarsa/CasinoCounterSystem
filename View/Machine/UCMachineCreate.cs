@@ -17,29 +17,19 @@ namespace CasinoCounterSystem.View.Machine
     public partial class UCMachineCreate : UserControl
     {
 
-        // Eventos para comunicarse con el MainForm
         public event EventHandler? CancelClicked;
         public event EventHandler? MachineCreated;
-
         private readonly MachineController machineController = new MachineController();
-
-        // Editar máquina desde el main
         public event EventHandler? MachineUpdated;
-
         private bool isEditMode = false;
         private int? editMachineId = null;
 
         public UCMachineCreate()
         {
             InitializeComponent();
-
-            // SOLO esta línea
             this.AutoScaleMode = AutoScaleMode.None;
-
-            // Suscribir eventos a los botones
             btnCancelRoute.Click += BtnCancel_Click!;
             btnSaveRoute.Click += BtnSave_Click!;
-
             LoadCombos();
         }
 
@@ -47,7 +37,6 @@ namespace CasinoCounterSystem.View.Machine
         {
             try
             {
-                // 1) Validación común (sin contadores aún)
                 if (comboBoxRoute.SelectedItem == null ||
                     comboBoxCoinType.SelectedItem == null ||
                     comboBoxMachineType.SelectedItem == null ||
@@ -58,7 +47,6 @@ namespace CasinoCounterSystem.View.Machine
                     return;
                 }
 
-                // 2) Si es CREACIÓN, validar y convertir IN/OUT
                 int counterIn = 0, counterOut = 0;
                 if (!isEditMode)
                 {
@@ -79,7 +67,6 @@ namespace CasinoCounterSystem.View.Machine
                     }
                 }
 
-                // 3) Armar objeto Machine (común a ambos modos)
                 var machine = new MachineModel
                 {
                     NumberMachine = textBoxNumMachine.Text.Trim(),
@@ -88,17 +75,14 @@ namespace CasinoCounterSystem.View.Machine
                     TypeMachineId = (int)comboBoxMachineType.SelectedValue,
                     InfoMachine = new InfoMachineModel
                     {
-                        // En edición se sobreescribe InfoMachineId, en creación lo pone el controller
                         NameClient = textBoxNameClient.Text.Trim(),
                         Phone = textBoxPhone.Text.Trim(),
                         Address = textBoxAddress.Text.Trim()
                     }
                 };
 
-                // 4) Crear o Actualizar
                 if (!isEditMode)
                 {
-                    // INSERT (con IN/OUT iniciales)
                     int newId = machineController.InsertMachine(machine, counterIn, counterOut);
                     if (newId > 0)
                     {
@@ -115,7 +99,6 @@ namespace CasinoCounterSystem.View.Machine
                 }
                 else
                 {
-                    // UPDATE (sin tocar counters)
                     if (!editMachineId.HasValue)
                     {
                         MessageBox.Show("Missing machine id to update.", "Error",
@@ -168,7 +151,6 @@ namespace CasinoCounterSystem.View.Machine
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            // Disparar el evento para volver al Home
             CancelClicked?.Invoke(this, EventArgs.Empty);
         }
 
@@ -176,28 +158,19 @@ namespace CasinoCounterSystem.View.Machine
         {
             isEditMode = true;
             editMachineId = machineId;
-
             labelTitle.Text = "Edit Machine";
             btnSaveRoute.Text = "💾 Save";
-
-            // Cargar combos (si no se cargaron)
             LoadCombos();
-
             var mc = new MachineController();
             var m = mc.GetMachineById(machineId);
             if (m == null) return;
-
-            // Prefill
             textBoxNumMachine.Text = m.NumberMachine;
             comboBoxRoute.SelectedValue = m.RouteId;
             comboBoxCoinType.SelectedValue = m.CoinTypeId;
             comboBoxMachineType.SelectedValue = m.TypeMachineId;
-
             textBoxNameClient.Text = m.InfoMachine?.NameClient ?? "";
             textBoxPhone.Text = m.InfoMachine?.Phone ?? "";
             textBoxAddress.Text = m.InfoMachine?.Address ?? "";
-
-            // Ocultar / deshabilitar campos de instalación (IN/OUT) en edición
             TextBoxIn.Visible = false;
             TextBoxOut.Visible = false;
         }

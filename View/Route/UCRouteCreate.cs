@@ -13,36 +13,28 @@ namespace CasinoCounterSystem.View.Route
 {
     public partial class UCRouteCreate : UserControl
     {
-        // Eventos para comunicarse con el MainForm
+
         public event EventHandler? CancelClicked;
         public event EventHandler? RouteCreated;
-
         private readonly RouteController routeController = new RouteController();
-
-        // Editar ruta desde el main
         public event EventHandler? RouteUpdated;
         private bool isEditMode = false;
         private int? editRouteId = null;
-        private string? originalName;   // nombre actual antes de editar
-
-
-
+        private string? originalName;  
 
         public UCRouteCreate()
         {
             InitializeComponent();
 
-            // SOLO esta línea
             this.AutoScaleMode = AutoScaleMode.None;
 
-            // Suscribir eventos a los botones
             btnCancelRoute.Click += BtnCancel_Click!;
             btnSaveRoute.Click += BtnSave_Click!;
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            // Disparar el evento para volver al Home
+
             CancelClicked?.Invoke(this, EventArgs.Empty);
         }
 
@@ -60,7 +52,7 @@ namespace CasinoCounterSystem.View.Route
 
             try
             {
-                // Solo chequea duplicado si es alta o si en edición el nombre cambió
+
                 bool mustCheckDuplicate = !isEditMode ||
                     !string.Equals(name, originalName ?? string.Empty, StringComparison.OrdinalIgnoreCase);
 
@@ -75,7 +67,7 @@ namespace CasinoCounterSystem.View.Route
 
                 if (!isEditMode)
                 {
-                    // INSERT
+
                     var ok = routeController.InsertRoute(name);
                     if (!ok)
                     {
@@ -88,13 +80,10 @@ namespace CasinoCounterSystem.View.Route
                         "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RouteCreated?.Invoke(this, EventArgs.Empty);
 
-                    // opcional: limpiar y enfocar
-                    // textBoxRoute.Clear();
-                    // textBoxRoute.Focus();
                 }
                 else
                 {
-                    // UPDATE
+
                     if (editRouteId == null)
                     {
                         MessageBox.Show("No route selected to edit.", "Error",
@@ -117,7 +106,7 @@ namespace CasinoCounterSystem.View.Route
             }
             catch (Microsoft.Data.SqlClient.SqlException ex) when (ex.Number == 2627 || ex.Number == 2601)
             {
-                // Claves únicas (por si otro proceso insertó el mismo nombre entre chequeo y guardado)
+
                 MessageBox.Show("That route name already exists (database constraint). Please choose another.",
                     "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 textBoxRoute.Focus();
@@ -130,9 +119,6 @@ namespace CasinoCounterSystem.View.Route
             }
         }
 
-
-
-        // Método público para poner el UC en modo edición
         public void InitEditMode(int routeId)
         {
             isEditMode = true;
@@ -141,15 +127,15 @@ namespace CasinoCounterSystem.View.Route
             labelTitle.Text = "Edit Route";
             btnSaveRoute.Text = "💾 Save";
 
-            var route = routeController.GetRouteById(routeId); // reutiliza el existente
+            var route = routeController.GetRouteById(routeId); 
             if (route != null)
             {
                 textBoxRoute.Text = route.RouteName;
-                originalName = route.RouteName;   // <-- AQUÍ la guardas
+                originalName = route.RouteName; 
             }
             else
             {
-                originalName = null; // forzará el chequeo de duplicado si no pudo cargar
+                originalName = null; 
             }
         }
 
