@@ -17,7 +17,7 @@ namespace CasinoCounterSystem.Controller
             dbConnection = new DatabaseConnection();
         }
 
-        #region CRUD
+        #region Allcoins function
         public List<CoinType> GetAllCoins()
         {
             List<CoinType> coins = new List<CoinType>();

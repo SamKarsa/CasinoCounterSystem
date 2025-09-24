@@ -138,8 +138,6 @@ namespace CasinoCounterSystem.Controller
             {
                 if (connection == null) return false;
 
-                // Si quieres case-insensitive aunque la collation lo suele ser:
-                // SELECT 1 FROM Route WHERE LOWER(routeName) = LOWER(@routeName)
                 string query = "SELECT 1 FROM Route WHERE routeName = @routeName";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
