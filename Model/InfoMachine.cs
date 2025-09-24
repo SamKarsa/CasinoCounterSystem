@@ -11,7 +11,7 @@ namespace CasinoCounterSystem.Model
     public class InfoMachine
     {
         [ForeignKey("Machine")]
-        public int InfoMachineId { get; set; } // This is FK to Machine
+        public int InfoMachineId { get; set; } 
 
         [StringLength(100, ErrorMessage = "The client name cannot exceed 100 characters")]
         public string? NameClient { get; set; }
@@ -22,10 +22,10 @@ namespace CasinoCounterSystem.Model
         [StringLength(150, ErrorMessage = "The address cannot exceed 150 characters")]
         public string? Address { get; set; }
 
-        // Navigation property
+        
         public Machine? Machine { get; set; }
 
-        // Constructor
+       
         public InfoMachine() { }
 
         public InfoMachine(int machineId, string? nameClient = null, string? phone = null, string? address = null)

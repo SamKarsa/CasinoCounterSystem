@@ -15,7 +15,7 @@ namespace CasinoCounterSystem.Model
         [StringLength(50, ErrorMessage = "The type name cannot exceed 50 characters")]
         public string NameTypeMachine { get; set; } = string.Empty;
 
-        // Constructor
+       
         public TypeMachine() { }
 
         public TypeMachine(string nameTypeMachine)

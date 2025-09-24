@@ -15,7 +15,7 @@ namespace CasinoCounterSystem.Model
         [StringLength(100, ErrorMessage = "Role name cannot exceed 100 characters")]
         public string RoleName { get; set; } = string.Empty;
 
-        // Constructor
+     
         public Role() { }
 
         public Role(string roleName)

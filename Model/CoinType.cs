@@ -14,7 +14,7 @@ namespace CasinoCounterSystem.Model
         [Required(ErrorMessage = "Coin number is required")]
         public int NumCoin { get; set; }
 
-        // Constructor
+      
         public CoinType() { }
 
         public CoinType(int coinTypeId, int numCoin)

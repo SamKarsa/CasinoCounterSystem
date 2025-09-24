@@ -24,13 +24,13 @@ namespace CasinoCounterSystem.Model
         [Required(ErrorMessage = "Route is required")]
         public int RouteId { get; set; }
 
-        // Navigation properties (optional, useful for displaying related data)
+       
         public TypeMachine? TypeMachine { get; set; }
         public CoinType? CoinType { get; set; }
         public Route? Route { get; set; }
         public InfoMachine? InfoMachine { get; set; }
 
-        // Constructor
+        
         public Machine() { }
 
         public Machine(string numberMachine, int typeMachineId, int coinTypeId, int routeId)
