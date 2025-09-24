@@ -124,13 +124,18 @@ namespace CasinoCounterSystem.View
                     // Abrir el formulario principal
                     this.Hide();
                     MainForm mainForm = new MainForm();
+
+                    // ⬇️ Antes salías de la app; ahora volvemos al login
                     mainForm.FormClosed += (s, args) =>
                     {
-                        // Cuando se cierre el formulario principal, cerrar la aplicación
-                        SessionManager.Logout();
-                        Application.Exit();
+                        SessionManager.Logout();    // limpia sesión
+                        this.Show();                // vuelve a mostrar el login
+                        textbox_user.Clear();
+                        textbox_password.Clear();   // opcional: limpiar
+                        textbox_user.Focus();       // foco al usuario
                     };
-                    mainForm.Show();
+
+                    mainForm.Show(this);
                 }
                 else
                 {

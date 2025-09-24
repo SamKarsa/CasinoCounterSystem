@@ -83,6 +83,7 @@
             btnLogOut.TabIndex = 7;
             btnLogOut.Text = "🔚 LogOut";
             btnLogOut.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            btnLogOut.Click += btnLogOut_Click;
             // 
             // panel1
             // 

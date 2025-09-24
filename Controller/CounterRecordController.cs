@@ -202,5 +202,33 @@ namespace CasinoCounterSystem.Controller
             return records;
         }
 
+        public int CountByMachine(int machineId)
+        {
+            using (var cn = dbConnection.OpenConnection())
+            {
+                if (cn == null) return 0;
+                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM CounterRecord WHERE machineId = @id", cn))
+                {
+                    cmd.Parameters.AddWithValue("@id", machineId);
+                    return Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+        }
+
+        public bool DeleteAllByMachine(int machineId)
+        {
+            using (var cn = dbConnection.OpenConnection())
+            {
+                if (cn == null) return false;
+                using (var cmd = new SqlCommand("DELETE FROM CounterRecord WHERE machineId = @id", cn))
+                {
+                    cmd.Parameters.AddWithValue("@id", machineId);
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
+            }
+        }
+
+
     }
 }

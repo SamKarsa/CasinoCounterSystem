@@ -19,6 +19,15 @@ namespace CasinoCounterSystem.View.Route
 
         private readonly RouteController routeController = new RouteController();
 
+        // Editar ruta desde el main
+        public event EventHandler? RouteUpdated;
+        private bool isEditMode = false;
+        private int? editRouteId = null;
+        private string? originalName;   // nombre actual antes de editar
+
+
+
+
         public UCRouteCreate()
         {
             InitializeComponent();
@@ -43,46 +52,107 @@ namespace CasinoCounterSystem.View.Route
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show("Please enter a route name.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter a route name.", "Validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxRoute.Focus();
                 return;
             }
 
             try
             {
-                // Validación previa para mejor UX
-                if (routeController.RouteNameExists(name))
+                // Solo chequea duplicado si es alta o si en edición el nombre cambió
+                bool mustCheckDuplicate = !isEditMode ||
+                    !string.Equals(name, originalName ?? string.Empty, StringComparison.OrdinalIgnoreCase);
+
+                if (mustCheckDuplicate && routeController.RouteNameExists(name))
                 {
-                    MessageBox.Show("That route name already exists. Please choose another.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("That route name already exists. Please choose another.",
+                        "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     textBoxRoute.Focus();
                     textBoxRoute.SelectAll();
                     return;
                 }
 
-                // Insertar
-                var ok = routeController.InsertRoute(name);
-                if (!ok)
+                if (!isEditMode)
                 {
-                    MessageBox.Show("The route could not be saved. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                    // INSERT
+                    var ok = routeController.InsertRoute(name);
+                    if (!ok)
+                    {
+                        MessageBox.Show("The route could not be saved. Please try again.",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-                // Éxito
-                MessageBox.Show("Route created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                RouteCreated?.Invoke(this, EventArgs.Empty);
+                    MessageBox.Show("Route created successfully!",
+                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RouteCreated?.Invoke(this, EventArgs.Empty);
+
+                    // opcional: limpiar y enfocar
+                    // textBoxRoute.Clear();
+                    // textBoxRoute.Focus();
+                }
+                else
+                {
+                    // UPDATE
+                    if (editRouteId == null)
+                    {
+                        MessageBox.Show("No route selected to edit.", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    var ok = routeController.UpdateRoute(editRouteId.Value, name);
+                    if (!ok)
+                    {
+                        MessageBox.Show("The route could not be updated. Please try again.",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    MessageBox.Show("Route updated successfully!",
+                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RouteUpdated?.Invoke(this, EventArgs.Empty);
+                }
             }
             catch (Microsoft.Data.SqlClient.SqlException ex) when (ex.Number == 2627 || ex.Number == 2601)
             {
-                // 2627: Violation of PRIMARY KEY or UNIQUE KEY
-                // 2601: Cannot insert duplicate key row in object with unique index
-                MessageBox.Show("That route name already exists (database constraint). Please choose another.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Claves únicas (por si otro proceso insertó el mismo nombre entre chequeo y guardado)
+                MessageBox.Show("That route name already exists (database constraint). Please choose another.",
+                    "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 textBoxRoute.Focus();
                 textBoxRoute.SelectAll();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Unexpected error: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+
+        // Método público para poner el UC en modo edición
+        public void InitEditMode(int routeId)
+        {
+            isEditMode = true;
+            editRouteId = routeId;
+
+            labelTitle.Text = "Edit Route";
+            btnSaveRoute.Text = "💾 Save";
+
+            var route = routeController.GetRouteById(routeId); // reutiliza el existente
+            if (route != null)
+            {
+                textBoxRoute.Text = route.RouteName;
+                originalName = route.RouteName;   // <-- AQUÍ la guardas
+            }
+            else
+            {
+                originalName = null; // forzará el chequeo de duplicado si no pudo cargar
+            }
+        }
+
+
     }
 }

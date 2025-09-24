@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CasinoCounterSystem.Controller;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -28,7 +29,21 @@ namespace CasinoCounterSystem.View.Home
             // Suscribir eventos a los botones
             btnAddMachine.Click += BtnAddMachine_Click!;
             btnAddRoute.Click += BtnAddRoute_Click!;
+
+            ApplyRolePermissions();
         }
+
+        private void ApplyRolePermissions()
+        {
+            bool canCreate = SessionManager.IsAdmin;
+
+            btnAddMachine.Enabled = canCreate;
+            btnAddRoute.Enabled = canCreate;
+
+            btnAddMachine.TabStop = canCreate;
+            btnAddRoute.TabStop = canCreate;
+        }
+
 
         private void BtnAddMachine_Click(object sender, EventArgs e)
         {
