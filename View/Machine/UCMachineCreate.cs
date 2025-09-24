@@ -91,7 +91,7 @@ namespace CasinoCounterSystem.View.Machine
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Unexpected error: {ex.Message}", "Error ayuda ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
