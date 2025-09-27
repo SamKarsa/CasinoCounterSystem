@@ -20,4 +20,4 @@ namespace CasinoCounterSystem
             Application.Run(new FrmLogin());
         }
     }
-}
+}                   
