@@ -16,7 +16,7 @@ namespace CasinoCounterSystem.Model
         [MinLength(2, ErrorMessage = "Route name must be at least 2 characters")]
         public string RouteName { get; set; } = string.Empty;
 
-        // Constructor
+        
         public Route() { }
 
         public Route(string routeName)

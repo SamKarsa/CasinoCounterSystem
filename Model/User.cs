@@ -19,15 +19,15 @@ namespace CasinoCounterSystem.Model
         [StringLength(100, ErrorMessage = "Password cannot exceed 100 characters")]
         public string UserPassword { get; set; } = string.Empty;
 
-        public bool UserStatus { get; set; } = true; // Active by default
+        public bool UserStatus { get; set; } = true; 
 
         [Required(ErrorMessage = "Role is required")]
         public int RoleId { get; set; }
 
-        // Navigation property (optional, useful for displaying data)
+       
         public Role? Role { get; set; }
 
-        // Constructor
+       
         public User() { }
 
         public User(string userName, string password, int roleId)

@@ -32,38 +32,27 @@ namespace CasinoCounterSystem.View
         public MainForm()
         {
             InitializeComponent();
-
-            // SOLO esta línea
             this.AutoScaleMode = AutoScaleMode.None;
-
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
-            // Crear instancia de UCHome y suscribirse a sus eventos
             ucHome = new UCHome();
             ucHome.AddMachineClicked += UcHome_AddMachineClicked!;
             ucHome.AddRouteClicked += UcHome_AddRouteClicked!;
-
-            // Suscribir evento al botón Home del sidebar
             btnHome.Click += BtnHome_Click!;
 
-            // Crear el UITreeView en el sidebar (debajo de los botones)
             BuildRouteTreeInSidebar();
-
             BuildTreeContextMenu();
             ApplyRolePermissionsToTreeMenu();
             routeTree.NodeMouseClick += RouteTree_NodeMouseClick!;
 
-            // Cargar la vista Home inicial
             LoadView(ucHome);
-
-            // Cargar el árbol de Rutas → Máquinas
             LoadRoutesTree();
         }
 
         private void UcHome_AddMachineClicked(object sender, EventArgs e)
         {
-            // Crear instancia de UCMachineCreate y suscribirse a sus eventos
+
             var ucMachineCreate = new UCMachineCreate();
             ucMachineCreate.CancelClicked += (s, args) => LoadView(ucHome);
             ucMachineCreate.MachineCreated += (s, args) =>
@@ -78,7 +67,7 @@ namespace CasinoCounterSystem.View
 
         private void UcHome_AddRouteClicked(object sender, EventArgs e)
         {
-            // Crear instancia de UCRouteCreate y suscribirse a sus eventos
+
             var ucRouteCreate = new UCRouteCreate();
             ucRouteCreate.CancelClicked += (s, args) => LoadView(ucHome);
             ucRouteCreate.RouteCreated += (s, args) =>
@@ -93,7 +82,7 @@ namespace CasinoCounterSystem.View
 
         private void BtnHome_Click(object sender, EventArgs e)
         {
-            // Volver a la vista Home
+
             LoadView(ucHome);
         }
 
@@ -112,7 +101,6 @@ namespace CasinoCounterSystem.View
                 LoadView(ucDetail);
             };
 
-            // Mostrar modeless para que quede abierto
             frmCounterRecord.Show(this);
         }
 
@@ -130,15 +118,12 @@ namespace CasinoCounterSystem.View
                 Name = "routeTree",
                 ShowLines = true,
                 Font = new Font("Microsoft Sans Serif", 10F),
-
-                // Estética para combinar con el sidebar azul
                 FillColor = Color.Navy,
                 ForeColor = Color.White,
                 HoverColor = Color.FromArgb(40, 40, 120),
                 RectColor = Color.Navy
             };
 
-            // Ubicación: debajo de lineBtnRegisterCounter
             int y = lineBtnRegisterCounter.Location.Y + 24;
             routeTree.Location = new Point(12, y);
             routeTree.Size = new Size(222, sidebarPanel.Height - y - 80);
@@ -156,14 +141,12 @@ namespace CasinoCounterSystem.View
             var routes = routeController.GetAllRoutes();
             foreach (var route in routes)
             {
-                // Nodo de ruta
                 var routeNode = new TreeNode
                 {
                     Text = $"📂 {route.RouteName}",
                     Tag = new NodeTag { Type = NodeType.Route, Id = route.RouteId }
                 };
 
-                // Hijos: máquinas por ruta
                 var machines = machineController.GetMachinesByRoute(route.RouteId);
                 foreach (var m in machines)
                 {
@@ -183,7 +166,7 @@ namespace CasinoCounterSystem.View
                 routeTree.Nodes.Add(routeNode);
             }
 
-            routeTree.ExpandAll(); // opcional
+            routeTree.ExpandAll(); 
         }
 
         private void RouteTree_AfterSelect(object? sender, TreeViewEventArgs e)
@@ -193,13 +176,10 @@ namespace CasinoCounterSystem.View
             switch (tag.Type)
             {
                 case NodeType.Route:
-                    // Aquí podrías cargar un UserControl con listado/resumen de esa ruta
-                    // var uc = new UCRouteList(tag.Id);
-                    // LoadView(uc);
-                    break;
 
+                    break;
                 case NodeType.Machine:
-                    // Ejemplo: mostrar info rápida o cargar un detalle en panelRight
+                   
                     var m = machineController.GetMachineById(tag.Id);
                     if (m != null)
                     {
@@ -238,15 +218,14 @@ namespace CasinoCounterSystem.View
             routeTree.SelectedNode = e.Node;
             if (e.Node?.Tag is not NodeTag tag) return;
 
-            // Habilitar/Deshabilitar "Delete" según reglas
             if (tag.Type == NodeType.Route)
             {
                 var machines = machineController.GetMachinesByRoute(tag.Id);
-                miDelete.Enabled = machines.Count == 0; // Ruta solo si NO tiene máquinas
+                miDelete.Enabled = machines.Count == 0; 
             }
             else
             {
-                miDelete.Enabled = true; // Máquina: validamos adentro por contadores
+                miDelete.Enabled = true; 
             }
 
             treeMenu.Show(routeTree, e.Location);
@@ -279,7 +258,6 @@ namespace CasinoCounterSystem.View
             {
                 LoadRoutesTree();
 
-                // Refrescar panel derecho con el detalle de la máquina editada
                 var detail = new UCMachineDetail(machineId);
                 LoadView(detail);
             };
@@ -292,7 +270,7 @@ namespace CasinoCounterSystem.View
 
             if (tag.Type == NodeType.Route)
             {
-                // Seguridad: solo si no tiene máquinas
+     
                 var machines = machineController.GetMachinesByRoute(tag.Id);
                 if (machines.Count > 0)
                 {
@@ -319,7 +297,7 @@ namespace CasinoCounterSystem.View
             var crc = new CounterRecordController();
             var count = crc.CountByMachine(machineId);
 
-            // Permitir borrar solo si no hay registros, o si existe SOLO el inicial
+    
             bool canDelete = false;
             if (count == 0) canDelete = true;
             else if (count == 1)
@@ -340,14 +318,12 @@ namespace CasinoCounterSystem.View
                                           "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (confirm != DialogResult.Yes) return;
 
-            // Borrar counters (si hay) y luego la máquina (evita violar FK)
             crc.DeleteAllByMachine(machineId);
 
             var ok = machineController.DeleteMachine(machineId);
             if (ok)
             {
                 LoadRoutesTree();
-                // Si el detalle de esta máquina estaba abierto, vuelve a Home
                 LoadView(ucHome);
             }
             else
@@ -360,11 +336,9 @@ namespace CasinoCounterSystem.View
         {
             bool canModify = SessionManager.IsAdmin;
 
-            // Oculta/mostrar opciones del menú
             if (miEdit != null) miEdit.Visible = canModify;
             if (miDelete != null) miDelete.Visible = canModify;
 
-            // Quita el menú contextual entero para operadores
             routeTree.ContextMenuStrip = canModify ? treeMenu : null;
         }
 

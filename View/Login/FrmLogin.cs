@@ -24,41 +24,29 @@ namespace CasinoCounterSystem.View
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
-            // Inicializar controlador
             authController = new AuthController();
 
-            // Configurar eventos
             SetupEvents();
 
-            // Configurar controles
             SetupControls();
         }
 
         private void SetupEvents()
         {
-            // Evento del botón de login
             button_join.Click += Button_join_Click;
-
-            // Eventos para presionar Enter
             textbox_user.KeyPress += TextBox_KeyPress;
             textbox_password.KeyPress += TextBox_KeyPress;
-
-            // Evento para el link de forgot password
             link_password.LinkClicked += link_password_LinkClicked;
         }
 
         private void SetupControls()
         {
-            // Configurar el textbox de contraseña para que oculte el texto
             textbox_password.PasswordChar = '*';
-
-            // Establecer el foco en el campo de usuario
             textbox_user.Focus();
         }
 
         private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Si se presiona Enter, intentar hacer login
             if (e.KeyChar == (char)Keys.Enter)
             {
                 e.Handled = true;
@@ -83,7 +71,6 @@ namespace CasinoCounterSystem.View
         {
             try
             {
-                // Validar campos vacíos
                 if (string.IsNullOrWhiteSpace(textbox_user.Text))
                 {
                     MessageBox.Show("Please enter your username.", "Validation Error",
@@ -100,52 +87,41 @@ namespace CasinoCounterSystem.View
                     return;
                 }
 
-                // Deshabilitar el botón mientras se procesa
                 button_join.Enabled = false;
                 button_join.Text = "Authenticating...";
                 this.Cursor = Cursors.WaitCursor;
 
-                // Intentar autenticación
                 User? authenticatedUser = authController.AuthenticateUser(
                     textbox_user.Text.Trim(),
                     textbox_password.Text);
 
                 if (authenticatedUser != null)
                 {
-                    // Login exitoso
                     SessionManager.SetCurrentUser(authenticatedUser);
-
-                    // Mostrar mensaje de bienvenida
                     MessageBox.Show($"Welcome, {authenticatedUser.UserName}!\nRole: {authenticatedUser.Role?.RoleName}",
                                   "Login Successful",
                                   MessageBoxButtons.OK,
                                   MessageBoxIcon.Information);
-
-                    // Abrir el formulario principal
                     this.Hide();
                     MainForm mainForm = new MainForm();
 
-                    // ⬇️ Antes salías de la app; ahora volvemos al login
                     mainForm.FormClosed += (s, args) =>
                     {
-                        SessionManager.Logout();    // limpia sesión
-                        this.Show();                // vuelve a mostrar el login
+                        SessionManager.Logout();   
+                        this.Show();               
                         textbox_user.Clear();
-                        textbox_password.Clear();   // opcional: limpiar
-                        textbox_user.Focus();       // foco al usuario
+                        textbox_password.Clear();   
+                        textbox_user.Focus();      
                     };
 
                     mainForm.Show(this);
                 }
                 else
                 {
-                    // Login fallido
                     MessageBox.Show("Invalid username or password.\nPlease try again.",
                                   "Authentication Failed",
                                   MessageBoxButtons.OK,
                                   MessageBoxIcon.Error);
-
-                    // Limpiar campos
                     textbox_password.Clear();
                     textbox_user.Focus();
                 }
@@ -159,7 +135,6 @@ namespace CasinoCounterSystem.View
             }
             finally
             {
-                // Rehabilitar el botón
                 button_join.Enabled = true;
                 button_join.Text = "Join";
                 this.Cursor = Cursors.Default;

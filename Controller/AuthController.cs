@@ -17,12 +17,6 @@ namespace CasinoCounterSystem.Controller
             dbConnection = new DatabaseConnection();
         }
 
-        /// <summary>
-        /// Autentica un usuario con username y password
-        /// </summary>
-        /// <param name="username">Nombre de usuario</param>
-        /// <param name="password">Contraseña</param>
-        /// <returns>Usuario autenticado o null si falla</returns>
         public User? AuthenticateUser(string username, string password)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
@@ -49,7 +43,7 @@ namespace CasinoCounterSystem.Controller
                         {
                             string storedPassword = reader["userPassword"].ToString()!;
 
-                            // Por simplicidad, comparamos directamente (en producción deberías usar hash)
+                            
                             if (password == storedPassword)
                             {
                                 User user = new User
@@ -83,36 +77,6 @@ namespace CasinoCounterSystem.Controller
 
             return null;
         }
-
-        /// <summary>
-        /// Verifica si el usuario tiene un rol específico
-        /// </summary>
-        /// <param name="user">Usuario a verificar</param>
-        /// <param name="roleName">Nombre del rol</param>
-        /// <returns>True si tiene el rol</returns>
-        public bool HasRole(User user, string roleName)
-        {
-            return user?.Role?.RoleName?.Equals(roleName, StringComparison.OrdinalIgnoreCase) == true;
-        }
-
-        /// <summary>
-        /// Verifica si el usuario es administrador
-        /// </summary>
-        /// <param name="user">Usuario a verificar</param>
-        /// <returns>True si es admin</returns>
-        public bool IsAdmin(User user)
-        {
-            return HasRole(user, "Admin");
-        }
-
-        /// <summary>
-        /// Verifica si el usuario es operador
-        /// </summary>
-        /// <param name="user">Usuario a verificar</param>
-        /// <returns>True si es operador</returns>
-        public bool IsOperator(User user)
-        {
-            return HasRole(user, "Counter Operator");
-        }
+        
     }
 }

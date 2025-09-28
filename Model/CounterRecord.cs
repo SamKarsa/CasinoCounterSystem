@@ -29,10 +29,10 @@ namespace CasinoCounterSystem.Model
         [Required(ErrorMessage = "Machine is required")]
         public int MachineId { get; set; }
 
-        // Navigation property
+    
         public Machine? Machine { get; set; }
 
-        // Constructor
+       
         public CounterRecord() { }
 
         public CounterRecord(DateTime recordDate, long counterIn, long counterOut, decimal totalDelivered, int machineId)
