@@ -1,16 +1,13 @@
 ﻿using CasinoCounterSystem.Model;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CasinoCounterSystem.Controller
 {
     public class CoinTypeController
     {
-        private DatabaseConnection dbConnection;
+        private readonly DatabaseConnection dbConnection;
 
         public CoinTypeController()
         {
@@ -20,23 +17,23 @@ namespace CasinoCounterSystem.Controller
         #region Allcoins function
         public List<CoinType> GetAllCoins()
         {
-            List<CoinType> coins = new List<CoinType>();
+            var coins = new List<CoinType>();
 
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return coins;
 
                 string query = "SELECT coinTypeId, numCoin FROM CoinType ORDER BY numCoin";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (var command = new SqliteCommand(query, connection))
+                using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         coins.Add(new CoinType
                         {
-                            CoinTypeId = (int)reader["coinTypeId"],
-                            NumCoin = (int)reader["numCoin"]
+                            CoinTypeId = Convert.ToInt32(reader["coinTypeId"]),
+                            NumCoin = Convert.ToInt32(reader["numCoin"])
                         });
                     }
                 }

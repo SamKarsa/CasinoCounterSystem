@@ -1,49 +1,63 @@
 ﻿using CasinoCounterSystem.Model;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 
 namespace CasinoCounterSystem.Controller
 {
     public class CounterRecordController
     {
-        private DatabaseConnection dbConnection;
+        private readonly DatabaseConnection dbConnection;
 
         public CounterRecordController()
         {
             dbConnection = new DatabaseConnection();
         }
 
+        private static DateTime ParseDate(object? value)
+        {
+            // recordDate se guarda como TEXT 'YYYY-MM-DD'
+            var s = value?.ToString() ?? "";
+            if (DateTime.TryParseExact(s, "yyyy-MM-dd", CultureInfo.InvariantCulture,
+                                       DateTimeStyles.None, out var dt))
+                return dt;
+
+            // fallback si alguna vez guardas 'yyyy-MM-ddTHH:mm:ss'
+            if (DateTime.TryParse(s, out dt)) return dt;
+            return DateTime.MinValue;
+        }
+
+        private static string ToIsoDate(DateTime dt) => dt.ToString("yyyy-MM-dd");
+
         #region CRUD
         public List<CounterRecord> GetAllCounterRecords()
         {
-            List<CounterRecord> records = new List<CounterRecord>();
+            var records = new List<CounterRecord>();
 
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return records;
 
-                string query = @"
+                const string query = @"
                     SELECT counterRecordId, recordDate, counterIn, counterOut, totalDelivered, machineId
                     FROM CounterRecord
                     ORDER BY recordDate DESC";
 
-                using (SqlCommand cmd = new SqlCommand(query, connection))
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (var cmd = new SqliteCommand(query, connection))
+                using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         records.Add(new CounterRecord
                         {
-                            CounterRecordId = (int)reader["counterRecordId"],
-                            RecordDate = (DateTime)reader["recordDate"],
-                            CounterIn = (long)reader["counterIn"],
-                            CounterOut = (long)reader["counterOut"],
-                            TotalDelivered = (decimal)reader["totalDelivered"],
-                            MachineId = (int)reader["machineId"]
+                            CounterRecordId = Convert.ToInt32(reader["counterRecordId"]),
+                            RecordDate = ParseDate(reader["recordDate"]),
+                            CounterIn = Convert.ToInt64(reader["counterIn"]),
+                            CounterOut = Convert.ToInt64(reader["counterOut"]),
+                            // SQLite REAL -> double; Convert.ToDecimal maneja bien
+                            TotalDelivered = Convert.ToDecimal(reader["totalDelivered"]),
+                            MachineId = Convert.ToInt32(reader["machineId"])
                         });
                     }
                 }
@@ -56,31 +70,31 @@ namespace CasinoCounterSystem.Controller
         {
             CounterRecord? record = null;
 
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return null;
 
-                string query = @"
+                const string query = @"
                     SELECT counterRecordId, recordDate, counterIn, counterOut, totalDelivered, machineId
                     FROM CounterRecord
                     WHERE counterRecordId = @id";
 
-                using (SqlCommand cmd = new SqlCommand(query, connection))
+                using (var cmd = new SqliteCommand(query, connection))
                 {
                     cmd.Parameters.AddWithValue("@id", id);
 
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
                         {
                             record = new CounterRecord
                             {
-                                CounterRecordId = (int)reader["counterRecordId"],
-                                RecordDate = (DateTime)reader["recordDate"],
-                                CounterIn = (long)reader["counterIn"],
-                                CounterOut = (long)reader["counterOut"],
-                                TotalDelivered = (decimal)reader["totalDelivered"],
-                                MachineId = (int)reader["machineId"]
+                                CounterRecordId = Convert.ToInt32(reader["counterRecordId"]),
+                                RecordDate = ParseDate(reader["recordDate"]),
+                                CounterIn = Convert.ToInt64(reader["counterIn"]),
+                                CounterOut = Convert.ToInt64(reader["counterOut"]),
+                                TotalDelivered = Convert.ToDecimal(reader["totalDelivered"]),
+                                MachineId = Convert.ToInt32(reader["machineId"])
                             };
                         }
                     }
@@ -92,35 +106,37 @@ namespace CasinoCounterSystem.Controller
 
         public int InsertCounterRecord(CounterRecord record)
         {
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return 0;
 
-                string query = @"
+                const string query = @"
                     INSERT INTO CounterRecord (recordDate, counterIn, counterOut, totalDelivered, machineId)
                     VALUES (@recordDate, @counterIn, @counterOut, @totalDelivered, @machineId);
-                    SELECT SCOPE_IDENTITY();";
+                    SELECT last_insert_rowid();";
 
-                using (SqlCommand cmd = new SqlCommand(query, connection))
+                using (var cmd = new SqliteCommand(query, connection))
                 {
-                    cmd.Parameters.AddWithValue("@recordDate", record.RecordDate);
+                    // Guardamos fecha como TEXT ISO 'YYYY-MM-DD'
+                    cmd.Parameters.AddWithValue("@recordDate", ToIsoDate(record.RecordDate));
                     cmd.Parameters.AddWithValue("@counterIn", record.CounterIn);
                     cmd.Parameters.AddWithValue("@counterOut", record.CounterOut);
                     cmd.Parameters.AddWithValue("@totalDelivered", record.TotalDelivered);
                     cmd.Parameters.AddWithValue("@machineId", record.MachineId);
 
-                    return Convert.ToInt32(cmd.ExecuteScalar());
+                    var newId = (long)cmd.ExecuteScalar(); // SQLite devuelve long
+                    return (int)newId;
                 }
             }
         }
 
         public bool UpdateCounterRecord(CounterRecord record)
         {
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return false;
 
-                string query = @"
+                const string query = @"
                     UPDATE CounterRecord
                     SET recordDate = @recordDate,
                         counterIn = @counterIn,
@@ -129,9 +145,9 @@ namespace CasinoCounterSystem.Controller
                         machineId = @machineId
                     WHERE counterRecordId = @id";
 
-                using (SqlCommand cmd = new SqlCommand(query, connection))
+                using (var cmd = new SqliteCommand(query, connection))
                 {
-                    cmd.Parameters.AddWithValue("@recordDate", record.RecordDate);
+                    cmd.Parameters.AddWithValue("@recordDate", ToIsoDate(record.RecordDate));
                     cmd.Parameters.AddWithValue("@counterIn", record.CounterIn);
                     cmd.Parameters.AddWithValue("@counterOut", record.CounterOut);
                     cmd.Parameters.AddWithValue("@totalDelivered", record.TotalDelivered);
@@ -146,13 +162,13 @@ namespace CasinoCounterSystem.Controller
 
         public bool DeleteCounterRecord(int id)
         {
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return false;
 
-                string query = "DELETE FROM CounterRecord WHERE counterRecordId = @id";
+                const string query = "DELETE FROM CounterRecord WHERE counterRecordId = @id";
 
-                using (SqlCommand cmd = new SqlCommand(query, connection))
+                using (var cmd = new SqliteCommand(query, connection))
                 {
                     cmd.Parameters.AddWithValue("@id", id);
                     int rows = cmd.ExecuteNonQuery();
@@ -160,39 +176,38 @@ namespace CasinoCounterSystem.Controller
                 }
             }
         }
-
         #endregion
 
         public List<CounterRecord> GetCounterRecordsByMachine(int machineId)
         {
-            List<CounterRecord> records = new List<CounterRecord>();
+            var records = new List<CounterRecord>();
 
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return records;
 
-                string query = @"
-                SELECT counterRecordId, recordDate, counterIn, counterOut, totalDelivered, machineId
-                FROM CounterRecord
-                WHERE machineId = @machineId
-                ORDER BY recordDate";
+                const string query = @"
+                    SELECT counterRecordId, recordDate, counterIn, counterOut, totalDelivered, machineId
+                    FROM CounterRecord
+                    WHERE machineId = @machineId
+                    ORDER BY recordDate";
 
-                using (SqlCommand cmd = new SqlCommand(query, connection))
+                using (var cmd = new SqliteCommand(query, connection))
                 {
                     cmd.Parameters.AddWithValue("@machineId", machineId);
 
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             records.Add(new CounterRecord
                             {
-                                CounterRecordId = (int)reader["counterRecordId"],
-                                RecordDate = (DateTime)reader["recordDate"],
-                                CounterIn = (long)reader["counterIn"],
-                                CounterOut = (long)reader["counterOut"],
-                                TotalDelivered = (decimal)reader["totalDelivered"],
-                                MachineId = (int)reader["machineId"]
+                                CounterRecordId = Convert.ToInt32(reader["counterRecordId"]),
+                                RecordDate = ParseDate(reader["recordDate"]),
+                                CounterIn = Convert.ToInt64(reader["counterIn"]),
+                                CounterOut = Convert.ToInt64(reader["counterOut"]),
+                                TotalDelivered = Convert.ToDecimal(reader["totalDelivered"]),
+                                MachineId = Convert.ToInt32(reader["machineId"])
                             });
                         }
                     }
@@ -207,7 +222,7 @@ namespace CasinoCounterSystem.Controller
             using (var cn = dbConnection.OpenConnection())
             {
                 if (cn == null) return 0;
-                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM CounterRecord WHERE machineId = @id", cn))
+                using (var cmd = new SqliteCommand("SELECT COUNT(*) FROM CounterRecord WHERE machineId = @id", cn))
                 {
                     cmd.Parameters.AddWithValue("@id", machineId);
                     return Convert.ToInt32(cmd.ExecuteScalar());
@@ -220,7 +235,7 @@ namespace CasinoCounterSystem.Controller
             using (var cn = dbConnection.OpenConnection())
             {
                 if (cn == null) return false;
-                using (var cmd = new SqlCommand("DELETE FROM CounterRecord WHERE machineId = @id", cn))
+                using (var cmd = new SqliteCommand("DELETE FROM CounterRecord WHERE machineId = @id", cn))
                 {
                     cmd.Parameters.AddWithValue("@id", machineId);
                     cmd.ExecuteNonQuery();
@@ -228,7 +243,5 @@ namespace CasinoCounterSystem.Controller
                 }
             }
         }
-
-
     }
 }

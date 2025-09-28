@@ -104,7 +104,7 @@ namespace CasinoCounterSystem.View.Route
                     RouteUpdated?.Invoke(this, EventArgs.Empty);
                 }
             }
-            catch (Microsoft.Data.SqlClient.SqlException ex) when (ex.Number == 2627 || ex.Number == 2601)
+            catch (Microsoft.Data.Sqlite.SqliteException ex) when (ex.SqliteErrorCode == 19)
             {
 
                 MessageBox.Show("That route name already exists (database constraint). Please choose another.",

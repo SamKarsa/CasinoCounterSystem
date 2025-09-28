@@ -1,16 +1,13 @@
 ﻿using CasinoCounterSystem.Model;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CasinoCounterSystem.Controller
 {
     public class MachineController
     {
-        private DatabaseConnection dbConnection;
+        private readonly DatabaseConnection dbConnection;
 
         public MachineController()
         {
@@ -20,9 +17,9 @@ namespace CasinoCounterSystem.Controller
         #region CRUD
         public List<Machine> GetAllMachines()
         {
-            List<Machine> machines = new List<Machine>();
+            var machines = new List<Machine>();
 
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (var connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return machines;
 
@@ -33,21 +30,21 @@ namespace CasinoCounterSystem.Controller
                     LEFT JOIN InfoMachine i ON m.machineId = i.infoMachineId
                     ORDER BY m.numberMachine";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (var command = new SqliteCommand(query, connection))
+                using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         machines.Add(new Machine
                         {
-                            MachineId = (int)reader["machineId"],
-                            NumberMachine = (string)reader["numberMachine"],
-                            TypeMachineId = (int)reader["typeMachineId"],
-                            CoinTypeId = (int)reader["coinTypeId"],
-                            RouteId = (int)reader["routeId"],
+                            MachineId = Convert.ToInt32(reader["machineId"]),
+                            NumberMachine = reader["numberMachine"].ToString()!,
+                            TypeMachineId = Convert.ToInt32(reader["typeMachineId"]),
+                            CoinTypeId = Convert.ToInt32(reader["coinTypeId"]),
+                            RouteId = Convert.ToInt32(reader["routeId"]),
                             InfoMachine = reader["nameClient"] == DBNull.Value ? null : new InfoMachine
                             {
-                                InfoMachineId = (int)reader["machineId"],
+                                InfoMachineId = Convert.ToInt32(reader["machineId"]),
                                 NameClient = reader["nameClient"] as string,
                                 Phone = reader["phone"] as string,
                                 Address = reader["address"] as string
@@ -64,7 +61,7 @@ namespace CasinoCounterSystem.Controller
         {
             Machine? machine = null;
 
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (var connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return null;
 
@@ -79,39 +76,37 @@ namespace CasinoCounterSystem.Controller
                 LEFT JOIN CoinType c ON m.coinTypeId = c.coinTypeId
                 WHERE m.machineId = @machineId";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (var command = new SqliteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@machineId", machineId);
 
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
                             machine = new Machine
                             {
-                                MachineId = (int)reader["machineId"],
-                                NumberMachine = (string)reader["numberMachine"],
-                                TypeMachineId = (int)reader["typeMachineId"],
-                                CoinTypeId = (int)reader["coinTypeId"],
-                                RouteId = (int)reader["routeId"],
+                                MachineId = Convert.ToInt32(reader["machineId"]),
+                                NumberMachine = reader["numberMachine"].ToString()!,
+                                TypeMachineId = Convert.ToInt32(reader["typeMachineId"]),
+                                CoinTypeId = Convert.ToInt32(reader["coinTypeId"]),
+                                RouteId = Convert.ToInt32(reader["routeId"]),
 
-                                // 🔹 Mapeamos el nombre del tipo de máquina
                                 TypeMachine = new TypeMachine
                                 {
-                                    TypeMachineId = (int)reader["typeMachineId"],
+                                    TypeMachineId = Convert.ToInt32(reader["typeMachineId"]),
                                     NameTypeMachine = reader["nameTypeMachine"].ToString()!
                                 },
 
-                                // 🔹 Mapeamos el valor de la moneda
                                 CoinType = new CoinType
                                 {
-                                    CoinTypeId = (int)reader["coinTypeId"],
-                                    NumCoin = (int)reader["numCoin"]
+                                    CoinTypeId = Convert.ToInt32(reader["coinTypeId"]),
+                                    NumCoin = Convert.ToInt32(reader["numCoin"])
                                 },
 
                                 InfoMachine = reader["nameClient"] == DBNull.Value ? null : new InfoMachine
                                 {
-                                    InfoMachineId = (int)reader["machineId"],
+                                    InfoMachineId = Convert.ToInt32(reader["machineId"]),
                                     NameClient = reader["nameClient"] as string,
                                     Phone = reader["phone"] as string,
                                     Address = reader["address"] as string
@@ -129,11 +124,11 @@ namespace CasinoCounterSystem.Controller
         {
             int newMachineId = 0;
 
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (var connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return 0;
 
-                using (SqlTransaction transaction = connection.BeginTransaction())
+                using (var transaction = connection.BeginTransaction())
                 {
                     try
                     {
@@ -141,16 +136,16 @@ namespace CasinoCounterSystem.Controller
                         string insertMachine = @"
                         INSERT INTO Machine (numberMachine, typeMachineId, coinTypeId, routeId)
                         VALUES (@numberMachine, @typeMachineId, @coinTypeId, @routeId);
-                        SELECT SCOPE_IDENTITY();";
+                        SELECT last_insert_rowid();";
 
-                        using (SqlCommand command = new SqlCommand(insertMachine, connection, transaction))
+                        using (var command = new SqliteCommand(insertMachine, connection, transaction))
                         {
                             command.Parameters.AddWithValue("@numberMachine", machine.NumberMachine);
                             command.Parameters.AddWithValue("@typeMachineId", machine.TypeMachineId);
                             command.Parameters.AddWithValue("@coinTypeId", machine.CoinTypeId);
                             command.Parameters.AddWithValue("@routeId", machine.RouteId);
 
-                            newMachineId = Convert.ToInt32(command.ExecuteScalar());
+                            newMachineId = Convert.ToInt32((long)command.ExecuteScalar());
                         }
 
                         // 2. Insertar en InfoMachine (obligatorio)
@@ -158,7 +153,7 @@ namespace CasinoCounterSystem.Controller
                         INSERT INTO InfoMachine (infoMachineId, nameClient, phone, address)
                         VALUES (@infoMachineId, @nameClient, @phone, @address)";
 
-                        using (SqlCommand command = new SqlCommand(insertInfo, connection, transaction))
+                        using (var command = new SqliteCommand(insertInfo, connection, transaction))
                         {
                             command.Parameters.AddWithValue("@infoMachineId", newMachineId);
                             command.Parameters.AddWithValue("@nameClient", (object)machine.InfoMachine?.NameClient ?? DBNull.Value);
@@ -173,17 +168,17 @@ namespace CasinoCounterSystem.Controller
                         INSERT INTO CounterRecord (recordDate, counterIn, counterOut, totalDelivered, machineId)
                         VALUES (@initDate, @counterIn, @counterOut, 0, @machineId)";
 
-                        using (SqlCommand command = new SqlCommand(insertCounter, connection, transaction))
+                        using (var command = new SqliteCommand(insertCounter, connection, transaction))
                         {
                             command.Parameters.AddWithValue("@machineId", newMachineId);
                             command.Parameters.AddWithValue("@counterIn", counterIn);
                             command.Parameters.AddWithValue("@counterOut", counterOut);
-                            command.Parameters.AddWithValue("@initDate", new DateTime(2006, 3, 14));
+                            // Fecha fija, guardada como TEXT
+                            command.Parameters.AddWithValue("@initDate", "2006-03-14");
 
                             command.ExecuteNonQuery();
                         }
 
-                        // ✅ Confirmar todo
                         transaction.Commit();
                     }
                     catch
@@ -199,7 +194,7 @@ namespace CasinoCounterSystem.Controller
 
         public bool UpdateMachine(Machine machine)
         {
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (var connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return false;
 
@@ -211,7 +206,7 @@ namespace CasinoCounterSystem.Controller
                         routeId = @routeId
                     WHERE machineId = @machineId";
 
-                using (SqlCommand command = new SqlCommand(updateMachine, connection))
+                using (var command = new SqliteCommand(updateMachine, connection))
                 {
                     command.Parameters.AddWithValue("@machineId", machine.MachineId);
                     command.Parameters.AddWithValue("@numberMachine", machine.NumberMachine);
@@ -224,18 +219,12 @@ namespace CasinoCounterSystem.Controller
 
                 if (machine.InfoMachine != null)
                 {
-                    string updateInfo = @"
-                        IF EXISTS (SELECT 1 FROM InfoMachine WHERE infoMachineId = @infoMachineId)
-                            UPDATE InfoMachine
-                            SET nameClient = @nameClient,
-                                phone = @phone,
-                                address = @address
-                            WHERE infoMachineId = @infoMachineId
-                        ELSE
-                            INSERT INTO InfoMachine (infoMachineId, nameClient, phone, address)
-                            VALUES (@infoMachineId, @nameClient, @phone, @address)";
+                    // SQLite no soporta IF/ELSE, usamos INSERT OR REPLACE
+                    string upsertInfo = @"
+                        INSERT OR REPLACE INTO InfoMachine (infoMachineId, nameClient, phone, address)
+                        VALUES (@infoMachineId, @nameClient, @phone, @address)";
 
-                    using (SqlCommand command = new SqlCommand(updateInfo, connection))
+                    using (var command = new SqliteCommand(upsertInfo, connection))
                     {
                         command.Parameters.AddWithValue("@infoMachineId", machine.MachineId);
                         command.Parameters.AddWithValue("@nameClient", (object)machine.InfoMachine.NameClient ?? DBNull.Value);
@@ -252,19 +241,19 @@ namespace CasinoCounterSystem.Controller
 
         public bool DeleteMachine(int machineId)
         {
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (var connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return false;
 
                 string deleteInfo = "DELETE FROM InfoMachine WHERE infoMachineId = @machineId";
-                using (SqlCommand cmd = new SqlCommand(deleteInfo, connection))
+                using (var cmd = new SqliteCommand(deleteInfo, connection))
                 {
                     cmd.Parameters.AddWithValue("@machineId", machineId);
                     cmd.ExecuteNonQuery();
                 }
 
                 string deleteMachine = "DELETE FROM Machine WHERE machineId = @machineId";
-                using (SqlCommand cmd = new SqlCommand(deleteMachine, connection))
+                using (var cmd = new SqliteCommand(deleteMachine, connection))
                 {
                     cmd.Parameters.AddWithValue("@machineId", machineId);
                     int rows = cmd.ExecuteNonQuery();
@@ -276,9 +265,9 @@ namespace CasinoCounterSystem.Controller
 
         public List<Machine> GetMachinesByRoute(int routeId)
         {
-            List<Machine> machines = new List<Machine>();
+            var machines = new List<Machine>();
 
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (var connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return machines;
 
@@ -290,24 +279,24 @@ namespace CasinoCounterSystem.Controller
                 WHERE m.routeId = @routeId
                 ORDER BY m.numberMachine";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (var command = new SqliteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@routeId", routeId);
 
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             machines.Add(new Machine
                             {
-                                MachineId = (int)reader["machineId"],
-                                NumberMachine = (string)reader["numberMachine"],
-                                TypeMachineId = (int)reader["typeMachineId"],
-                                CoinTypeId = (int)reader["coinTypeId"],
-                                RouteId = (int)reader["routeId"],
+                                MachineId = Convert.ToInt32(reader["machineId"]),
+                                NumberMachine = reader["numberMachine"].ToString()!,
+                                TypeMachineId = Convert.ToInt32(reader["typeMachineId"]),
+                                CoinTypeId = Convert.ToInt32(reader["coinTypeId"]),
+                                RouteId = Convert.ToInt32(reader["routeId"]),
                                 InfoMachine = reader["nameClient"] == DBNull.Value ? null : new InfoMachine
                                 {
-                                    InfoMachineId = (int)reader["machineId"],
+                                    InfoMachineId = Convert.ToInt32(reader["machineId"]),
                                     NameClient = reader["nameClient"] as string,
                                     Phone = reader["phone"] as string,
                                     Address = reader["address"] as string
@@ -320,6 +309,5 @@ namespace CasinoCounterSystem.Controller
 
             return machines;
         }
-
     }
 }

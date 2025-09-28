@@ -1,16 +1,13 @@
 ﻿using CasinoCounterSystem.Model;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CasinoCounterSystem.Controller
 {
     public class RouteController
     {
-        private DatabaseConnection dbConnection;
+        private readonly DatabaseConnection dbConnection;
 
         public RouteController()
         {
@@ -20,59 +17,57 @@ namespace CasinoCounterSystem.Controller
         #region CRUD
         public List<Route> GetAllRoutes()
         {
-            List<Route> routes = new List<Route>();
+            var routes = new List<Route>();
 
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return routes;
 
-                string query = "SELECT routeId, routeName FROM Route ORDER BY routeName";
+                const string query = "SELECT routeId, routeName FROM Route ORDER BY routeName";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (var command = new SqliteCommand(query, connection))
+                using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         routes.Add(new Route
                         {
-                            RouteId = reader.GetInt32(reader.GetOrdinal("routeId")),
-                            RouteName = reader.GetString(reader.GetOrdinal("routeName"))
+                            RouteId = Convert.ToInt32(reader["routeId"]),
+                            RouteName = reader["routeName"]?.ToString() ?? string.Empty
                         });
                     }
                 }
-                dbConnection.CloseConnection();
             }
 
             return routes;
         }
 
-        public Route GetRouteById(int routeId)
+        public Route? GetRouteById(int routeId)
         {
-            Route route = null;
+            Route? route = null;
 
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return route;
 
-                string query = "SELECT routeId, routeName FROM Route WHERE routeId = @routeId";
+                const string query = "SELECT routeId, routeName FROM Route WHERE routeId = @routeId";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (var command = new SqliteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@routeId", routeId);
 
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
                             route = new Route
                             {
-                                RouteId = reader.GetInt32(reader.GetOrdinal("routeId")),
-                                RouteName = reader.GetString(reader.GetOrdinal("routeName"))
+                                RouteId = Convert.ToInt32(reader["routeId"]),
+                                RouteName = reader["routeName"]?.ToString() ?? string.Empty
                             };
                         }
                     }
                 }
-                dbConnection.CloseConnection();
             }
 
             return route;
@@ -80,13 +75,13 @@ namespace CasinoCounterSystem.Controller
 
         public bool InsertRoute(string routeName)
         {
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return false;
 
-                string query = "INSERT INTO Route (routeName) VALUES (@routeName)";
+                const string query = "INSERT INTO Route (routeName) VALUES (@routeName)";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (var command = new SqliteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@routeName", routeName);
                     int rows = command.ExecuteNonQuery();
@@ -97,13 +92,13 @@ namespace CasinoCounterSystem.Controller
 
         public bool UpdateRoute(int routeId, string routeName)
         {
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return false;
 
-                string query = "UPDATE Route SET routeName = @routeName WHERE routeId = @routeId";
+                const string query = "UPDATE Route SET routeName = @routeName WHERE routeId = @routeId";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (var command = new SqliteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@routeId", routeId);
                     command.Parameters.AddWithValue("@routeName", routeName);
@@ -116,13 +111,13 @@ namespace CasinoCounterSystem.Controller
 
         public bool DeleteRoute(int routeId)
         {
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return false;
 
-                string query = "DELETE FROM Route WHERE routeId = @routeId";
+                const string query = "DELETE FROM Route WHERE routeId = @routeId";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (var command = new SqliteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@routeId", routeId);
                     int rows = command.ExecuteNonQuery();
@@ -132,15 +127,17 @@ namespace CasinoCounterSystem.Controller
         }
         #endregion
 
-        public bool RouteNameExists(string routeName)
+        public bool RouteNameExists(string routeName, bool caseInsensitive = false)
         {
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return false;
 
-                string query = "SELECT 1 FROM Route WHERE routeName = @routeName";
+                string query = caseInsensitive
+                    ? "SELECT 1 FROM Route WHERE routeName = @routeName COLLATE NOCASE LIMIT 1"
+                    : "SELECT 1 FROM Route WHERE routeName = @routeName LIMIT 1";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (var command = new SqliteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@routeName", routeName);
                     var result = command.ExecuteScalar();

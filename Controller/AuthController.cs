@@ -1,16 +1,12 @@
 ﻿using CasinoCounterSystem.Model;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CasinoCounterSystem.Controller
 {
     public class AuthController
     {
-        private DatabaseConnection dbConnection;
+        private readonly DatabaseConnection dbConnection;
 
         public AuthController()
         {
@@ -22,41 +18,44 @@ namespace CasinoCounterSystem.Controller
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 return null;
 
-            SqlConnection connection = dbConnection.OpenConnection();
+            // DatabaseConnection.OpenConnection() debe devolver SqliteConnection abierto
+            var connection = dbConnection.OpenConnection();
             if (connection == null) return null;
 
             try
             {
-                string query = @"
+                const string query = @"
                     SELECT u.userId, u.userName, u.userPassword, u.userStatus, u.roleId, r.roleName 
                     FROM Users u 
                     INNER JOIN Role r ON u.roleId = r.roleId 
                     WHERE u.userName = @username AND u.userStatus = 1";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (var command = connection.CreateCommand())
                 {
+                    command.CommandText = query;
                     command.Parameters.AddWithValue("@username", username);
 
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            string storedPassword = reader["userPassword"].ToString()!;
+                            // En tu semilla la contraseña está en texto plano (luego podemos hashearla)
+                            var storedPassword = reader["userPassword"]?.ToString() ?? string.Empty;
 
-                            
                             if (password == storedPassword)
                             {
-                                User user = new User
+                                var user = new User
                                 {
                                     UserId = Convert.ToInt32(reader["userId"]),
-                                    UserName = reader["userName"].ToString()!,
-                                    UserPassword = reader["userPassword"].ToString()!,
-                                    UserStatus = Convert.ToBoolean(reader["userStatus"]),
+                                    UserName = reader["userName"]?.ToString() ?? string.Empty,
+                                    UserPassword = storedPassword,
+                                    // En SQLite guardamos 0/1 -> conviene convertir a int y comparar
+                                    UserStatus = Convert.ToInt32(reader["userStatus"]) == 1,
                                     RoleId = Convert.ToInt32(reader["roleId"]),
                                     Role = new Role
                                     {
                                         RoleId = Convert.ToInt32(reader["roleId"]),
-                                        RoleName = reader["roleName"].ToString()!
+                                        RoleName = reader["roleName"]?.ToString() ?? string.Empty
                                     }
                                 };
 
@@ -77,6 +76,5 @@ namespace CasinoCounterSystem.Controller
 
             return null;
         }
-        
     }
 }

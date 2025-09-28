@@ -1,16 +1,13 @@
 ﻿using CasinoCounterSystem.Model;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CasinoCounterSystem.Controller
 {
     public class TypeMachineController
     {
-        private DatabaseConnection dbConnection;
+        private readonly DatabaseConnection dbConnection;
 
         public TypeMachineController()
         {
@@ -20,23 +17,23 @@ namespace CasinoCounterSystem.Controller
         #region CRUD
         public List<TypeMachine> GetAllTypeMachine()
         {
-            List<TypeMachine> types = new List<TypeMachine>();
+            var types = new List<TypeMachine>();
 
-            using (SqlConnection connection = dbConnection.OpenConnection())
+            using (SqliteConnection connection = dbConnection.OpenConnection())
             {
                 if (connection == null) return types;
 
-                string query = "SELECT typeMachineId, nameTypeMachine FROM TypeMachine ORDER BY nameTypeMachine";
+                const string query = "SELECT typeMachineId, nameTypeMachine FROM TypeMachine ORDER BY nameTypeMachine";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (var command = new SqliteCommand(query, connection))
+                using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         types.Add(new TypeMachine
                         {
-                            TypeMachineId = (int)reader["typeMachineId"],
-                            NameTypeMachine = reader["nameTypeMachine"].ToString()!
+                            TypeMachineId = Convert.ToInt32(reader["typeMachineId"]),
+                            NameTypeMachine = reader["nameTypeMachine"]?.ToString() ?? string.Empty
                         });
                     }
                 }
