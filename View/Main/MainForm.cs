@@ -20,14 +20,14 @@ namespace CasinoCounterSystem.View
     {
 
         private UCHome ucHome;
-        private UITreeView routeTree;
+        private UITreeView routeTree = null!;
         private readonly RouteController routeController = new RouteController();
         private readonly MachineController machineController = new MachineController();
 
 
-        private ContextMenuStrip treeMenu;
-        private ToolStripMenuItem miEdit;
-        private ToolStripMenuItem miDelete;
+        private ContextMenuStrip treeMenu = null!;
+        private ToolStripMenuItem miEdit = null!;
+        private ToolStripMenuItem miDelete = null!;
 
         public MainForm()
         {
@@ -37,20 +37,20 @@ namespace CasinoCounterSystem.View
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
 
             ucHome = new UCHome();
-            ucHome.AddMachineClicked += UcHome_AddMachineClicked!;
-            ucHome.AddRouteClicked += UcHome_AddRouteClicked!;
-            btnHome.Click += BtnHome_Click!;
+            ucHome.AddMachineClicked += UcHome_AddMachineClicked;
+            ucHome.AddRouteClicked += UcHome_AddRouteClicked;
+            btnHome.Click += BtnHome_Click;
 
             BuildRouteTreeInSidebar();
             BuildTreeContextMenu();
             ApplyRolePermissionsToTreeMenu();
-            routeTree.NodeMouseClick += RouteTree_NodeMouseClick!;
+            routeTree.NodeMouseClick += RouteTree_NodeMouseClick;
 
             LoadView(ucHome);
             LoadRoutesTree();
         }
 
-        private void UcHome_AddMachineClicked(object sender, EventArgs e)
+        private void UcHome_AddMachineClicked(object? sender, EventArgs e)
         {
 
             var ucMachineCreate = new UCMachineCreate();
@@ -65,7 +65,7 @@ namespace CasinoCounterSystem.View
             LoadView(ucMachineCreate);
         }
 
-        private void UcHome_AddRouteClicked(object sender, EventArgs e)
+        private void UcHome_AddRouteClicked(object? sender, EventArgs e)
         {
 
             var ucRouteCreate = new UCRouteCreate();
@@ -80,9 +80,8 @@ namespace CasinoCounterSystem.View
             LoadView(ucRouteCreate);
         }
 
-        private void BtnHome_Click(object sender, EventArgs e)
+        private void BtnHome_Click(object? sender, EventArgs e)
         {
-
             LoadView(ucHome);
         }
 

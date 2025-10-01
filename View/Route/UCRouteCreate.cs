@@ -30,6 +30,26 @@ namespace CasinoCounterSystem.View.Route
 
             btnCancelRoute.Click += BtnCancel_Click!;
             btnSaveRoute.Click += BtnSave_Click!;
+
+            this.Load += (_, __) => RefreshWatermarks();
+        }
+
+        private void RefreshWatermarks()
+        {
+            ForceWatermark(textBoxRoute);
+        }
+
+        private static void ForceWatermark(Sunny.UI.UITextBox tb)
+        {
+            tb.StyleCustomMode = true; // opcional, ayuda con estilos
+            if (string.IsNullOrEmpty(tb.Text))
+            {
+                // Dispara el repintado inicial sin que el usuario lo note
+                tb.Text = " ";
+                tb.Clear();
+                tb.Invalidate();
+                tb.Update();
+            }
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -138,7 +158,5 @@ namespace CasinoCounterSystem.View.Route
                 originalName = null; 
             }
         }
-
-
     }
 }

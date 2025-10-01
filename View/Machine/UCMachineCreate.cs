@@ -1,7 +1,6 @@
 ﻿using CasinoCounterSystem.Controller;
 using CasinoCounterSystem.Model;
-using MachineModel = CasinoCounterSystem.Model.Machine;
-using InfoMachineModel = CasinoCounterSystem.Model.InfoMachine;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using InfoMachineModel = CasinoCounterSystem.Model.InfoMachine;
+using MachineModel = CasinoCounterSystem.Model.Machine;
 
 namespace CasinoCounterSystem.View.Machine
 {
@@ -30,7 +31,36 @@ namespace CasinoCounterSystem.View.Machine
             this.AutoScaleMode = AutoScaleMode.None;
             btnCancelRoute.Click += BtnCancel_Click!;
             btnSaveRoute.Click += BtnSave_Click!;
+
+            this.Load += (_, __) => RefreshWatermarks();
+
             LoadCombos();
+        }
+
+        private void RefreshWatermarks()
+        {
+            ForceWatermark(textBoxNumMachine);
+            ForceWatermark(textBoxNameClient);
+            ForceWatermark(textBoxPhone);
+            ForceWatermark(textBoxAddress);
+            ForceWatermark(TextBoxIn);
+            ForceWatermark(TextBoxOut);
+        }
+
+        private static void ForceWatermark(Sunny.UI.UITextBox tb)
+        {
+            // Asegura que el control está en modo custom (no obligatorio, pero ayuda a consistencia de estilos)
+            tb.StyleCustomMode = true;
+
+            if (string.IsNullOrEmpty(tb.Text))
+            {
+                // “Dispara” el pipeline de pintado: cambia y restaura para que Sunny.UI
+                // ejecute su lógica de watermark sin que el usuario lo note.
+                tb.Text = " ";
+                tb.Clear();
+                tb.Invalidate();           // pide repintado
+                tb.Update();               // ejecuta repintado ahora
+            }
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -138,12 +168,12 @@ namespace CasinoCounterSystem.View.Machine
             comboBoxRoute.DisplayMember = "RouteName";
             comboBoxRoute.ValueMember = "RouteId";
 
-            var typeController = new TypeMachineController();  
+            var typeController = new TypeMachineController();
             comboBoxMachineType.DataSource = typeController.GetAllTypeMachine();
             comboBoxMachineType.DisplayMember = "nameTypeMachine";
             comboBoxMachineType.ValueMember = "typeMachineId";
 
-            var coinController = new CoinTypeController();     
+            var coinController = new CoinTypeController();
             comboBoxCoinType.DataSource = coinController.GetAllCoins();
             comboBoxCoinType.DisplayMember = "numCoin";
             comboBoxCoinType.ValueMember = "coinTypeId";
@@ -174,5 +204,7 @@ namespace CasinoCounterSystem.View.Machine
             TextBoxIn.Visible = false;
             TextBoxOut.Visible = false;
         }
+
+
     }
 }

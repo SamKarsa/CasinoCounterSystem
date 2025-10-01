@@ -45,7 +45,7 @@ namespace CasinoCounterSystem.View
             textbox_user.Focus();
         }
 
-        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        private void TextBox_KeyPress(object? sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
@@ -54,12 +54,12 @@ namespace CasinoCounterSystem.View
             }
         }
 
-        private void Button_join_Click(object sender, EventArgs e)
+        private void Button_join_Click(object? sender, EventArgs e)
         {
             PerformLogin();
         }
 
-        private void link_password_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void link_password_LinkClicked(object? sender, LinkLabelLinkClickedEventArgs e)
         {
             MessageBox.Show("Please contact your system administrator to reset your password.",
                           "Password Recovery",
@@ -98,10 +98,12 @@ namespace CasinoCounterSystem.View
                 if (authenticatedUser != null)
                 {
                     SessionManager.SetCurrentUser(authenticatedUser);
+                    /* Mensaje de entrada dev
                     MessageBox.Show($"Welcome, {authenticatedUser.UserName}!\nRole: {authenticatedUser.Role?.RoleName}",
                                   "Login Successful",
                                   MessageBoxButtons.OK,
                                   MessageBoxIcon.Information);
+                    */
                     this.Hide();
                     MainForm mainForm = new MainForm();
 

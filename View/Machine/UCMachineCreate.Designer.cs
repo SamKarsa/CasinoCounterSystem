@@ -92,10 +92,13 @@
             // comboBoxRoute
             // 
             comboBoxRoute.DataSource = null;
+            comboBoxRoute.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             comboBoxRoute.FillColor = Color.White;
             comboBoxRoute.Font = new Font("Microsoft Sans Serif", 12F);
-            comboBoxRoute.ItemHoverColor = Color.FromArgb(30, 58, 138);
-            comboBoxRoute.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
+            comboBoxRoute.ItemForeColor = Color.Black;
+            comboBoxRoute.ItemHoverColor = Color.FromArgb(229, 231, 235);
+            comboBoxRoute.ItemSelectBackColor = Color.Navy;
+            comboBoxRoute.ItemSelectForeColor = Color.White;
             comboBoxRoute.Location = new Point(119, 138);
             comboBoxRoute.Margin = new Padding(4, 5, 4, 5);
             comboBoxRoute.MinimumSize = new Size(63, 0);
@@ -112,10 +115,13 @@
             // comboBoxMachineType
             // 
             comboBoxMachineType.DataSource = null;
+            comboBoxMachineType.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             comboBoxMachineType.FillColor = Color.White;
             comboBoxMachineType.Font = new Font("Microsoft Sans Serif", 12F);
-            comboBoxMachineType.ItemHoverColor = Color.FromArgb(30, 58, 138);
-            comboBoxMachineType.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
+            comboBoxMachineType.ItemForeColor = Color.Black;
+            comboBoxMachineType.ItemHoverColor = Color.FromArgb(229, 231, 235);
+            comboBoxMachineType.ItemSelectBackColor = Color.Navy;
+            comboBoxMachineType.ItemSelectForeColor = Color.White;
             comboBoxMachineType.Location = new Point(119, 198);
             comboBoxMachineType.Margin = new Padding(4, 5, 4, 5);
             comboBoxMachineType.MinimumSize = new Size(63, 0);
@@ -132,10 +138,13 @@
             // comboBoxCoinType
             // 
             comboBoxCoinType.DataSource = null;
+            comboBoxCoinType.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             comboBoxCoinType.FillColor = Color.White;
             comboBoxCoinType.Font = new Font("Microsoft Sans Serif", 12F);
-            comboBoxCoinType.ItemHoverColor = Color.FromArgb(30, 58, 138);
-            comboBoxCoinType.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
+            comboBoxCoinType.ItemForeColor = Color.Black;
+            comboBoxCoinType.ItemHoverColor = Color.FromArgb(229, 231, 235);
+            comboBoxCoinType.ItemSelectBackColor = Color.Navy;
+            comboBoxCoinType.ItemSelectForeColor = Color.White;
             comboBoxCoinType.Location = new Point(473, 138);
             comboBoxCoinType.Margin = new Padding(4, 5, 4, 5);
             comboBoxCoinType.MinimumSize = new Size(63, 0);

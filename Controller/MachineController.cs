@@ -309,5 +309,26 @@ namespace CasinoCounterSystem.Controller
 
             return machines;
         }
+
+        public bool NumberExists(string numberMachine, int? excludeMachineId = null)
+        {
+            using var cn = dbConnection.OpenConnection();
+            if (cn == null) return false;
+
+            const string sql = @"
+            SELECT 1
+            FROM Machine
+            WHERE UPPER(numberMachine) = UPPER(@n)
+              AND (@id IS NULL OR machineId <> @id)
+            LIMIT 1;";
+
+            using var cmd = new Microsoft.Data.Sqlite.SqliteCommand(sql, cn);
+            cmd.Parameters.AddWithValue("@n", numberMachine);
+            cmd.Parameters.AddWithValue("@id", (object?)excludeMachineId ?? DBNull.Value);
+
+            using var r = cmd.ExecuteReader();
+            return r.Read(); // hay fila => existe
+        }
+
     }
 }
