@@ -67,16 +67,51 @@ namespace CasinoCounterSystem.View.Machine
         {
             try
             {
+                // ---------- Normalización ----------
+                // N° máquina: trim + MAYÚSCULAS
+                var numberMachine = (textBoxNumMachine.Text ?? "").Trim().ToUpperInvariant();
+                textBoxNumMachine.Text = numberMachine;
+
+                // Nombre cliente: TitleCase
+                var clientName = ToTitleCase(textBoxNameClient.Text);
+                textBoxNameClient.Text = clientName;
+
+                // Teléfono (opcional):
+                // - si está vacío => null
+                // - si tiene algo => solo dígitos y largo 10
+                string? phoneDigits = null;
+                var phoneRaw = textBoxPhone.Text ?? "";
+                var phoneClean = OnlyDigits(phoneRaw);
+                if (!string.IsNullOrWhiteSpace(phoneRaw))
+                {
+                    if (phoneClean.Length != 10)
+                    {
+                        MessageBox.Show("Phone must have 10 digits (or leave it empty).",
+                            "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        textBoxPhone.Focus();
+                        textBoxPhone.SelectAll();
+                        return;
+                    }
+                    phoneDigits = phoneClean;
+                    textBoxPhone.Text = phoneDigits; // normaliza lo visible
+                }
+
+                // Dirección: trim (si quieres, puedes aplicar TitleCase también)
+                var address = (textBoxAddress.Text ?? "").Trim();
+                // address = ToTitleCase(address); // opcional
+
+                // ---------- Requeridos ----------
                 if (comboBoxRoute.SelectedItem == null ||
                     comboBoxCoinType.SelectedItem == null ||
                     comboBoxMachineType.SelectedItem == null ||
-                    string.IsNullOrWhiteSpace(textBoxNumMachine.Text))
+                    string.IsNullOrWhiteSpace(numberMachine))
                 {
                     MessageBox.Show("Please fill all required fields.", "Validation",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
+                // Si es creación, IN/OUT obligatorios y numéricos
                 int counterIn = 0, counterOut = 0;
                 if (!isEditMode)
                 {
@@ -97,20 +132,33 @@ namespace CasinoCounterSystem.View.Machine
                     }
                 }
 
+                // ---------- Duplicados (case-insensitive) ----------
+                bool exists = machineController.NumberExists(numberMachine, isEditMode ? editMachineId : null);
+                if (exists)
+                {
+                    MessageBox.Show("The machine number already exists. Please choose another.",
+                        "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    textBoxNumMachine.Focus();
+                    textBoxNumMachine.SelectAll();
+                    return;
+                }
+
+                // ---------- Construcción del modelo ----------
                 var machine = new MachineModel
                 {
-                    NumberMachine = textBoxNumMachine.Text.Trim(),
+                    NumberMachine = numberMachine,
                     RouteId = (int)comboBoxRoute.SelectedValue,
                     CoinTypeId = (int)comboBoxCoinType.SelectedValue,
                     TypeMachineId = (int)comboBoxMachineType.SelectedValue,
                     InfoMachine = new InfoMachineModel
                     {
-                        NameClient = textBoxNameClient.Text.Trim(),
-                        Phone = textBoxPhone.Text.Trim(),
-                        Address = textBoxAddress.Text.Trim()
+                        NameClient = clientName,
+                        Phone = phoneDigits,   // <- puede ser null
+                        Address = address
                     }
                 };
 
+                // ---------- Insert / Update ----------
                 if (!isEditMode)
                 {
                     int newId = machineController.InsertMachine(machine, counterIn, counterOut);
@@ -118,7 +166,6 @@ namespace CasinoCounterSystem.View.Machine
                     {
                         MessageBox.Show("Machine created successfully!", "Success",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                         MachineCreated?.Invoke(this, EventArgs.Empty);
                     }
                     else
@@ -144,7 +191,6 @@ namespace CasinoCounterSystem.View.Machine
                     {
                         MessageBox.Show("Machine updated successfully!", "Success",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                         MachineUpdated?.Invoke(this, EventArgs.Empty);
                     }
                     else
@@ -154,11 +200,41 @@ namespace CasinoCounterSystem.View.Machine
                     }
                 }
             }
+            catch (Microsoft.Data.Sqlite.SqliteException ex) when (ex.SqliteErrorCode == 19)
+            {
+                // Respaldo por si llega a escapar un UNIQUE de SQLite
+                MessageBox.Show("The machine number already exists (database constraint).",
+                    "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                textBoxNumMachine.Focus();
+                textBoxNumMachine.SelectAll();
+            }
             catch (Exception ex)
             {
                 MessageBox.Show($"Unexpected error: {ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private static string OnlyDigits(string? s)
+        {
+            if (string.IsNullOrEmpty(s)) return "";
+            var sb = new System.Text.StringBuilder(s.Length);
+            foreach (var ch in s)
+                if (char.IsDigit(ch)) sb.Append(ch);
+            return sb.ToString();
+        }
+
+        private static string ToTitleCase(string? s)
+        {
+            s ??= "";
+            s = s.Trim().ToLowerInvariant();
+
+            // TitleCase básico (en inglés). Si quieres reglas más locales, cambia la cultura.
+            var ti = System.Globalization.CultureInfo.CurrentCulture.TextInfo;
+            var result = ti.ToTitleCase(s);
+
+            // Quita dobles espacios que ToTitleCase no arregla a veces.
+            return System.Text.RegularExpressions.Regex.Replace(result, @"\s{2,}", " ");
         }
 
         private void LoadCombos()
