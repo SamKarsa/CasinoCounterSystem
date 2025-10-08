@@ -45,7 +45,7 @@
             welcomeLabel.Name = "welcomeLabel";
             welcomeLabel.Size = new Size(500, 150);
             welcomeLabel.TabIndex = 10;
-            welcomeLabel.Text = "Select an option from the sidebar\nto get started with your\nCasino Counter System";
+            welcomeLabel.Text = "Selecciona una opción del panel lateral para comenzar a usar el Sistema";
             welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnAddMachine
@@ -59,7 +59,7 @@
             btnAddMachine.FillSelectedColor = Color.FromArgb(30, 64, 175);
             btnAddMachine.Font = new Font("Microsoft Sans Serif", 12F);
             btnAddMachine.ForeDisableColor = Color.FromArgb(156, 163, 175);
-            btnAddMachine.Location = new Point(636, 12);
+            btnAddMachine.Location = new Point(612, 12);
             btnAddMachine.MinimumSize = new Size(1, 1);
             btnAddMachine.Name = "btnAddMachine";
             btnAddMachine.RectColor = Color.Navy;
@@ -67,9 +67,9 @@
             btnAddMachine.RectHoverColor = Color.FromArgb(30, 58, 138);
             btnAddMachine.RectPressColor = Color.FromArgb(0, 0, 102);
             btnAddMachine.RectSelectedColor = Color.FromArgb(30, 64, 175);
-            btnAddMachine.Size = new Size(143, 35);
+            btnAddMachine.Size = new Size(167, 35);
             btnAddMachine.TabIndex = 11;
-            btnAddMachine.Text = "➕ Add Machine";
+            btnAddMachine.Text = "➕ Agregar Máquina";
             btnAddMachine.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
             // btnAddRoute
@@ -93,7 +93,7 @@
             btnAddRoute.RectSelectedColor = Color.FromArgb(30, 64, 175);
             btnAddRoute.Size = new Size(143, 35);
             btnAddRoute.TabIndex = 12;
-            btnAddRoute.Text = "🛣️ Add Route";
+            btnAddRoute.Text = "🛣️ Agregar Ruta";
             btnAddRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
             // imgLogo

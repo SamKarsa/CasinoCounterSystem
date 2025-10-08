@@ -60,11 +60,11 @@
             uiLabel1.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             uiLabel1.ForeColor = Color.White;
             uiLabel1.ImageAlign = ContentAlignment.BottomCenter;
-            uiLabel1.Location = new Point(89, 9);
+            uiLabel1.Location = new Point(60, 13);
             uiLabel1.Name = "uiLabel1";
-            uiLabel1.Size = new Size(278, 34);
+            uiLabel1.Size = new Size(366, 46);
             uiLabel1.TabIndex = 1;
-            uiLabel1.Text = "💼 Counter Record";
+            uiLabel1.Text = "💼 Registro Contadores";
             // 
             // ComboBoxRoute
             // 
@@ -86,14 +86,13 @@
             ComboBoxRoute.SymbolSize = 24;
             ComboBoxRoute.TabIndex = 3;
             ComboBoxRoute.TextAlignment = ContentAlignment.MiddleLeft;
-            ComboBoxRoute.Watermark = "Route Number";
+            ComboBoxRoute.Watermark = "Numero de ruta";
             ComboBoxRoute.WatermarkActiveColor = SystemColors.GrayText;
             ComboBoxRoute.WatermarkColor = SystemColors.GrayText;
             // 
             // ComboBoxMachine
             // 
             ComboBoxMachine.DataSource = null;
-            ComboBoxMachine.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             ComboBoxMachine.FillColor = Color.White;
             ComboBoxMachine.Font = new Font("Microsoft Sans Serif", 12F);
             ComboBoxMachine.ItemForeColor = Color.Black;
@@ -110,7 +109,7 @@
             ComboBoxMachine.SymbolSize = 24;
             ComboBoxMachine.TabIndex = 4;
             ComboBoxMachine.TextAlignment = ContentAlignment.MiddleLeft;
-            ComboBoxMachine.Watermark = "Machine Number";
+            ComboBoxMachine.Watermark = "Numero de máquina";
             ComboBoxMachine.WatermarkActiveColor = SystemColors.GrayText;
             ComboBoxMachine.WatermarkColor = SystemColors.GrayText;
             // 
@@ -182,7 +181,7 @@
             button_join.RectPressColor = Color.FromArgb(29, 78, 216);
             button_join.Size = new Size(114, 44);
             button_join.TabIndex = 11;
-            button_join.Text = "➕ Add";
+            button_join.Text = "➕ Guardar";
             button_join.TipsFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             // 
             // ButtonCancel
@@ -205,7 +204,7 @@
             ButtonCancel.RectSize = 2;
             ButtonCancel.Size = new Size(114, 44);
             ButtonCancel.TabIndex = 12;
-            ButtonCancel.Text = "🗑️ Cancel";
+            ButtonCancel.Text = "🗑️ Cancelar";
             ButtonCancel.TipsFont = new Font("Microsoft Sans Serif", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             // 
             // DatetimePicker
@@ -228,7 +227,7 @@
             DatetimePicker.Text = "01-10-2025";
             DatetimePicker.TextAlignment = ContentAlignment.MiddleLeft;
             DatetimePicker.Value = new DateTime(2025, 10, 1, 0, 0, 0, 0);
-            DatetimePicker.Watermark = "Counter Date";
+            DatetimePicker.Watermark = "Fecha de registro";
             DatetimePicker.WatermarkActiveColor = SystemColors.GrayText;
             DatetimePicker.WatermarkColor = SystemColors.GrayText;
             // 

@@ -61,8 +61,8 @@ namespace CasinoCounterSystem.View
 
         private void link_password_LinkClicked(object? sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show("Please contact your system administrator to reset your password.",
-                          "Password Recovery",
+            MessageBox.Show("Por favor, comunícate con el administrador del sistema.",
+                          "Recuperación de contraseña",
                           MessageBoxButtons.OK,
                           MessageBoxIcon.Information);
         }
@@ -73,7 +73,7 @@ namespace CasinoCounterSystem.View
             {
                 if (string.IsNullOrWhiteSpace(textbox_user.Text))
                 {
-                    MessageBox.Show("Please enter your username.", "Validation Error",
+                    MessageBox.Show("Por favor, ingresa tu nombre de usuario.", "Error de validación",
                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     textbox_user.Focus();
                     return;
@@ -81,14 +81,14 @@ namespace CasinoCounterSystem.View
 
                 if (string.IsNullOrWhiteSpace(textbox_password.Text))
                 {
-                    MessageBox.Show("Please enter your password.", "Validation Error",
+                    MessageBox.Show("Por favor, ingresa tu contraseña.", "Error de validación",
                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     textbox_password.Focus();
                     return;
                 }
 
                 button_join.Enabled = false;
-                button_join.Text = "Authenticating...";
+                button_join.Text = "Autenticando...";
                 this.Cursor = Cursors.WaitCursor;
 
                 User? authenticatedUser = authController.AuthenticateUser(
@@ -120,25 +120,26 @@ namespace CasinoCounterSystem.View
                 }
                 else
                 {
-                    MessageBox.Show("Invalid username or password.\nPlease try again.",
-                                  "Authentication Failed",
-                                  MessageBoxButtons.OK,
-                                  MessageBoxIcon.Error);
+                    MessageBox.Show("Nombre de usuario o contraseña incorrectos.\nPor favor, inténtalo de nuevo.",
+                                    "Autenticación fallida",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
                     textbox_password.Clear();
                     textbox_user.Focus();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred during login:\n{ex.Message}",
-                              "Login Error",
-                              MessageBoxButtons.OK,
-                              MessageBoxIcon.Error);
+                MessageBox.Show($"Ocurrió un error durante el inicio de sesión:\n{ex.Message}",
+                                "Error de inicio de sesión",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+
             }
             finally
             {
                 button_join.Enabled = true;
-                button_join.Text = "Join";
+                button_join.Text = "Ingresar";
                 this.Cursor = Cursors.Default;
             }
         }

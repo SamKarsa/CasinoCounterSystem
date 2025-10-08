@@ -29,6 +29,7 @@ namespace CasinoCounterSystem.View.Machine
             public decimal? Saldo { get; set; }
             public decimal? FaltaSobra { get; set; }
             public bool CanDelete { get; set; }
+            public bool IsInitial { get; set; }
         }
 
         public UCMachineDetail(int machineId, int? selectRecordId = null)
@@ -106,7 +107,8 @@ namespace CasinoCounterSystem.View.Machine
                     Date = cur.RecordDate,
                     InA = cur.CounterIn,
                     OutB = cur.CounterOut,
-                    Total = cur.TotalDelivered
+                    Total = cur.TotalDelivered,
+                    IsInitial = (cur.RecordDate.Date == InitialRecordDate.Date)
                 };
 
                 if (i > 0)
@@ -178,6 +180,8 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToResizeColumns = false;
             dataGridView1.AllowUserToResizeRows = false;
+
+            dataGridView1.ScrollBars = ScrollBars.Vertical;
         }
          
         private void BuildGridColumns()
@@ -185,7 +189,7 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(CounterRecordRow.Date),
-                HeaderText = "DATE",
+                HeaderText = "Fecha",
                 Width = 122,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy" }
             });
@@ -221,7 +225,7 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(CounterRecordRow.Total),
-                HeaderText = "TOTAL",
+                HeaderText = "Total",
                 Width = 120,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
@@ -233,7 +237,7 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(CounterRecordRow.Saldo),
-                HeaderText = "SALDO",
+                HeaderText = "Saldo",
                 Width = 120,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
@@ -246,7 +250,7 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = nameof(CounterRecordRow.FaltaSobra),
-                HeaderText = "FALTA/SOBRA",
+                HeaderText = "Falta/Sobra",
                 Width = 120,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
@@ -260,11 +264,13 @@ namespace CasinoCounterSystem.View.Machine
             {
                 Name = "colEdit",
                 HeaderText = "",
-                Width = 54,
                 FlatStyle = FlatStyle.Flat,
                 UseColumnTextForButtonValue = true,
                 Text = "✎",
-                SortMode = DataGridViewColumnSortMode.NotSortable
+                SortMode = DataGridViewColumnSortMode.NotSortable,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill, 
+                MinimumWidth = 40,                                   
+                FillWeight = 50
             };
             colEdit.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colEdit.DefaultCellStyle.Font = new Font("Segoe UI Symbol", 12F);
@@ -278,11 +284,13 @@ namespace CasinoCounterSystem.View.Machine
             {
                 Name = "colDelete",
                 HeaderText = "",
-                Width = 54,
                 FlatStyle = FlatStyle.Flat,
                 UseColumnTextForButtonValue = true,
                 Text = "🗑️",
-                SortMode = DataGridViewColumnSortMode.NotSortable
+                SortMode = DataGridViewColumnSortMode.NotSortable,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                MinimumWidth = 40,
+                FillWeight = 50
             };
             colDelete.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             colDelete.DefaultCellStyle.Font = new Font("Segoe UI Symbol", 12F);
@@ -306,27 +314,59 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.CellClick -= DataGridView1_CellClick;
             dataGridView1.CellClick += DataGridView1_CellClick;
         }
-       
+
         private void DataGridView1_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
-            var col = dataGridView1.Columns[e.ColumnIndex];
+            // Cabeceras / índices inválidos
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            if (col.DataPropertyName == nameof(CounterRecordRow.FaltaSobra) && e.Value is decimal val)
+            var col = dataGridView1.Columns[e.ColumnIndex];
+            var row = dataGridView1.Rows[e.RowIndex];
+            var rowObj = row.DataBoundItem as CounterRecordRow;
+            if (rowObj == null) return; // rebindings/transiciones
+
+            bool isInitial = rowObj.Date.Date == InitialRecordDate.Date;
+
+            // ---------- Fila inicial: “ocultar” algunas celdas por estilo ----------
+            if (isInitial)
             {
-                var cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                cell.Style.ForeColor = val < 0 ? Color.Red : (val > 0 ? Color.Green : Color.Black);
+                // Fondo sutil para toda la fila
+                row.DefaultCellStyle.BackColor = Color.FromArgb(245, 248, 252);
+                row.DefaultCellStyle.SelectionBackColor = Color.FromArgb(235, 240, 246);
+
+                // En la fila inicial, NO mostrar Date / InOut / Total / Saldo / FaltaSobra
+                if (col.DataPropertyName == nameof(CounterRecordRow.Date) ||
+                    col.DataPropertyName == nameof(CounterRecordRow.InOut) ||
+                    col.DataPropertyName == nameof(CounterRecordRow.Total) ||
+                    col.DataPropertyName == nameof(CounterRecordRow.Saldo) ||
+                    col.DataPropertyName == nameof(CounterRecordRow.FaltaSobra))
+                {
+                    // Hacemos el texto del mismo color que el fondo => “invisible”
+                    e.CellStyle.ForeColor = row.DefaultCellStyle.BackColor;
+                    e.CellStyle.SelectionForeColor = row.DefaultCellStyle.BackColor;
+                    e.CellStyle.Format = null; // sin formato especial
+                    return; // ya aplicamos estilo, salimos
+                }
             }
 
+            // ---------- Colorizar Falta/Sobra (solo si no es la fila inicial) ----------
+            if (!isInitial &&
+                col.DataPropertyName == nameof(CounterRecordRow.FaltaSobra) &&
+                e.Value is decimal val)
+            {
+                e.CellStyle.ForeColor = val < 0 ? Color.Red : (val > 0 ? Color.Green : Color.Black);
+            }
+
+            // ---------- Botón borrar deshabilitado visualmente cuando no se puede ----------
             if (col.Name == "colDelete")
             {
-                var row = dataGridView1.Rows[e.RowIndex].DataBoundItem as CounterRecordRow;
-                if (row != null && !row.CanDelete)
+                if (!rowObj.CanDelete)
                 {
-                    e.Value = ""; // sin ícono
-                    var cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                    cell.Style.ForeColor = Color.Silver;
-                    cell.Style.BackColor = Color.FromArgb(245, 245, 245);
-                    e.FormattingApplied = true;
+                    // NO cambiar e.Value (evita reentradas). Solo estilo "apagado".
+                    e.CellStyle.ForeColor = Color.Silver;
+                    e.CellStyle.BackColor = Color.FromArgb(245, 245, 245);
+                    e.CellStyle.SelectionBackColor = e.CellStyle.BackColor;
+                    e.CellStyle.SelectionForeColor = e.CellStyle.ForeColor;
                 }
             }
         }

@@ -53,11 +53,11 @@ namespace CasinoCounterSystem.View.Route
             // 
             labelTitle.Font = new Font("Britannic Bold", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelTitle.ForeColor = Color.Navy;
-            labelTitle.Location = new Point(322, 225);
+            labelTitle.Location = new Point(346, 225);
             labelTitle.Name = "labelTitle";
-            labelTitle.Size = new Size(302, 50);
+            labelTitle.Size = new Size(264, 50);
             labelTitle.TabIndex = 15;
-            labelTitle.Text = "Create Route";
+            labelTitle.Text = "Crear Ruta";
             // 
             // textBoxRoute
             // 
@@ -79,7 +79,7 @@ namespace CasinoCounterSystem.View.Route
             textBoxRoute.TabIndex = 16;
             textBoxRoute.TabStop = false;
             textBoxRoute.TextAlignment = ContentAlignment.MiddleLeft;
-            textBoxRoute.Watermark = "Enter route name (e.g., Route A)";
+            textBoxRoute.Watermark = "Ingresa el nombre de la ruta (ejemplo: Ruta A)";
             textBoxRoute.WatermarkActiveColor = SystemColors.GrayText;
             textBoxRoute.WatermarkColor = SystemColors.GrayText;
             // 
@@ -104,7 +104,7 @@ namespace CasinoCounterSystem.View.Route
             btnSaveRoute.RectSelectedColor = Color.FromArgb(30, 64, 175);
             btnSaveRoute.Size = new Size(155, 50);
             btnSaveRoute.TabIndex = 17;
-            btnSaveRoute.Text = "➕ Save";
+            btnSaveRoute.Text = "➕ Guardar";
             btnSaveRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
             // btnCancelRoute
@@ -132,7 +132,7 @@ namespace CasinoCounterSystem.View.Route
             btnCancelRoute.RectSelectedColor = Color.FromArgb(156, 163, 175);
             btnCancelRoute.Size = new Size(155, 50);
             btnCancelRoute.TabIndex = 18;
-            btnCancelRoute.Text = "🗑️ Cancel";
+            btnCancelRoute.Text = "🗑️ Cancelar";
             btnCancelRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
             // UCRouteCreate

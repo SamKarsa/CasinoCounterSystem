@@ -86,8 +86,8 @@ namespace CasinoCounterSystem.View.Machine
                 {
                     if (phoneClean.Length != 10)
                     {
-                        MessageBox.Show("Phone must have 10 digits (or leave it empty).",
-                            "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("El número de teléfono debe tener 10 dígitos (o déjalo vacío).",
+                            "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         textBoxPhone.Focus();
                         textBoxPhone.SelectAll();
                         return;
@@ -106,7 +106,7 @@ namespace CasinoCounterSystem.View.Machine
                     comboBoxMachineType.SelectedItem == null ||
                     string.IsNullOrWhiteSpace(numberMachine))
                 {
-                    MessageBox.Show("Please fill all required fields.", "Validation",
+                    MessageBox.Show("Por favor, completa todos los campos obligatorios.", "Validación",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -118,7 +118,7 @@ namespace CasinoCounterSystem.View.Machine
                     if (string.IsNullOrWhiteSpace(TextBoxIn.Text) ||
                         string.IsNullOrWhiteSpace(TextBoxOut.Text))
                     {
-                        MessageBox.Show("Installation IN and OUT are required.", "Validation",
+                        MessageBox.Show("Los valores de instalación IN y OUT son obligatorios.", "Validación",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
@@ -126,7 +126,7 @@ namespace CasinoCounterSystem.View.Machine
                     if (!int.TryParse(TextBoxIn.Text.Trim(), out counterIn) ||
                         !int.TryParse(TextBoxOut.Text.Trim(), out counterOut))
                     {
-                        MessageBox.Show("Installation IN and OUT must be numbers.", "Validation",
+                        MessageBox.Show("Los valores de instalación IN y OUT tienen que ser numeros", "Validación",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
@@ -136,8 +136,8 @@ namespace CasinoCounterSystem.View.Machine
                 bool exists = machineController.NumberExists(numberMachine, isEditMode ? editMachineId : null);
                 if (exists)
                 {
-                    MessageBox.Show("The machine number already exists. Please choose another.",
-                        "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Ese número de máquina ya existe. Por favor, elige otro.",
+                        "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     textBoxNumMachine.Focus();
                     textBoxNumMachine.SelectAll();
                     return;
@@ -164,13 +164,13 @@ namespace CasinoCounterSystem.View.Machine
                     int newId = machineController.InsertMachine(machine, counterIn, counterOut);
                     if (newId > 0)
                     {
-                        MessageBox.Show("Machine created successfully!", "Success",
+                        MessageBox.Show("¡Máquina creada exitosamente!", "Éxito",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                         MachineCreated?.Invoke(this, EventArgs.Empty);
                     }
                     else
                     {
-                        MessageBox.Show("Error saving machine. Try again.", "Error",
+                        MessageBox.Show("Error al guardar la máquina. Inténtalo de nuevo.", "Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -178,7 +178,7 @@ namespace CasinoCounterSystem.View.Machine
                 {
                     if (!editMachineId.HasValue)
                     {
-                        MessageBox.Show("Missing machine id to update.", "Error",
+                        MessageBox.Show("Falta el ID de la máquina para actualizar.", "Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
@@ -189,13 +189,13 @@ namespace CasinoCounterSystem.View.Machine
                     var success = machineController.UpdateMachine(machine);
                     if (success)
                     {
-                        MessageBox.Show("Machine updated successfully!", "Success",
+                        MessageBox.Show("¡Máquina actualizada exitosamente!", "Éxito",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                         MachineUpdated?.Invoke(this, EventArgs.Empty);
                     }
                     else
                     {
-                        MessageBox.Show("Error updating machine. Try again.", "Error",
+                        MessageBox.Show("Error al actualizar la máquina. Inténtalo de nuevo.", "Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -203,14 +203,14 @@ namespace CasinoCounterSystem.View.Machine
             catch (Microsoft.Data.Sqlite.SqliteException ex) when (ex.SqliteErrorCode == 19)
             {
                 // Respaldo por si llega a escapar un UNIQUE de SQLite
-                MessageBox.Show("The machine number already exists (database constraint).",
-                    "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("El número de máquina ya existe.",
+                    "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 textBoxNumMachine.Focus();
                 textBoxNumMachine.SelectAll();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Unexpected error: {ex.Message}", "Error",
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -264,8 +264,8 @@ namespace CasinoCounterSystem.View.Machine
         {
             isEditMode = true;
             editMachineId = machineId;
-            labelTitle.Text = "Edit Machine";
-            btnSaveRoute.Text = "💾 Save";
+            labelTitle.Text = "Editar Máquina";
+            btnSaveRoute.Text = "💾 Guardar";
             LoadCombos();
             var mc = new MachineController();
             var m = mc.GetMachineById(machineId);

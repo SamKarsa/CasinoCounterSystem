@@ -77,9 +77,12 @@ INSERT OR IGNORE INTO TypeMachine (typeMachineId, nameTypeMachine) VALUES
 (1, 'Poker'),
 (2, 'MultiGame'),
 (3, 'Pimball'),
-(4, 'MultiPoker');
+(4, 'MultiPoker'),
+(5, 'Duende'),
+(6, 'Pikachu');
 
 INSERT OR IGNORE INTO CoinType (coinTypeId, numCoin) VALUES 
-(1, 50),
-(2, 100),
-(3, 200);
+(1,10)
+(2, 50),
+(3, 100),
+(4, 200);

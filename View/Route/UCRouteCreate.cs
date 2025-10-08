@@ -41,10 +41,10 @@ namespace CasinoCounterSystem.View.Route
 
         private static void ForceWatermark(Sunny.UI.UITextBox tb)
         {
-            tb.StyleCustomMode = true; // opcional, ayuda con estilos
+            tb.StyleCustomMode = true; 
             if (string.IsNullOrEmpty(tb.Text))
             {
-                // Dispara el repintado inicial sin que el usuario lo note
+                
                 tb.Text = " ";
                 tb.Clear();
                 tb.Invalidate();
@@ -64,7 +64,7 @@ namespace CasinoCounterSystem.View.Route
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show("Please enter a route name.", "Validation",
+                MessageBox.Show("Por favor, ingresa un nombre de ruta.", "Validación",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxRoute.Focus();
                 return;
@@ -78,8 +78,8 @@ namespace CasinoCounterSystem.View.Route
 
                 if (mustCheckDuplicate && routeController.RouteNameExists(name))
                 {
-                    MessageBox.Show("That route name already exists. Please choose another.",
-                        "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Ese nombre de ruta ya existe. Por favor, elige otro.",
+                        "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     textBoxRoute.Focus();
                     textBoxRoute.SelectAll();
                     return;
@@ -91,13 +91,13 @@ namespace CasinoCounterSystem.View.Route
                     var ok = routeController.InsertRoute(name);
                     if (!ok)
                     {
-                        MessageBox.Show("The route could not be saved. Please try again.",
+                        MessageBox.Show("No se pudo guardar la ruta. Por favor, inténtalo de nuevo.",
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    MessageBox.Show("Route created successfully!",
-                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("¡Ruta creada exitosamente!",
+                        "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RouteCreated?.Invoke(this, EventArgs.Empty);
 
                 }
@@ -106,7 +106,7 @@ namespace CasinoCounterSystem.View.Route
 
                     if (editRouteId == null)
                     {
-                        MessageBox.Show("No route selected to edit.", "Error",
+                        MessageBox.Show("No se ha seleccionado ninguna ruta para editar.", "Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
@@ -114,27 +114,27 @@ namespace CasinoCounterSystem.View.Route
                     var ok = routeController.UpdateRoute(editRouteId.Value, name);
                     if (!ok)
                     {
-                        MessageBox.Show("The route could not be updated. Please try again.",
+                        MessageBox.Show("No se pudo actualizar la ruta. Por favor, inténtalo de nuevo.",
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    MessageBox.Show("Route updated successfully!",
-                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("¡Ruta actualizada exitosamente!",
+                        "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RouteUpdated?.Invoke(this, EventArgs.Empty);
                 }
             }
             catch (Microsoft.Data.Sqlite.SqliteException ex) when (ex.SqliteErrorCode == 19)
             {
 
-                MessageBox.Show("That route name already exists (database constraint). Please choose another.",
-                    "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Ese nombre de ruta ya existe. Por favor, elige otro.",
+                    "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 textBoxRoute.Focus();
                 textBoxRoute.SelectAll();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Unexpected error: {ex.Message}",
+                MessageBox.Show($"Error inesperado: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -144,8 +144,8 @@ namespace CasinoCounterSystem.View.Route
             isEditMode = true;
             editRouteId = routeId;
 
-            labelTitle.Text = "Edit Route";
-            btnSaveRoute.Text = "💾 Save";
+            labelTitle.Text = "Editar Ruta";
+            btnSaveRoute.Text = "💾 Guardar";
 
             var route = routeController.GetRouteById(routeId); 
             if (route != null)

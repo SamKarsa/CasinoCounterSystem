@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             sidebarPanel = new Panel();
             btnLogOut = new Sunny.UI.UIButton();
             panel1 = new Panel();
@@ -81,7 +82,7 @@
             btnLogOut.RectSelectedColor = Color.White;
             btnLogOut.Size = new Size(222, 35);
             btnLogOut.TabIndex = 7;
-            btnLogOut.Text = "🔚 LogOut";
+            btnLogOut.Text = "🔚 Cerrar Sesión";
             btnLogOut.TipsFont = new Font("Microsoft Sans Serif", 9F);
             btnLogOut.Click += btnLogOut_Click;
             // 
@@ -121,7 +122,7 @@
             btnHome.RectSelectedColor = Color.White;
             btnHome.Size = new Size(222, 35);
             btnHome.TabIndex = 5;
-            btnHome.Text = "🏠 Home";
+            btnHome.Text = "🏠 Inicio";
             btnHome.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
             // btnRegisterCounters
@@ -148,7 +149,7 @@
             btnRegisterCounters.RectSelectedColor = Color.White;
             btnRegisterCounters.Size = new Size(222, 35);
             btnRegisterCounters.TabIndex = 1;
-            btnRegisterCounters.Text = "📊 Register Counters";
+            btnRegisterCounters.Text = "📊 Registrar Contadores";
             btnRegisterCounters.TipsFont = new Font("Microsoft Sans Serif", 9F);
             btnRegisterCounters.Click += btnRegisterCounters_Click;
             // 
@@ -198,10 +199,11 @@
             ClientSize = new Size(1184, 707);
             Controls.Add(sidebarPanel);
             Controls.Add(panelRight);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximumSize = new Size(1200, 746);
             MinimumSize = new Size(1200, 746);
             Name = "MainForm";
-            Text = "MainForm";
+            Text = "Inicio";
             sidebarPanel.ResumeLayout(false);
             ResumeLayout(false);
         }

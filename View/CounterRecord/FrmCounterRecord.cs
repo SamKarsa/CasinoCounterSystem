@@ -56,7 +56,7 @@ namespace CasinoCounterSystem.View
                     string.IsNullOrWhiteSpace(TextBoxOUT.Text) ||
                     string.IsNullOrWhiteSpace(TextBoxTotal.Text))
                 {
-                    MessageBox.Show("Please fill all required fields.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Por favor, completa todos los campos obligatorios.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -64,7 +64,7 @@ namespace CasinoCounterSystem.View
                     !long.TryParse(TextBoxOUT.Text.Trim(), out long counterOut) ||
                     !decimal.TryParse(TextBoxTotal.Text.Trim(), out decimal totalDelivered))
                 {
-                    MessageBox.Show("IN, OUT, and TOTAL must be numeric values.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Los valores de IN, OUT y TOTAL deben ser numéricos.", "Validación ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -85,14 +85,14 @@ namespace CasinoCounterSystem.View
                     int newId = counterRecordController.InsertCounterRecord(record);
                     if (newId > 0)
                     {
-                        MessageBox.Show("Counter record added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("¡Registro de contador agregado exitosamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         RecordSaved?.Invoke(this, new CounterRecordSavedEventArgs(machineId, newId));
                         TextBoxIN.Clear(); TextBoxOUT.Clear(); TextBoxTotal.Clear();
                         TextBoxIN.Focus();
                     }
                     else
                     {
-                        MessageBox.Show("Error saving record. Try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error al guardar el registro. Inténtalo de nuevo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
@@ -110,20 +110,20 @@ namespace CasinoCounterSystem.View
                     bool ok = counterRecordController.UpdateCounterRecord(record);
                     if (ok)
                     {
-                        MessageBox.Show("Record updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("¡Registro actualizado exitosamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         RecordSaved?.Invoke(this, new CounterRecordSavedEventArgs(machineId, record.CounterRecordId));
                         this.Close();
                         return;
                     }
                     else
                     {
-                        MessageBox.Show("No changes were saved.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("No se guardaron cambios.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Unexpected error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -183,13 +183,13 @@ namespace CasinoCounterSystem.View
             isEditMode = true;
             editRecordId = recordId;
 
-            uiLabel1.Text = "✏️ Edit Counter Record";
-            button_join.Text = "💾 Save";
+            uiLabel1.Text = "✏️ Editar Registro";
+            button_join.Text = "💾 Guardar";
 
             var existing = counterRecordController.GetCounterRecordById(recordId);
             if (existing == null)
             {
-                MessageBox.Show("Record not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Registro no encontrado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

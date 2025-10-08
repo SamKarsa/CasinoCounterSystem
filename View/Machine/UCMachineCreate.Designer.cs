@@ -60,11 +60,11 @@
             // 
             labelTitle.Font = new Font("Britannic Bold", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
             labelTitle.ForeColor = Color.Navy;
-            labelTitle.Location = new Point(317, 63);
+            labelTitle.Location = new Point(333, 61);
             labelTitle.Name = "labelTitle";
-            labelTitle.Size = new Size(354, 50);
+            labelTitle.Size = new Size(375, 50);
             labelTitle.TabIndex = 16;
-            labelTitle.Text = "Create Machine";
+            labelTitle.Text = "Crear Máquina";
             // 
             // textBoxNumMachine
             // 
@@ -85,7 +85,7 @@
             textBoxNumMachine.Size = new Size(346, 50);
             textBoxNumMachine.TabIndex = 18;
             textBoxNumMachine.TextAlignment = ContentAlignment.MiddleLeft;
-            textBoxNumMachine.Watermark = "Enter Number Machine";
+            textBoxNumMachine.Watermark = "Ingresa numero de máquina";
             textBoxNumMachine.WatermarkActiveColor = Color.DarkGray;
             textBoxNumMachine.WatermarkColor = SystemColors.GrayText;
             // 
@@ -109,7 +109,7 @@
             comboBoxRoute.SymbolSize = 24;
             comboBoxRoute.TabIndex = 23;
             comboBoxRoute.TextAlignment = ContentAlignment.MiddleLeft;
-            comboBoxRoute.Watermark = "Select Route";
+            comboBoxRoute.Watermark = "Selecciona ruta";
             comboBoxRoute.WatermarkActiveColor = Color.DarkGray;
             // 
             // comboBoxMachineType
@@ -132,7 +132,7 @@
             comboBoxMachineType.SymbolSize = 24;
             comboBoxMachineType.TabIndex = 24;
             comboBoxMachineType.TextAlignment = ContentAlignment.MiddleLeft;
-            comboBoxMachineType.Watermark = "Select Machine Type";
+            comboBoxMachineType.Watermark = "Selecciona tipo de máquina";
             comboBoxMachineType.WatermarkActiveColor = Color.DarkGray;
             // 
             // comboBoxCoinType
@@ -155,7 +155,7 @@
             comboBoxCoinType.SymbolSize = 24;
             comboBoxCoinType.TabIndex = 25;
             comboBoxCoinType.TextAlignment = ContentAlignment.MiddleLeft;
-            comboBoxCoinType.Watermark = "Select Coin Type";
+            comboBoxCoinType.Watermark = "Selecciona tipo de moneda";
             comboBoxCoinType.WatermarkActiveColor = Color.DarkGray;
             // 
             // uiLabel1
@@ -164,9 +164,9 @@
             uiLabel1.ForeColor = Color.Navy;
             uiLabel1.Location = new Point(342, 366);
             uiLabel1.Name = "uiLabel1";
-            uiLabel1.Size = new Size(297, 50);
+            uiLabel1.Size = new Size(314, 50);
             uiLabel1.TabIndex = 26;
-            uiLabel1.Text = "Info Machine";
+            uiLabel1.Text = "Info Máquina";
             // 
             // textBoxNameClient
             // 
@@ -187,7 +187,7 @@
             textBoxNameClient.Size = new Size(346, 50);
             textBoxNameClient.TabIndex = 19;
             textBoxNameClient.TextAlignment = ContentAlignment.MiddleLeft;
-            textBoxNameClient.Watermark = "Enter Name Client";
+            textBoxNameClient.Watermark = "Ingresa el nombre del cliente";
             textBoxNameClient.WatermarkActiveColor = Color.DarkGray;
             // 
             // textBoxPhone
@@ -209,7 +209,7 @@
             textBoxPhone.Size = new Size(346, 50);
             textBoxPhone.TabIndex = 20;
             textBoxPhone.TextAlignment = ContentAlignment.MiddleLeft;
-            textBoxPhone.Watermark = "Enter Phone Client";
+            textBoxPhone.Watermark = "Ingresa número del cliente";
             textBoxPhone.WatermarkActiveColor = Color.DarkGray;
             // 
             // textBoxAddress
@@ -231,7 +231,7 @@
             textBoxAddress.Size = new Size(346, 50);
             textBoxAddress.TabIndex = 21;
             textBoxAddress.TextAlignment = ContentAlignment.MiddleLeft;
-            textBoxAddress.Watermark = "Enter Address";
+            textBoxAddress.Watermark = "Ingresa dirección del cliente ";
             textBoxAddress.WatermarkActiveColor = Color.DarkGray;
             // 
             // btnCancelRoute
@@ -259,7 +259,7 @@
             btnCancelRoute.RectSelectedColor = Color.FromArgb(156, 163, 175);
             btnCancelRoute.Size = new Size(155, 50);
             btnCancelRoute.TabIndex = 28;
-            btnCancelRoute.Text = "🗑️ Cancel";
+            btnCancelRoute.Text = "🗑️ Cancelar";
             btnCancelRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
             btnCancelRoute.Click += BtnCancel_Click;
             // 
@@ -284,7 +284,7 @@
             btnSaveRoute.RectSelectedColor = Color.FromArgb(30, 64, 175);
             btnSaveRoute.Size = new Size(155, 50);
             btnSaveRoute.TabIndex = 27;
-            btnSaveRoute.Text = "➕ Save";
+            btnSaveRoute.Text = "➕ Guardar";
             btnSaveRoute.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
             // TextBoxIn
@@ -306,7 +306,7 @@
             TextBoxIn.Size = new Size(346, 50);
             TextBoxIn.TabIndex = 19;
             TextBoxIn.TextAlignment = ContentAlignment.MiddleLeft;
-            TextBoxIn.Watermark = "Installation IN";
+            TextBoxIn.Watermark = "IN Instalacción";
             TextBoxIn.WatermarkActiveColor = Color.DarkGray;
             // 
             // TextBoxOut
@@ -328,7 +328,7 @@
             TextBoxOut.Size = new Size(346, 50);
             TextBoxOut.TabIndex = 20;
             TextBoxOut.TextAlignment = ContentAlignment.MiddleLeft;
-            TextBoxOut.Watermark = "Installation OUT";
+            TextBoxOut.Watermark = "OUT Instalación";
             TextBoxOut.WatermarkActiveColor = Color.DarkGray;
             TextBoxOut.WatermarkColor = SystemColors.GrayText;
             // 

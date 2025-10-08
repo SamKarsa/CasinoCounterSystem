@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLogin));
             label_login = new Label();
             link_password = new LinkLabel();
             button_join = new Sunny.UI.UIButton();
@@ -59,12 +60,12 @@
             link_password.BackColor = Color.Transparent;
             link_password.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             link_password.LinkColor = Color.Navy;
-            link_password.Location = new Point(228, 236);
+            link_password.Location = new Point(212, 236);
             link_password.Name = "link_password";
-            link_password.Size = new Size(125, 15);
+            link_password.Size = new Size(141, 15);
             link_password.TabIndex = 3;
             link_password.TabStop = true;
-            link_password.Text = "Forgot the password?";
+            link_password.Text = "Olvidaste la contraseña?";
             // 
             // button_join
             // 
@@ -83,7 +84,7 @@
             button_join.RectPressColor = Color.FromArgb(29, 78, 216);
             button_join.Size = new Size(123, 36);
             button_join.TabIndex = 10;
-            button_join.Text = "Join";
+            button_join.Text = "Ingresar";
             button_join.TipsFont = new Font("Microsoft Sans Serif", 9F);
             // 
             // uiTextBox1
@@ -146,7 +147,7 @@
             textbox_password.Size = new Size(328, 47);
             textbox_password.TabIndex = 12;
             textbox_password.TextAlignment = ContentAlignment.MiddleLeft;
-            textbox_password.Watermark = "🔒 Password";
+            textbox_password.Watermark = "🔒 Contraseña";
             textbox_password.WatermarkActiveColor = SystemColors.GrayText;
             textbox_password.WatermarkColor = SystemColors.GrayText;
             // 
@@ -163,7 +164,7 @@
             textbox_user.Size = new Size(328, 47);
             textbox_user.TabIndex = 11;
             textbox_user.TextAlignment = ContentAlignment.MiddleLeft;
-            textbox_user.Watermark = "👤 Username";
+            textbox_user.Watermark = "👤 Nombre Usuario";
             textbox_user.WatermarkActiveColor = SystemColors.GrayText;
             textbox_user.WatermarkColor = SystemColors.GrayText;
             // 
@@ -173,10 +174,11 @@
             BackColor = Color.Navy;
             ClientSize = new Size(443, 365);
             Controls.Add(panel_login);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximumSize = new Size(459, 404);
             MinimumSize = new Size(459, 404);
             Name = "FrmLogin";
-            Text = "Login1";
+            Text = "Sistema de Control - Inicio de Sesión";
             panel_login.ResumeLayout(false);
             panel_login.PerformLayout();
             ResumeLayout(false);

@@ -158,7 +158,7 @@ namespace CasinoCounterSystem.View
                 foreach (var m in machines)
                 {
                     var label = string.IsNullOrWhiteSpace(m.NumberMachine)
-                        ? $"Machine {m.MachineId}"
+                        ? $"Maquina {m.MachineId}"
                         : m.NumberMachine;
 
                     var machineNode = new TreeNode
@@ -209,8 +209,8 @@ namespace CasinoCounterSystem.View
         private void BuildTreeContextMenu()
         {
             treeMenu = new ContextMenuStrip();
-            miEdit = new ToolStripMenuItem("✏️ Edit");
-            miDelete = new ToolStripMenuItem("🗑️ Delete");
+            miEdit = new ToolStripMenuItem("✏️ Editar");
+            miDelete = new ToolStripMenuItem("🗑️ Eliminar");
             treeMenu.Items.AddRange(new ToolStripItem[] { miEdit, miDelete });
 
             miEdit.Click += (s, e) => EditSelectedNode();
@@ -281,17 +281,17 @@ namespace CasinoCounterSystem.View
                 var machines = machineController.GetMachinesByRoute(tag.Id);
                 if (machines.Count > 0)
                 {
-                    MessageBox.Show("This route has machines assigned. Move them or delete them first.",
-                                    "Cannot delete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Esta ruta tiene máquinas asignadas. Muévelas o elimínalas primero.",
+                                    "No se puede eliminar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                var confirm = MessageBox.Show("Delete this route?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var confirm = MessageBox.Show("¿Quieres eliminar esta ruta?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (confirm != DialogResult.Yes) return;
 
                 var ok = routeController.DeleteRoute(tag.Id);
                 if (ok) LoadRoutesTree();
-                else MessageBox.Show("Could not delete the route.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else MessageBox.Show("No se pudo eliminar la ruta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -316,13 +316,13 @@ namespace CasinoCounterSystem.View
 
             if (!canDelete)
             {
-                MessageBox.Show("This machine has counter records. For safety, it cannot be deleted.",
-                                "Cannot delete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Esta máquina tiene registros de contadores. Por seguridad, no puede eliminarse.",
+                                "No se puede eliminar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            var confirm = MessageBox.Show("Delete this machine? This will also remove its initial counter record.",
-                                          "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            var confirm = MessageBox.Show("¿Deseas eliminar esta máquina?",
+                                          "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (confirm != DialogResult.Yes) return;
 
             crc.DeleteAllByMachine(machineId);
@@ -335,7 +335,7 @@ namespace CasinoCounterSystem.View
             }
             else
             {
-                MessageBox.Show("Could not delete the machine.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se pudo eliminar la máquina.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -351,8 +351,8 @@ namespace CasinoCounterSystem.View
 
         private void btnLogOut_Click(object sender, EventArgs e)
         {
-            var confirm = MessageBox.Show("Do you want to log out?",
-                                          "Log out",
+            var confirm = MessageBox.Show("¿Deseas cerrar sesión?",
+                                          "Cerrar Sesión",
                                           MessageBoxButtons.YesNo,
                                           MessageBoxIcon.Question);
             if (confirm != DialogResult.Yes) return;
