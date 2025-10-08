@@ -1,4 +1,4 @@
-using CasinoCounterSystem.View;
+ï»¿using CasinoCounterSystem.View;
 
 namespace CasinoCounterSystem
 {
@@ -10,7 +10,6 @@ namespace CasinoCounterSystem
         [STAThread]
         static void Main()
         {
-            // SOLO estas 2 líneas para DPI
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
 

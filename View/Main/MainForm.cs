@@ -82,7 +82,14 @@ namespace CasinoCounterSystem.View
 
         private void BtnHome_Click(object? sender, EventArgs e)
         {
+            ClearTreeSelection();
             LoadView(ucHome);
+        }
+
+        private void ClearTreeSelection()
+        {
+            routeTree.SelectedNode = null;
+            routeTree.Invalidate();
         }
 
         private void btnRegisterCounters_Click(object sender, EventArgs e)
@@ -119,8 +126,9 @@ namespace CasinoCounterSystem.View
                 Font = new Font("Microsoft Sans Serif", 10F),
                 FillColor = Color.Navy,
                 ForeColor = Color.White,
-                HoverColor = Color.FromArgb(40, 40, 120),
-                RectColor = Color.Navy
+                HoverColor = Color.FromArgb(20, 255, 255, 255),
+                RectColor = Color.Navy,
+                SelectedColor = Color.FromArgb(40, 255, 255, 255)
             };
 
             int y = lineBtnRegisterCounter.Location.Y + 24;

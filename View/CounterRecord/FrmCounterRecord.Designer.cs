@@ -69,10 +69,13 @@
             // ComboBoxRoute
             // 
             ComboBoxRoute.DataSource = null;
+            ComboBoxRoute.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             ComboBoxRoute.FillColor = Color.White;
             ComboBoxRoute.Font = new Font("Microsoft Sans Serif", 12F);
-            ComboBoxRoute.ItemHoverColor = Color.FromArgb(155, 200, 255);
-            ComboBoxRoute.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
+            ComboBoxRoute.ItemForeColor = Color.Black;
+            ComboBoxRoute.ItemHoverColor = Color.FromArgb(229, 231, 235);
+            ComboBoxRoute.ItemSelectBackColor = Color.Navy;
+            ComboBoxRoute.ItemSelectForeColor = Color.White;
             ComboBoxRoute.Location = new Point(47, 90);
             ComboBoxRoute.Margin = new Padding(4, 5, 4, 5);
             ComboBoxRoute.MinimumSize = new Size(63, 0);
@@ -90,10 +93,13 @@
             // ComboBoxMachine
             // 
             ComboBoxMachine.DataSource = null;
+            ComboBoxMachine.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             ComboBoxMachine.FillColor = Color.White;
             ComboBoxMachine.Font = new Font("Microsoft Sans Serif", 12F);
-            ComboBoxMachine.ItemHoverColor = Color.FromArgb(155, 200, 255);
-            ComboBoxMachine.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
+            ComboBoxMachine.ItemForeColor = Color.Black;
+            ComboBoxMachine.ItemHoverColor = Color.FromArgb(229, 231, 235);
+            ComboBoxMachine.ItemSelectBackColor = Color.Navy;
+            ComboBoxMachine.ItemSelectForeColor = Color.White;
             ComboBoxMachine.Location = new Point(47, 150);
             ComboBoxMachine.Margin = new Padding(4, 5, 4, 5);
             ComboBoxMachine.MinimumSize = new Size(63, 0);
@@ -176,30 +182,31 @@
             button_join.RectPressColor = Color.FromArgb(29, 78, 216);
             button_join.Size = new Size(114, 44);
             button_join.TabIndex = 11;
-            button_join.Text = "➕Add";
-            button_join.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            button_join.Text = "➕ Add";
+            button_join.TipsFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             // 
             // ButtonCancel
             // 
             ButtonCancel.BackColor = Color.White;
             ButtonCancel.FillColor = Color.White;
             ButtonCancel.FillColor2 = Color.Navy;
-            ButtonCancel.FillHoverColor = Color.FromArgb(30, 58, 138);
+            ButtonCancel.FillHoverColor = Color.WhiteSmoke;
             ButtonCancel.FillPressColor = Color.FromArgb(0, 0, 102);
             ButtonCancel.FillSelectedColor = Color.FromArgb(30, 64, 175);
             ButtonCancel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ButtonCancel.ForeColor = Color.Navy;
+            ButtonCancel.ForeHoverColor = Color.Navy;
             ButtonCancel.Location = new Point(238, 465);
             ButtonCancel.MinimumSize = new Size(1, 1);
             ButtonCancel.Name = "ButtonCancel";
-            ButtonCancel.RectColor = Color.RoyalBlue;
-            ButtonCancel.RectHoverColor = Color.FromArgb(59, 130, 246);
+            ButtonCancel.RectColor = Color.Navy;
+            ButtonCancel.RectHoverColor = Color.Navy;
             ButtonCancel.RectPressColor = Color.FromArgb(29, 78, 216);
             ButtonCancel.RectSize = 2;
             ButtonCancel.Size = new Size(114, 44);
             ButtonCancel.TabIndex = 12;
-            ButtonCancel.Text = "🗑️Cancel";
-            ButtonCancel.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            ButtonCancel.Text = "🗑️ Cancel";
+            ButtonCancel.TipsFont = new Font("Microsoft Sans Serif", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             // 
             // DatetimePicker
             // 
@@ -218,9 +225,9 @@
             DatetimePicker.SymbolNormal = 61555;
             DatetimePicker.SymbolSize = 24;
             DatetimePicker.TabIndex = 13;
-            DatetimePicker.Text = "12-09-2025";
+            DatetimePicker.Text = "01-10-2025";
             DatetimePicker.TextAlignment = ContentAlignment.MiddleLeft;
-            DatetimePicker.Value = new DateTime(2025, 9, 12, 22, 48, 24, 986);
+            DatetimePicker.Value = new DateTime(2025, 10, 1, 0, 0, 0, 0);
             DatetimePicker.Watermark = "Counter Date";
             DatetimePicker.WatermarkActiveColor = SystemColors.GrayText;
             DatetimePicker.WatermarkColor = SystemColors.GrayText;

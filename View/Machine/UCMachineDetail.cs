@@ -18,8 +18,6 @@ namespace CasinoCounterSystem.View.Machine
         private decimal commissionRate = 0.50m;
         private static readonly DateTime InitialRecordDate = new DateTime(2006, 3, 14);
        
-
-        
         private class CounterRecordRow
         {
             public int CounterRecordId { get; set; }
@@ -140,7 +138,6 @@ namespace CasinoCounterSystem.View.Machine
             return rows;
         }
       
-
         private void ConfigureGridTheme()
         {
             dataGridView1.BackgroundColor = Color.White;
@@ -182,9 +179,7 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.AllowUserToResizeColumns = false;
             dataGridView1.AllowUserToResizeRows = false;
         }
-        
-
-        
+         
         private void BuildGridColumns()
         {
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
@@ -297,9 +292,7 @@ namespace CasinoCounterSystem.View.Machine
             colDelete.DefaultCellStyle.SelectionForeColor = Color.FromArgb(180, 50, 50);
             dataGridView1.Columns.Add(colDelete);
         }
-       
-
-        
+           
         private void BindRows(List<CounterRecordRow> rows)
         {
             dataGridView1.DataSource = rows;
@@ -314,8 +307,6 @@ namespace CasinoCounterSystem.View.Machine
             dataGridView1.CellClick += DataGridView1_CellClick;
         }
        
-
-      
         private void DataGridView1_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
             var col = dataGridView1.Columns[e.ColumnIndex];

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ namespace CasinoCounterSystem.View
             button_join.Click += ButtonJoin_Click;
             ButtonCancel.Click += ButtonCancel_Click;
 
+            DatetimePicker.Value = DateTime.Today;
             LoadCombos();
         }
 
@@ -125,7 +127,7 @@ namespace CasinoCounterSystem.View
             }
         }
 
-        private void ButtonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object? sender, EventArgs e)
         {
             this.Close();
         }
@@ -139,8 +141,8 @@ namespace CasinoCounterSystem.View
 
             ComboBoxRoute.DataSource = routeController.GetAllRoutes();
 
-            ComboBoxRoute.SelectedIndexChanged -= ComboBoxRoute_SelectedIndexChanged;
-            ComboBoxRoute.SelectedIndexChanged += ComboBoxRoute_SelectedIndexChanged;
+            ComboBoxRoute.SelectedIndexChanged -= ComboBoxRoute_SelectedIndexChanged!;
+            ComboBoxRoute.SelectedIndexChanged += ComboBoxRoute_SelectedIndexChanged!;
 
             PopulateMachinesForSelectedRoute();
         }
