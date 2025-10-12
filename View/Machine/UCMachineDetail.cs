@@ -390,7 +390,7 @@ namespace CasinoCounterSystem.View.Machine
                     this.selectRecordId = ev.NewRecordId;  
                     LoadMachineData();
                 };
-                frm.Show(this.FindForm()); 
+                frm.ShowDialog(this.FindForm()); 
                 return;
             }
 
