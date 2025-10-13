@@ -85,4 +85,6 @@ INSERT OR IGNORE INTO CoinType (coinTypeId, numCoin) VALUES
 (1,10)
 (2, 50),
 (3, 100),
-(4, 200);
+(4, 200),
+(5, 500),
+(6, 1000);
