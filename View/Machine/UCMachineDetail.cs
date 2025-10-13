@@ -90,6 +90,13 @@ namespace CasinoCounterSystem.View.Machine
             decimal coinValue = 1m;
             if (machine?.CoinType?.NumCoin != null)
                 coinValue = Convert.ToDecimal(machine.CoinType.NumCoin);
+
+            // 2) Detectar si la máquina es Poker (robusto contra mayúsculas/espacios)
+            bool isPoker = false;
+            var typeName = machine?.TypeMachine?.NameTypeMachine;
+            if (!string.IsNullOrWhiteSpace(typeName))
+                isPoker = typeName.Trim().Equals("Poker", StringComparison.OrdinalIgnoreCase);
+
             var records = counterRecordController
                             .GetCounterRecordsByMachine(machineId)
                             .OrderBy(r => r.RecordDate)
@@ -116,9 +123,19 @@ namespace CasinoCounterSystem.View.Machine
                     var prev = records[i - 1];
                     long deltaIn = cur.CounterIn - prev.CounterIn;
                     long deltaOut = cur.CounterOut - prev.CounterOut;
-                    long units = deltaIn - deltaOut;
 
-                    decimal inOutMoney = units * coinValue;
+                    decimal inOutMoney;
+
+
+                    if (isPoker)
+                    {
+                        inOutMoney = deltaOut * coinValue;
+                    }
+                    else
+                    {
+                        long units = deltaIn - deltaOut;
+                        inOutMoney = units * coinValue;
+                    }
 
                     row.InOut = Math.Round(inOutMoney, 2, MidpointRounding.AwayFromZero);
                     row.Saldo = Math.Round(cur.TotalDelivered * commissionRate, 2, MidpointRounding.AwayFromZero);
