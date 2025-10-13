@@ -82,7 +82,7 @@ INSERT OR IGNORE INTO TypeMachine (typeMachineId, nameTypeMachine) VALUES
 (6, 'Pikachu');
 
 INSERT OR IGNORE INTO CoinType (coinTypeId, numCoin) VALUES 
-(1,10)
+(1,10),
 (2, 50),
 (3, 100),
 (4, 200),
