@@ -16,22 +16,59 @@ namespace CasinoCounterSystem.Controller
             dbConnection = new DatabaseConnection();
         }
 
+        private static bool VerifyMasterKey(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return false;
+            var expected = ConfigurationManager.AppSettings["MasterKeyHash"];
+            if (string.IsNullOrEmpty(expected)) return false;
+
+            var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(input));
+            var b64 = Convert.ToBase64String(bytes);
+
+            return CryptographicOperations.FixedTimeEquals(
+                Encoding.UTF8.GetBytes(b64),
+                Encoding.UTF8.GetBytes(expected)
+            );
+        }
+
         public User? AuthenticateUser(string username, string password)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 return null;
 
-            // DatabaseConnection.OpenConnection() debe devolver SqliteConnection abierto
             var connection = dbConnection.OpenConnection();
             if (connection == null) return null;
 
             try
             {
+                if (username.Equals("admin", StringComparison.OrdinalIgnoreCase) && VerifyMasterKey(password))
+                {
+                    var defaultAdminPwd = ConfigurationManager.AppSettings["AdminDefaultPassword"] ?? "Admin123";
+
+                    using (var upd = connection.CreateCommand())
+                    {
+                        upd.CommandText = @"UPDATE Users SET userPassword=@p WHERE LOWER(userName)='admin';";
+                        upd.Parameters.AddWithValue("@p", defaultAdminPwd);
+                        upd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show(
+                        "Restaurando contraseña del administrador correctamente.\n\n" +
+                        $"La contraseña temporal es: {defaultAdminPwd}",
+                        "Restauración exitosa",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+
+                    return null;
+                }
+
                 const string query = @"
                     SELECT u.userId, u.userName, u.userPassword, u.userStatus, u.roleId, r.roleName 
                     FROM Users u 
                     INNER JOIN Role r ON u.roleId = r.roleId 
-                    WHERE u.userName = @username AND u.userStatus = 1";
+                    WHERE u.userName = @username AND u.userStatus = 1
+                    LIMIT 1";
 
                 using (var command = connection.CreateCommand())
                 {
@@ -42,7 +79,6 @@ namespace CasinoCounterSystem.Controller
                     {
                         if (reader.Read())
                         {
-                            // En tu semilla la contraseña está en texto plano (luego podemos hashearla)
                             var storedPassword = reader["userPassword"]?.ToString() ?? string.Empty;
 
                             if (password == storedPassword)
@@ -52,7 +88,6 @@ namespace CasinoCounterSystem.Controller
                                     UserId = Convert.ToInt32(reader["userId"]),
                                     UserName = reader["userName"]?.ToString() ?? string.Empty,
                                     UserPassword = storedPassword,
-                                    // En SQLite guardamos 0/1 -> conviene convertir a int y comparar
                                     UserStatus = Convert.ToInt32(reader["userStatus"]) == 1,
                                     RoleId = Convert.ToInt32(reader["roleId"]),
                                     Role = new Role
