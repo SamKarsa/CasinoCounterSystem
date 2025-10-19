@@ -17,6 +17,7 @@ namespace CasinoCounterSystem.View.Home
 
         public event EventHandler? AddMachineClicked;
         public event EventHandler? AddRouteClicked;
+        public event EventHandler? Settings;
 
         public UCHome()
         {
@@ -26,6 +27,7 @@ namespace CasinoCounterSystem.View.Home
 
             btnAddMachine.Click += BtnAddMachine_Click!;
             btnAddRoute.Click += BtnAddRoute_Click!;
+            imgLogo.Click += imgLogo_Click!;
 
             ApplyRolePermissions();
         }
@@ -44,14 +46,20 @@ namespace CasinoCounterSystem.View.Home
 
         private void BtnAddMachine_Click(object sender, EventArgs e)
         {
-           
             AddMachineClicked?.Invoke(this, EventArgs.Empty);
         }
 
         private void BtnAddRoute_Click(object sender, EventArgs e)
         {
-            
             AddRouteClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void imgLogo_Click(object sender, EventArgs e)
+        {
+            if (!SessionManager.IsAdmin)
+                return;
+
+            Settings?.Invoke(this, EventArgs.Empty);
         }
     }
 }

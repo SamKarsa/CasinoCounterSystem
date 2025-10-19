@@ -38,6 +38,8 @@ namespace CasinoCounterSystem.View
             button_join.Click += ButtonJoin_Click;
             ButtonCancel.Click += ButtonCancel_Click;
 
+            this.AcceptButton = button_join;
+
             DatetimePicker.Value = DateTime.Today;
             LoadCombos();
         }

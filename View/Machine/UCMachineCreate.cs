@@ -49,17 +49,14 @@ namespace CasinoCounterSystem.View.Machine
 
         private static void ForceWatermark(Sunny.UI.UITextBox tb)
         {
-            // Asegura que el control está en modo custom (no obligatorio, pero ayuda a consistencia de estilos)
             tb.StyleCustomMode = true;
 
             if (string.IsNullOrEmpty(tb.Text))
             {
-                // “Dispara” el pipeline de pintado: cambia y restaura para que Sunny.UI
-                // ejecute su lógica de watermark sin que el usuario lo note.
                 tb.Text = " ";
                 tb.Clear();
-                tb.Invalidate();           // pide repintado
-                tb.Update();               // ejecuta repintado ahora
+                tb.Invalidate();           
+                tb.Update();               
             }
         }
 

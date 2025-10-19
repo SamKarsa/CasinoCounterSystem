@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCounterRecord));
             NavBar = new Sunny.UI.UINavBar();
             uiLabel1 = new Sunny.UI.UILabel();
             ComboBoxRoute = new Sunny.UI.UIComboBox();
@@ -245,10 +246,11 @@
             Controls.Add(button_join);
             Controls.Add(ButtonCancel);
             Controls.Add(DatetimePicker);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximumSize = new Size(464, 587);
             MinimumSize = new Size(464, 587);
             Name = "FrmCounterRecord";
-            Text = "FrmCounterRecord";
+            Text = "Counter Record";
             NavBar.ResumeLayout(false);
             ResumeLayout(false);
         }

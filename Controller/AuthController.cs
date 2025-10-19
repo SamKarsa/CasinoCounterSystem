@@ -1,6 +1,9 @@
 ﻿using CasinoCounterSystem.Model;
 using Microsoft.Data.Sqlite;
 using System;
+using System.Configuration;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace CasinoCounterSystem.Controller
 {

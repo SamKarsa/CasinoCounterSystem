@@ -1,6 +1,9 @@
-﻿using CasinoCounterSystem.View.Home;
+﻿using CasinoCounterSystem.Controller;
+using CasinoCounterSystem.Model;
+using CasinoCounterSystem.View.Home;
 using CasinoCounterSystem.View.Machine;
 using CasinoCounterSystem.View.Route;
+using CasinoCounterSystem.View.Settings;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
@@ -11,8 +14,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CasinoCounterSystem.Controller;
-using CasinoCounterSystem.Model;
 
 namespace CasinoCounterSystem.View
 {
@@ -23,7 +24,7 @@ namespace CasinoCounterSystem.View
         private UITreeView routeTree = null!;
         private readonly RouteController routeController = new RouteController();
         private readonly MachineController machineController = new MachineController();
-
+        private FrmCounterRecord? _frmCounterRecord;
 
         private ContextMenuStrip treeMenu = null!;
         private ToolStripMenuItem miEdit = null!;
@@ -39,6 +40,8 @@ namespace CasinoCounterSystem.View
             ucHome = new UCHome();
             ucHome.AddMachineClicked += UcHome_AddMachineClicked;
             ucHome.AddRouteClicked += UcHome_AddRouteClicked;
+            ucHome.Settings += UcHome_Settings;
+
             btnHome.Click += BtnHome_Click;
 
             BuildRouteTreeInSidebar();
@@ -80,6 +83,12 @@ namespace CasinoCounterSystem.View
             LoadView(ucRouteCreate);
         }
 
+        private void UcHome_Settings(object? sender, EventArgs e)
+        {
+            var ucSettings = new UCSettings();
+            LoadView(ucSettings);
+        }
+
         private void BtnHome_Click(object? sender, EventArgs e)
         {
             ClearTreeSelection();
@@ -94,20 +103,31 @@ namespace CasinoCounterSystem.View
 
         private void btnRegisterCounters_Click(object sender, EventArgs e)
         {
-            var frmCounterRecord = new FrmCounterRecord();
-
-
-            frmCounterRecord.RecordSaved += (s, args) =>
+            if (_frmCounterRecord != null && !_frmCounterRecord.IsDisposed)
             {
+                // Tráelo al frente
+                if (_frmCounterRecord.WindowState == FormWindowState.Minimized)
+                    _frmCounterRecord.WindowState = FormWindowState.Normal;
 
+                _frmCounterRecord.BringToFront();
+                _frmCounterRecord.Activate();
+                return;
+            }
+
+            _frmCounterRecord = new FrmCounterRecord();
+
+            _frmCounterRecord.Owner = this;
+
+            _frmCounterRecord.FormClosed += (s, args) => _frmCounterRecord = null;
+
+            _frmCounterRecord.RecordSaved += (s, args) =>
+            {
                 LoadRoutesTree();
-
-
                 var ucDetail = new UCMachineDetail(args.MachineId, selectRecordId: args.NewRecordId);
                 LoadView(ucDetail);
             };
 
-            frmCounterRecord.Show(this);
+            _frmCounterRecord.Show(this); 
         }
 
         private void LoadView(UserControl uc)

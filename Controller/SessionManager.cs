@@ -14,6 +14,8 @@ namespace CasinoCounterSystem.Controller
 
         public static bool IsAdmin => _currentUser?.Role?.RoleName == "Admin";
 
+        public static int UserId => _currentUser?.UserId ?? 0;
+
         public static void SetCurrentUser(User user)
         {
             _currentUser = user;
